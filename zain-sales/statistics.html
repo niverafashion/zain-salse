@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="manifest" href="./manifest.webmanifest">
+
+<meta name="theme-color" content="#7139b7">
+
+<meta name="apple-mobile-web-app-capable"
+      content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style"
+      content="default">
+
+<meta name="apple-mobile-web-app-title"
+      content="Zain Sales">
+
+<link rel="apple-touch-icon"
+      href="./assets/icons/apple-touch-icon.png">
+
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>الإحصائيات | Zain Sales</title>
+
+  <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="dashboard-page statistics-page">
+
+<main id="content" hidden>
+
+  <div id="sidebarOverlay"
+       class="sidebar-overlay"></div>
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-brand">
+      <div class="brand-icon">Z</div>
+      <div>
+        <h2>Zain Sales</h2>
+        <span>إدارة مبيعات الخطوط</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section-title">
+      القائمة الرئيسية
+    </div>
+
+    <nav class="sidebar-nav"
+         aria-label="القائمة الرئيسية">
+
+      <a href="dashboard.html" class="nav-link">
+        <span class="nav-icon">▦</span>
+        لوحة التحكم
+      </a>
+
+      <a href="add-sale.html" class="nav-link">
+        <span class="nav-icon">＋</span>
+        إضافة عملية بيع
+      </a>
+
+      <a href="sales.html" class="nav-link">
+        <span class="nav-icon">▤</span>
+        سجل المبيعات
+      </a>
+
+      <a href="statistics.html"
+         class="nav-link active"
+         aria-current="page">
+        <span class="nav-icon">▥</span>
+        الإحصائيات
+      </a>
+
+      <a href="sales.html?filter=debts"
+         class="nav-link">
+        <span class="nav-icon">◷</span>
+        إدارة الديون
+      </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+      <div class="sidebar-user">
+        <div class="user-avatar">Z</div>
+        <div class="user-info">
+          <strong id="sidebarUserName">
+            مندوب المبيعات
+          </strong>
+          <span>حساب المندوب</span>
+        </div>
+      </div>
+
+      <button id="logoutBtn"
+              class="logout-button"
+              type="button">
+        ↪ تسجيل الخروج
+      </button>
+
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+
+  <div class="dashboard-main">
+
+    <header class="dashboard-header">
+
+      <div class="header-right">
+
+        <button id="menuBtn"
+                class="menu-button"
+                type="button"
+                aria-label="فتح القائمة"
+                aria-expanded="false">
+          ☰
+        </button>
+
+        <div class="header-title">
+          <h1>الإحصائيات والتقارير</h1>
+          <p>تحليل أداء المبيعات والمقبوضات</p>
+        </div>
+
+      </div>
+
+      <div class="header-left">
+        <div id="currentDate"
+             class="header-date"></div>
+        <div class="header-avatar">Z</div>
+      </div>
+
+    </header>
+
+    <div class="dashboard-container">
+
+      <!-- HEADING -->
+
+      <div class="welcome-section">
+
+        <div>
+          <div class="welcome-badge">
+            ▥ تقارير المبيعات
+          </div>
+
+          <h2>إحصائيات المبيعات</h2>
+
+          <p>
+            تابع نشاط المبيعات والمبالغ
+            المستلمة والديون بالتفصيل.
+          </p>
+        </div>
+
+        <button id="printReport"
+                type="button"
+                class="stats-print-button">
+          طباعة التقرير
+        </button>
+
+      </div>
+
+      <div id="statisticsMessage"
+           class="statistics-message"
+           role="status"
+           aria-live="polite">
+        جاري تحميل الإحصائيات...
+      </div>
+
+      <!-- DATE FILTER -->
+
+      <section class="dashboard-panel stats-filter-panel">
+
+        <div class="panel-header">
+          <div>
+            <h3>الفترة الزمنية</h3>
+            <p>اختر المدة اللي تريد تحللها</p>
+          </div>
+        </div>
+
+        <form id="statisticsFilterForm">
+
+          <div class="stats-period-buttons">
+            <button type="button"
+                    class="period-button"
+                    data-period="today">
+              اليوم
+            </button>
+
+            <button type="button"
+                    class="period-button"
+                    data-period="week">
+              آخر 7 أيام
+            </button>
+
+            <button type="button"
+                    class="period-button active"
+                    data-period="month">
+              هذا الشهر
+            </button>
+
+            <button type="button"
+                    class="period-button"
+                    data-period="year">
+              هذه السنة
+            </button>
+          </div>
+
+          <div class="stats-date-grid">
+
+            <div>
+              <label for="statsDateFrom">
+                من تاريخ
+              </label>
+              <input type="date"
+                     id="statsDateFrom"
+                     required>
+            </div>
+
+            <div>
+              <label for="statsDateTo">
+                إلى تاريخ
+              </label>
+              <input type="date"
+                     id="statsDateTo"
+                     required>
+            </div>
+
+            <button type="submit"
+                    id="applyStatsFilter">
+              عرض التقرير
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+      <!-- KPI CARDS -->
+
+      <section class="stats-kpi-grid"
+               aria-label="ملخص الفترة المحددة">
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon purple">▣</span>
+            <span class="stat-period">
+              الفترة المحددة
+            </span>
+          </div>
+          <p class="stat-label">
+            عدد الخطوط المباعة
+          </p>
+          <h3 id="statsSalesCount">—</h3>
+          <div class="stat-footer">
+            عملية بيع
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon blue">▥</span>
+            <span class="stat-period">
+              الفترة المحددة
+            </span>
+          </div>
+          <p class="stat-label">
+            قيمة المبيعات
+          </p>
+          <h3 id="statsSalesValue">—</h3>
+          <div class="stat-footer">
+            دينار عراقي
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon green">↗</span>
+            <span class="stat-period">
+              الفترة المحددة
+            </span>
+          </div>
+          <p class="stat-label">
+            المقبوضات الفعلية
+          </p>
+          <h3 id="statsReceipts">—</h3>
+          <div class="stat-footer">
+            حسب تاريخ استلام الدفعات
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon orange">◷</span>
+            <span class="stat-period">
+              المبيعات المحددة
+            </span>
+          </div>
+          <p class="stat-label">
+            الدين المتبقي
+          </p>
+          <h3 id="statsDebts">—</h3>
+          <div class="stat-footer">
+            المتبقي على مبيعات الفترة
+          </div>
+        </article>
+
+      </section>
+
+      <!-- SALES CHART -->
+
+      <section class="dashboard-panel stats-chart-panel">
+
+        <div class="panel-header">
+          <div>
+            <h3>حركة المبيعات</h3>
+            <p>
+              عدد الخطوط وقيمة المبيعات
+              خلال الفترة
+            </p>
+          </div>
+
+          <div class="stats-legend">
+            <span>
+              <i class="legend-dot purple-dot"></i>
+              عدد الخطوط
+            </span>
+          </div>
+        </div>
+
+        <div class="stats-chart-scroll">
+          <div id="statsSalesChart"
+               class="stats-sales-chart"
+               role="img"
+               aria-label="مخطط عدد الخطوط المباعة">
+          </div>
+        </div>
+
+      </section>
+
+      <!-- PACKAGE BREAKDOWN + PAYMENT STATUS -->
+
+      <div class="stats-two-columns">
+
+        <section class="dashboard-panel">
+
+          <div class="panel-header">
+            <div>
+              <h3>المبيعات حسب الباقة</h3>
+              <p>توزيع الخطوط خلال الفترة</p>
+            </div>
+          </div>
+
+          <div id="packageBreakdown"
+               class="package-breakdown">
+          </div>
+
+        </section>
+
+        <section class="dashboard-panel">
+
+          <div class="panel-header">
+            <div>
+              <h3>حالة دفع المبيعات</h3>
+              <p>
+                حالة عمليات البيع في الفترة
+                حتى الآن
+              </p>
+            </div>
+          </div>
+
+          <div id="paymentBreakdown"
+               class="payment-breakdown">
+          </div>
+
+        </section>
+
+      </div>
+
+      <!-- RECEIPTS CHART -->
+
+      <section class="dashboard-panel stats-chart-panel">
+
+        <div class="panel-header">
+          <div>
+            <h3>حركة المقبوضات</h3>
+            <p>
+              المبالغ المستلمة فعلياً
+              حسب تاريخ الدفع
+            </p>
+          </div>
+        </div>
+
+        <div class="stats-chart-scroll">
+          <div id="statsReceiptsChart"
+               class="stats-sales-chart receipts-chart"
+               role="img"
+               aria-label="مخطط المقبوضات الفعلية">
+          </div>
+        </div>
+
+      </section>
+
+      <!-- DAILY TABLE -->
+
+      <section class="dashboard-panel">
+
+        <div class="panel-header">
+          <div>
+            <h3>التقرير اليومي</h3>
+            <p>
+              ملخص المبيعات والمقبوضات
+              لكل يوم
+            </p>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="sales-table">
+            <thead>
+              <tr>
+                <th>التاريخ</th>
+                <th>عدد الخطوط</th>
+                <th>قيمة المبيعات</th>
+                <th>المقبوضات</th>
+              </tr>
+            </thead>
+
+            <tbody id="dailyStatsBody">
+              <tr>
+                <td colspan="4"
+                    class="empty-table">
+                  جاري تحميل التقرير...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+      <footer class="dashboard-footer">
+        <span>Zain Sales — الإحصائيات</span>
+        <span>
+          جميع المبالغ بالدينار العراقي
+        </span>
+      </footer>
+
+    </div>
+
+  </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/statistics.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

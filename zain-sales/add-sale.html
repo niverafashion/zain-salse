@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="manifest" href="./manifest.webmanifest">
+
+<meta name="theme-color" content="#7139b7">
+
+<meta name="apple-mobile-web-app-capable"
+      content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style"
+      content="default">
+
+<meta name="apple-mobile-web-app-title"
+      content="Zain Sales">
+
+<link rel="apple-touch-icon"
+      href="./assets/icons/apple-touch-icon.png">
+
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>إضافة عملية بيع | Zain Sales</title>
+
+  <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="dashboard-page add-sale-page">
+
+  <main id="content" hidden>
+
+    <!-- القائمة الجانبية للموبايل -->
+    <div id="sidebarOverlay"
+         class="sidebar-overlay"></div>
+
+    <!-- القائمة الجانبية -->
+    <aside class="sidebar" id="sidebar">
+
+      <div class="sidebar-brand">
+        <div class="brand-icon">Z</div>
+        <div>
+          <h2>Zain Sales</h2>
+          <span>إدارة مبيعات الخطوط</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section-title">
+        القائمة الرئيسية
+      </div>
+
+      <nav class="sidebar-nav"
+           aria-label="القائمة الرئيسية">
+
+        <a href="dashboard.html" class="nav-link">
+          <span class="nav-icon">▦</span>
+          <span>لوحة التحكم</span>
+        </a>
+
+        <a href="add-sale.html"
+           class="nav-link active"
+           aria-current="page">
+          <span class="nav-icon">＋</span>
+          <span>إضافة عملية بيع</span>
+        </a>
+
+        <a href="sales.html" class="nav-link">
+          <span class="nav-icon">▤</span>
+          <span>سجل المبيعات</span>
+        </a>
+
+        <a href="statistics.html" class="nav-link">
+          <span class="nav-icon">▥</span>
+          <span>الإحصائيات</span>
+        </a>
+
+        <a href="sales.html?filter=debts"
+           class="nav-link">
+          <span class="nav-icon">◷</span>
+          <span>إدارة الديون</span>
+        </a>
+
+      </nav>
+
+      <div class="sidebar-bottom">
+
+        <div class="sidebar-user">
+          <div class="user-avatar">Z</div>
+          <div class="user-info">
+            <strong id="sidebarUserName">
+              مندوب المبيعات
+            </strong>
+            <span>حساب المندوب</span>
+          </div>
+        </div>
+
+        <button id="logoutBtn"
+                class="logout-button"
+                type="button">
+          ↪ تسجيل الخروج
+        </button>
+
+      </div>
+    </aside>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="dashboard-main">
+
+      <header class="dashboard-header">
+
+        <div class="header-right">
+
+          <button id="menuBtn"
+                  class="menu-button"
+                  type="button"
+                  aria-label="فتح القائمة"
+                  aria-expanded="false">
+            ☰
+          </button>
+
+          <div class="header-title">
+            <h1>إضافة عملية بيع</h1>
+            <p>تسجيل مبيعات خطوط زين</p>
+          </div>
+
+        </div>
+
+        <div class="header-left">
+          <a href="dashboard.html"
+             class="back-link">
+            ← لوحة التحكم
+          </a>
+          <div class="header-avatar">Z</div>
+        </div>
+
+      </header>
+
+      <div class="dashboard-container">
+
+        <div class="welcome-section">
+          <div>
+            <div class="welcome-badge">
+              ＋ عملية جديدة
+            </div>
+
+            <h2>تسجيل عملية بيع</h2>
+            <p>
+              أدخل البيانات المطلوبة لحفظ
+              عملية البيع في النظام.
+            </p>
+          </div>
+        </div>
+
+        <form id="saleForm">
+
+          <!-- بيانات الزبون -->
+          <section class="dashboard-panel sale-section">
+
+            <div class="sale-section-heading">
+              <span class="sale-step">01</span>
+              <div>
+                <h3>بيانات الزبون</h3>
+                <p>المعلومات الأساسية للزبون</p>
+              </div>
+            </div>
+
+            <div class="sale-form-grid">
+
+              <div class="sale-field">
+                <label for="customerName">
+                  اسم الزبون
+                  <span class="required">*</span>
+                </label>
+
+                <input type="text"
+                       id="customerName"
+                       placeholder="أدخل الاسم الكامل"
+                       minlength="2"
+                       maxlength="150"
+                       autocomplete="name"
+                       required>
+              </div>
+
+              <div class="sale-field">
+                <label for="phoneNumber">
+                  رقم الخط
+                  <span class="required">*</span>
+                </label>
+
+                <input type="text"
+                       id="phoneNumber"
+                       placeholder="078XXXXXXXX"
+                       inputmode="numeric"
+                       dir="ltr"
+                       maxlength="11"
+                       pattern="078[0-9]{8}"
+                       title="رقم الخط يجب أن يبدأ بـ 078 ويتكون من 11 رقماً"
+                       required>
+
+                <small>
+                  يجب أن يبدأ بـ 078 ويتكون
+                  من 11 رقماً.
+                </small>
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- تفاصيل البيع -->
+          <section class="dashboard-panel sale-section">
+
+            <div class="sale-section-heading">
+              <span class="sale-step">02</span>
+              <div>
+                <h3>تفاصيل الخط</h3>
+                <p>حدد نوع الخط والباقة وتاريخ البيع</p>
+              </div>
+            </div>
+
+            <div class="sale-form-grid">
+
+              <div class="sale-field">
+                <label for="saleDate">
+                  تاريخ البيع
+                  <span class="required">*</span>
+                </label>
+
+                <input type="date"
+                       id="saleDate"
+                       required>
+              </div>
+
+              <div class="sale-field">
+                <label for="lineType">
+                  نوع الخط
+                  <span class="required">*</span>
+                </label>
+
+                <select id="lineType" required>
+                  <option value="new" selected>
+                    جديد
+                  </option>
+                  <option value="replacement">
+                    استبدال
+                  </option>
+                  <option value="renewal">
+                    تجديد
+                  </option>
+                  <option value="other">
+                    أخرى
+                  </option>
+                </select>
+              </div>
+
+              <div class="sale-field full-width">
+                <label for="packageId">
+                  الباقة
+                  <span class="required">*</span>
+                </label>
+
+                <select id="packageId"
+                        required
+                        disabled>
+                  <option value="">
+                    جاري تحميل الباقات...
+                  </option>
+                </select>
+              </div>
+
+            </div>
+
+            <div class="package-price-box">
+
+              <div>
+                <span>سعر الباقة المحددة</span>
+                <small>
+                  يُحدد تلقائياً حسب الباقة
+                </small>
+              </div>
+
+              <div class="package-price">
+                <strong id="saleAmount">0</strong>
+                <span>د.ع</span>
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- تفاصيل الدفع -->
+          <section class="dashboard-panel sale-section">
+
+            <div class="sale-section-heading">
+              <span class="sale-step">03</span>
+              <div>
+                <h3>تفاصيل الدفع</h3>
+                <p>حدد حالة الدفع وطريقة الاستلام</p>
+              </div>
+            </div>
+
+            <div class="sale-field">
+              <label for="paymentStatus">
+                حالة الدفع
+              </label>
+
+              <select id="paymentStatus">
+                <option value="paid" selected>
+                  مدفوع بالكامل
+                </option>
+                <option value="unpaid">
+                  غير مدفوع (دين)
+                </option>
+                <option value="partial">
+                  مدفوع جزئياً
+                </option>
+              </select>
+            </div>
+
+            <div class="sale-field"
+                 id="receivedAmountGroup"
+                 hidden>
+
+              <label for="receivedAmount">
+                المبلغ المستلم
+              </label>
+
+              <input type="number"
+                     id="receivedAmount"
+                     min="1"
+                     step="1"
+                     placeholder="أدخل المبلغ المستلم">
+
+              <small>
+                أدخل المبلغ الذي استلمته من الزبون.
+              </small>
+
+            </div>
+
+            <div class="sale-field">
+              <label for="paymentMethod">
+                طريقة الدفع
+              </label>
+
+              <select id="paymentMethod">
+                <option value="cash" selected>
+                  كاش
+                </option>
+                <option value="mastercard">
+                  ماستر كارد
+                </option>
+                <option value="zain_cash">
+                  زين كاش
+                </option>
+              </select>
+
+              <small id="paymentMethodHint">
+                طريقة استلام المبلغ.
+              </small>
+            </div>
+
+            <div class="payment-summary">
+
+              <div>
+                <span>إجمالي البيع</span>
+                <strong id="summaryTotal">
+                  0 د.ع
+                </strong>
+              </div>
+
+              <div>
+                <span>المبلغ المستلم</span>
+                <strong id="summaryReceived">
+                  0 د.ع
+                </strong>
+              </div>
+
+              <div class="summary-debt">
+                <span>المبلغ المتبقي (الدين)</span>
+                <strong id="summaryRemaining">
+                  0 د.ع
+                </strong>
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- ملاحظات -->
+          <section class="dashboard-panel sale-section">
+
+            <div class="sale-section-heading">
+              <span class="sale-step">04</span>
+              <div>
+                <h3>ملاحظات إضافية</h3>
+                <p>اختياري</p>
+              </div>
+            </div>
+
+            <div class="sale-field">
+              <label for="saleNotes">
+                الملاحظات
+              </label>
+
+              <textarea id="saleNotes"
+                        rows="4"
+                        maxlength="1000"
+                        placeholder="أي معلومات إضافية عن عملية البيع..."></textarea>
+            </div>
+
+          </section>
+
+          <!-- الحفظ -->
+          <div class="sale-submit-panel">
+
+            <div id="saleMessage"
+                 class="sale-message"
+                 role="status"
+                 aria-live="polite"></div>
+
+            <div class="sale-submit-actions">
+
+              <a href="dashboard.html"
+                 class="sale-cancel">
+                إلغاء
+              </a>
+
+              <button type="submit"
+                      id="saveSaleBtn"
+                      class="sale-save"
+                      disabled>
+                حفظ عملية البيع
+              </button>
+
+            </div>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/add-sale.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>
