@@ -1,0 +1,3182 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
+
+  <meta
+    name="theme-color"
+    content="#6c2bd9"
+  >
+
+  <meta
+    name="description"
+    content="إنشاء حساب جديد في Zain Sales"
+  >
+
+  <title>إنشاء حساب | Zain Sales</title>
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
+  <style>
+
+    /* ==================================================
+       RESET
+    ================================================== */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+
+      font-family:
+        "Tajawal",
+        "Cairo",
+        Arial,
+        sans-serif;
+
+      background:
+        radial-gradient(
+          circle at 10% 10%,
+          rgba(139, 92, 246, 0.14),
+          transparent 32%
+        ),
+        radial-gradient(
+          circle at 90% 90%,
+          rgba(108, 43, 217, 0.10),
+          transparent 35%
+        ),
+        linear-gradient(
+          135deg,
+          #f7f4ff 0%,
+          #ffffff 48%,
+          #f4efff 100%
+        );
+
+      color: #222;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 28px 14px;
+    }
+
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
+
+
+    /* ==================================================
+       الصفحة
+    ================================================== */
+
+    .signup-page {
+      width: 100%;
+      max-width: 500px;
+    }
+
+
+    /* ==================================================
+       الكارد
+    ================================================== */
+
+    .signup-card {
+      position: relative;
+
+      width: 100%;
+
+      background: rgba(255, 255, 255, 0.98);
+
+      border: 1px solid
+        rgba(108, 43, 217, 0.08);
+
+      border-radius: 28px;
+
+      padding: 34px 30px 30px;
+
+      box-shadow:
+        0 25px 70px
+          rgba(52, 30, 100, 0.12),
+
+        0 5px 20px
+          rgba(108, 43, 217, 0.05);
+
+      overflow: hidden;
+    }
+
+
+    /* ==================================================
+       الخط العلوي
+    ================================================== */
+
+    .signup-card::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      right: 0;
+      left: 0;
+
+      height: 5px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #6c2bd9,
+          #8b5cf6,
+          #a78bfa
+        );
+    }
+
+
+    /* ==================================================
+       الهيدر
+    ================================================== */
+
+    .signup-header {
+      text-align: center;
+
+      margin-bottom: 26px;
+    }
+
+
+    .signup-logo {
+      width: 68px;
+      height: 68px;
+
+      margin: 0 auto 17px;
+
+      border-radius: 21px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #6c2bd9,
+          #8b5cf6
+        );
+
+      color: #fff;
+
+      font-size: 27px;
+      font-weight: 900;
+
+      box-shadow:
+        0 12px 30px
+          rgba(108, 43, 217, 0.25);
+
+      user-select: none;
+    }
+
+
+    .signup-title {
+      margin: 0;
+
+      color: #202020;
+
+      font-size: 26px;
+      font-weight: 900;
+
+      letter-spacing: -0.4px;
+    }
+
+
+    .signup-subtitle {
+      margin: 9px auto 0;
+
+      max-width: 370px;
+
+      color: #777;
+
+      font-size: 14px;
+
+      line-height: 1.8;
+    }
+
+
+    /* ==================================================
+       معلومات التسجيل
+    ================================================== */
+
+    .signup-info {
+      display: flex;
+      align-items: center;
+
+      gap: 9px;
+
+      margin-bottom: 22px;
+
+      padding: 12px 14px;
+
+      border-radius: 14px;
+
+      background: #f8f5ff;
+
+      border: 1px solid
+        rgba(108, 43, 217, 0.07);
+
+      color: #666;
+
+      font-size: 12px;
+
+      line-height: 1.7;
+    }
+
+
+    .signup-info-icon {
+      width: 28px;
+      height: 28px;
+
+      flex-shrink: 0;
+
+      border-radius: 9px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #eee7ff;
+
+      color: #6c2bd9;
+
+      font-size: 14px;
+    }
+
+
+    /* =====================================================
+       صورة المندوب
+    ===================================================== */
+
+    .avatar-section {
+      width: 100%;
+
+      margin-top: 24px;
+    }
+
+
+    /* =====================================================
+       عنوان الصورة
+    ===================================================== */
+
+    .avatar-title {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      margin-bottom: 18px;
+    }
+
+
+    .avatar-title h3 {
+      margin: 0;
+
+      color: #24202b;
+
+      font-size: 15px;
+
+      font-weight: 800;
+    }
+
+
+    .required-label {
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 5px 10px;
+
+      border-radius: 20px;
+
+      background: #fff0f0;
+
+      color: #d64545;
+
+      font-size: 11px;
+
+      font-weight: 800;
+    }
+
+
+    /* =====================================================
+       منطقة الصورة
+    ===================================================== */
+
+    .avatar-preview-wrapper {
+      width: 100%;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      margin-bottom: 15px;
+    }
+
+
+    /* =====================================================
+       دائرة الصورة
+    ===================================================== */
+
+    .avatar-preview-box {
+      width: 138px;
+
+      height: 138px;
+
+      flex-shrink: 0;
+
+      position: relative;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      overflow: hidden;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          145deg,
+          #f6f0ff 0%,
+          #eee5ff 100%
+        );
+
+      border: 4px solid #ffffff;
+
+      box-shadow:
+        0 0 0 2px #d8c5f5,
+        0 12px 30px
+          rgba(108, 43, 217, 0.15);
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+
+    /* =====================================================
+       الصورة المختارة
+    ===================================================== */
+
+    .avatar-preview-box img {
+      width: 100%;
+
+      height: 100%;
+
+      display: block;
+
+      object-fit: cover;
+
+      border-radius: 50%;
+    }
+
+
+    /* =====================================================
+       Placeholder
+    ===================================================== */
+
+    .avatar-placeholder {
+      width: 100%;
+
+      height: 100%;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 8px;
+
+      color: #8066a5;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      text-align: center;
+    }
+
+
+    .avatar-placeholder-icon {
+      width: 58px;
+
+      height: 58px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background: #ffffff;
+
+      color: #8b70ad;
+
+      font-size: 26px;
+
+      box-shadow:
+        0 6px 18px
+          rgba(108, 43, 217, 0.08);
+    }
+
+
+    /* =====================================================
+       عند وجود صورة
+    ===================================================== */
+
+    .avatar-preview-box.has-image {
+      background: #ffffff;
+
+      box-shadow:
+        0 0 0 2px #6c2bd9,
+        0 12px 30px
+          rgba(108, 43, 217, 0.20);
+    }
+
+
+    .avatar-preview-box.has-image
+    .avatar-placeholder {
+      display: none;
+    }
+
+
+    /* =====================================================
+       عنوان تحديد الصورة
+    ===================================================== */
+
+    .avatar-select-title {
+      width: 100%;
+
+      margin-bottom: 10px;
+
+      text-align: center;
+
+      color: #5d5369;
+
+      font-size: 13px;
+
+      font-weight: 800;
+    }
+
+
+    /* =====================================================
+       أزرار الصورة
+    ===================================================== */
+
+    .avatar-actions {
+      width: 100%;
+
+      display: flex;
+
+      align-items: stretch;
+
+      gap: 8px;
+    }
+
+
+    .avatar-action-btn {
+      flex: 1;
+
+      min-width: 0;
+
+      height: 66px;
+
+      padding: 7px 5px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 6px;
+
+      border: 1px solid #e4daf0;
+
+      border-radius: 15px;
+
+      background: #ffffff;
+
+      color: #56318f;
+
+      font-family: inherit;
+
+      cursor: pointer;
+
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+    }
+
+
+    .avatar-action-btn:hover {
+      background: #faf7ff;
+
+      border-color: #cdb8eb;
+
+      box-shadow:
+        0 5px 15px
+          rgba(108, 43, 217, 0.08);
+    }
+
+
+    .avatar-action-btn:active {
+      transform: scale(0.96);
+    }
+
+
+    /* =====================================================
+       أيقونة الزر
+    ===================================================== */
+
+    .avatar-action-icon {
+      width: 30px;
+
+      height: 30px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      border-radius: 10px;
+
+      background: #f3edff;
+
+      color: #6c2bd9;
+
+      font-size: 0;
+
+      flex-shrink: 0;
+    }
+
+
+    .avatar-action-icon svg {
+      width: 18px;
+
+      height: 18px;
+
+      display: block;
+
+      stroke: currentColor;
+
+      fill: none;
+
+      stroke-width: 2;
+
+      stroke-linecap: round;
+
+      stroke-linejoin: round;
+    }
+
+
+    /* =====================================================
+       نص الزر
+    ===================================================== */
+
+    .avatar-action-btn span:last-child {
+      max-width: 100%;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+
+      white-space: nowrap;
+
+      font-size: 11px;
+
+      font-weight: 800;
+    }
+
+
+    /* =====================================================
+       زر الحذف
+    ===================================================== */
+
+    .delete-avatar-btn {
+      color: #d64545;
+
+      border-color: #f0dada;
+    }
+
+
+    .delete-avatar-btn
+    .avatar-action-icon {
+      background: #fff0f0;
+
+      color: #d64545;
+    }
+
+
+    .delete-avatar-btn:hover {
+      background: #fff8f8;
+
+      border-color: #e8baba;
+
+      box-shadow:
+        0 5px 15px
+          rgba(214, 69, 69, 0.08);
+    }
+
+
+    .delete-avatar-btn[hidden] {
+      display: none;
+    }
+
+
+    /* =====================================================
+       ملفات الصور المخفية
+    ===================================================== */
+
+    .avatar-file-input {
+      display: none;
+    }
+
+
+    /* =====================================================
+       Camera Modal
+    ===================================================== */
+
+    .camera-modal {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 99999;
+
+      width: 100%;
+
+      height: 100%;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 18px;
+
+      background:
+        rgba(20, 12, 30, 0.78);
+
+      opacity: 0;
+
+      visibility: hidden;
+
+      transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+    }
+
+
+    .camera-modal.show {
+      opacity: 1;
+
+      visibility: visible;
+    }
+
+
+    /* =====================================================
+       محتوى الكاميرا
+    ===================================================== */
+
+    .camera-modal-content {
+      width: 100%;
+
+      max-width: 430px;
+
+      padding: 18px;
+
+      background: #ffffff;
+
+      border-radius: 24px;
+
+      box-shadow:
+        0 25px 70px
+          rgba(0, 0, 0, 0.30);
+
+      transform:
+        translateY(20px)
+        scale(0.96);
+
+      transition:
+        transform 0.25s ease;
+    }
+
+
+    .camera-modal.show
+    .camera-modal-content {
+      transform:
+        translateY(0)
+        scale(1);
+    }
+
+
+    /* =====================================================
+       رأس الكاميرا
+    ===================================================== */
+
+    .camera-modal-header {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      margin-bottom: 14px;
+    }
+
+
+    .camera-modal-header h3 {
+      margin: 0;
+
+      color: #27212f;
+
+      font-size: 17px;
+
+      font-weight: 800;
+    }
+
+
+    /* =====================================================
+       زر إغلاق الكاميرا
+    ===================================================== */
+
+    .camera-close-btn {
+      width: 38px;
+
+      height: 38px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 0;
+
+      border: none;
+
+      border-radius: 50%;
+
+      background: #f5f0fa;
+
+      color: #5d5269;
+
+      font-size: 24px;
+
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+
+    .camera-close-btn:active {
+      transform: scale(0.94);
+    }
+
+
+    /* =====================================================
+       منطقة عرض الكاميرا
+    ===================================================== */
+
+    .camera-preview-wrapper {
+      width: 100%;
+
+      aspect-ratio: 1 / 1;
+
+      position: relative;
+
+      overflow: hidden;
+
+      border-radius: 22px;
+
+      background: #111111;
+    }
+
+
+    .camera-video {
+      width: 100%;
+
+      height: 100%;
+
+      display: block;
+
+      object-fit: cover;
+
+      transform: scaleX(-1);
+    }
+
+
+    /* =====================================================
+       أزرار الكاميرا
+    ===================================================== */
+
+    .camera-modal-actions {
+      margin-top: 16px;
+    }
+
+
+    .capture-camera-btn {
+      width: 100%;
+
+      min-height: 58px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 10px;
+
+      border: none;
+
+      border-radius: 16px;
+
+      background: #6c2bd9;
+
+      color: #ffffff;
+
+      font-family: inherit;
+
+      font-size: 15px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 8px 22px
+          rgba(108, 43, 217, 0.25);
+
+      transition:
+        transform 0.15s ease,
+        background 0.2s ease;
+    }
+
+
+    .capture-camera-btn:hover {
+      background: #5f22c4;
+    }
+
+
+    .capture-camera-btn:active {
+      transform: scale(0.97);
+    }
+
+
+    .capture-camera-icon {
+      font-size: 21px;
+    }
+
+
+    /* ==================================================
+       عناوين الأقسام
+    ================================================== */
+
+    .form-section-title {
+      display: flex;
+
+      align-items: center;
+
+      gap: 9px;
+
+      margin: 25px 0 15px;
+
+      color: #292929;
+
+      font-size: 15px;
+
+      font-weight: 900;
+    }
+
+
+    .form-section-title::before {
+      content: "";
+
+      width: 4px;
+
+      height: 20px;
+
+      border-radius: 10px;
+
+      background:
+        linear-gradient(
+          180deg,
+          #6c2bd9,
+          #a78bfa
+        );
+    }
+
+
+    /* ==================================================
+       مجموعات الحقول
+    ================================================== */
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+
+    .form-group label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: #333;
+
+      font-size: 13px;
+
+      font-weight: 800;
+    }
+
+
+    .required {
+      color: #d32f2f;
+
+      margin-right: 2px;
+    }
+
+
+    /* ==================================================
+       الحقول
+    ================================================== */
+
+    .input-wrapper {
+      position: relative;
+    }
+
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+
+      height: 51px;
+
+      border: 1px solid #dedede;
+
+      border-radius: 13px;
+
+      padding: 0 14px;
+
+      background: #fafafa;
+
+      color: #222;
+
+      font-size: 14px;
+
+      outline: none;
+
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+
+    .form-group input::placeholder {
+      color: #aaa;
+    }
+
+
+    .form-group input:hover,
+    .form-group select:hover {
+      border-color: #cfc3e9;
+
+      background: #fff;
+    }
+
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #6c2bd9;
+
+      background: #fff;
+
+      box-shadow:
+        0 0 0 4px
+          rgba(108, 43, 217, 0.08);
+    }
+
+
+    .ltr-input {
+      direction: ltr;
+
+      text-align: left;
+    }
+
+
+    /* ==================================================
+       Select
+    ================================================== */
+
+    .form-group select {
+      appearance: none;
+
+      -webkit-appearance: none;
+
+      cursor: pointer;
+
+      padding-left: 42px;
+
+      background-image:
+        linear-gradient(
+          45deg,
+          transparent 50%,
+          #777 50%
+        ),
+        linear-gradient(
+          135deg,
+          #777 50%,
+          transparent 50%
+        );
+
+      background-position:
+        calc(100% - 20px) 22px,
+        calc(100% - 14px) 22px;
+
+      background-size:
+        6px 6px,
+        6px 6px;
+
+      background-repeat: no-repeat;
+    }
+
+
+    /* ==================================================
+       ملاحظات الحقول
+    ================================================== */
+
+    .field-hint {
+      margin-top: 6px;
+
+      color: #929292;
+
+      font-size: 11px;
+
+      line-height: 1.6;
+    }
+
+
+    /* ==================================================
+       المحافظة والمنطقة
+    ================================================== */
+
+    .location-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 12px;
+    }
+
+
+    /* ==================================================
+       كلمة المرور
+    ================================================== */
+
+    .password-wrapper input {
+      padding-left: 50px;
+    }
+
+
+    .password-toggle {
+      position: absolute;
+
+      left: 10px;
+
+      top: 50%;
+
+      width: 34px;
+
+      height: 34px;
+
+      transform:
+        translateY(-50%);
+
+      border: 0;
+
+      border-radius: 9px;
+
+      background: transparent;
+
+      color: #777;
+
+      cursor: pointer;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      font-size: 17px;
+
+      transition:
+        background 0.2s ease,
+        color 0.2s ease;
+    }
+
+
+    .password-toggle:hover {
+      background: #f1ebff;
+
+      color: #6c2bd9;
+    }
+
+
+    /* ==================================================
+       قوة كلمة المرور
+    ================================================== */
+
+    .password-strength {
+      margin-top: 10px;
+    }
+
+
+    .strength-track {
+      width: 100%;
+
+      height: 6px;
+
+      border-radius: 20px;
+
+      background: #e9e9e9;
+
+      overflow: hidden;
+    }
+
+
+    .strength-bar {
+      width: 0;
+
+      height: 100%;
+
+      border-radius: 20px;
+
+      background: #ddd;
+
+      transition:
+        width 0.25s ease,
+        background 0.25s ease;
+    }
+
+
+    .strength-info {
+      display: flex;
+
+      justify-content: space-between;
+
+      margin-top: 6px;
+
+      font-size: 11px;
+    }
+
+
+    .strength-label {
+      font-weight: 800;
+
+      color: #999;
+    }
+
+
+    .strength-requirements {
+      color: #999;
+    }
+
+
+    /* ==================================================
+       شروط كلمة المرور
+    ================================================== */
+
+    .password-rules {
+      margin-top: 10px;
+
+      padding: 11px 12px;
+
+      border-radius: 12px;
+
+      background: #fafafa;
+
+      border: 1px solid #eeeeee;
+    }
+
+
+    .password-rule {
+      display: flex;
+
+      align-items: center;
+
+      gap: 7px;
+
+      margin-bottom: 5px;
+
+      color: #999;
+
+      font-size: 11px;
+    }
+
+
+    .password-rule:last-child {
+      margin-bottom: 0;
+    }
+
+
+    .password-rule-icon {
+      width: 17px;
+
+      height: 17px;
+
+      border-radius: 50%;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      background: #e8e8e8;
+
+      color: #999;
+
+      font-size: 9px;
+
+      font-weight: 900;
+    }
+
+
+    .password-rule.valid {
+      color: #27853b;
+    }
+
+
+    .password-rule.valid
+    .password-rule-icon {
+      background: #dff4e4;
+
+      color: #27853b;
+    }
+
+
+    /* ==================================================
+       تطابق كلمة المرور
+    ================================================== */
+
+    .confirm-status {
+      display: none;
+
+      margin-top: 6px;
+
+      font-size: 11px;
+
+      font-weight: 700;
+    }
+
+
+    .confirm-status.show {
+      display: block;
+    }
+
+
+    .confirm-status.match {
+      color: #27853b;
+    }
+
+
+    .confirm-status.not-match {
+      color: #c62828;
+    }
+
+
+    /* ==================================================
+       الشروط والأحكام
+    ================================================== */
+
+    .terms-box {
+      margin-top: 21px;
+
+      padding: 14px;
+
+      border-radius: 15px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #faf8ff,
+          #f7f3ff
+        );
+
+      border: 1px solid
+        rgba(108, 43, 217, 0.10);
+    }
+
+
+    .terms-check {
+      display: flex;
+
+      align-items: flex-start;
+
+      gap: 10px;
+
+      cursor: pointer;
+    }
+
+
+    .terms-check input {
+      width: 18px;
+
+      height: 18px;
+
+      margin: 2px 0 0;
+
+      flex-shrink: 0;
+
+      accent-color: #6c2bd9;
+
+      cursor: pointer;
+    }
+
+
+    .terms-text {
+      color: #555;
+
+      font-size: 12px;
+
+      line-height: 1.9;
+    }
+
+
+    .terms-link {
+      color: #6c2bd9;
+
+      font-weight: 900;
+
+      text-decoration: none;
+
+      cursor: pointer;
+    }
+
+
+    .terms-link:hover {
+      text-decoration: underline;
+    }
+
+
+    /* ==================================================
+       النوافذ المنبثقة
+    ================================================== */
+
+    .terms-modal {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 9999;
+
+      display: none;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 18px;
+
+      background:
+        rgba(25, 15, 45, 0.55);
+
+      backdrop-filter: blur(5px);
+
+      -webkit-backdrop-filter: blur(5px);
+    }
+
+
+    .terms-modal.show {
+      display: flex;
+    }
+
+
+    .terms-modal-card {
+      width: 100%;
+
+      max-width: 550px;
+
+      max-height: 88vh;
+
+      overflow-y: auto;
+
+      background: #fff;
+
+      border-radius: 22px;
+
+      padding: 25px;
+
+      box-shadow:
+        0 25px 80px
+          rgba(0, 0, 0, 0.25);
+    }
+
+
+    .terms-modal-header {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      margin-bottom: 18px;
+    }
+
+
+    .terms-modal-title {
+      margin: 0;
+
+      color: #252525;
+
+      font-size: 20px;
+
+      font-weight: 900;
+    }
+
+
+    .terms-close {
+      width: 36px;
+
+      height: 36px;
+
+      border: 0;
+
+      border-radius: 10px;
+
+      background: #f4f4f4;
+
+      color: #666;
+
+      cursor: pointer;
+
+      font-size: 18px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+    }
+
+
+    .terms-close:hover {
+      background: #eee;
+    }
+
+
+    .terms-content h3 {
+      margin: 18px 0 7px;
+
+      color: #6c2bd9;
+
+      font-size: 14px;
+    }
+
+
+    .terms-content p,
+    .terms-content li {
+      color: #666;
+
+      font-size: 12px;
+
+      line-height: 1.9;
+    }
+
+
+    .terms-content ul {
+      margin: 7px 0;
+
+      padding-right: 20px;
+    }
+
+
+    .terms-warning {
+      margin-top: 18px;
+
+      padding: 12px;
+
+      border-radius: 12px;
+
+      background: #fff8e8;
+
+      border: 1px solid #f5dfab;
+
+      color: #765d1c;
+
+      font-size: 11px;
+
+      line-height: 1.8;
+    }
+
+
+    /* ==================================================
+       زر إنشاء الحساب
+    ================================================== */
+
+    .signup-btn {
+      width: 100%;
+
+      height: 54px;
+
+      margin-top: 18px;
+
+      border: 0;
+
+      border-radius: 15px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #6c2bd9,
+          #8b5cf6
+        );
+
+      color: #fff;
+
+      font-size: 16px;
+
+      font-weight: 900;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 10px 25px
+          rgba(108, 43, 217, 0.22);
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+
+    .signup-btn:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 14px 30px
+          rgba(108, 43, 217, 0.28);
+    }
+
+
+    .signup-btn:active {
+      transform: translateY(0);
+    }
+
+
+    .signup-btn:disabled {
+      opacity: 0.65;
+
+      cursor: not-allowed;
+
+      transform: none;
+
+      box-shadow:
+        0 6px 15px
+          rgba(108, 43, 217, 0.12);
+    }
+
+
+    /* ==================================================
+       الرسائل
+    ================================================== */
+
+    .message {
+      display: none;
+
+      margin-top: 15px;
+
+      padding: 13px 15px;
+
+      border-radius: 13px;
+
+      font-size: 12px;
+
+      line-height: 1.8;
+
+      text-align: center;
+    }
+
+
+    .message.show {
+      display: block;
+    }
+
+
+    .message.error {
+      background: #fff1f1;
+
+      color: #c62828;
+
+      border: 1px solid #ffd4d4;
+    }
+
+
+    .message.success {
+      background: #effbf3;
+
+      color: #218838;
+
+      border: 1px solid #ccebd5;
+    }
+
+
+    /* ==================================================
+       رابط تسجيل الدخول
+    ================================================== */
+
+    .login-link {
+      margin-top: 22px;
+
+      text-align: center;
+
+      color: #777;
+
+      font-size: 13px;
+    }
+
+
+    .login-link a {
+      margin-right: 5px;
+
+      color: #6c2bd9;
+
+      font-weight: 900;
+
+      text-decoration: none;
+    }
+
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+
+    /* ==================================================
+       الخصوصية
+    ================================================== */
+
+    .privacy-note {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 7px;
+
+      margin-top: 17px;
+
+      padding: 11px 13px;
+
+      border-radius: 12px;
+
+      background: #fafafa;
+
+      border: 1px solid #eeeeee;
+
+      color: #888;
+
+      font-size: 11px;
+
+      line-height: 1.7;
+
+      text-align: center;
+    }
+
+
+    /* ==================================================
+       موبايل
+    ================================================== */
+
+    @media (max-width: 520px) {
+
+      body {
+        align-items: flex-start;
+
+        padding:
+          15px 10px;
+      }
+
+
+      .signup-page {
+        margin-top: 8px;
+      }
+
+
+      .signup-card {
+        padding:
+          29px 19px 24px;
+
+        border-radius: 23px;
+      }
+
+
+      .signup-logo {
+        width: 63px;
+
+        height: 63px;
+
+        border-radius: 19px;
+
+        font-size: 25px;
+      }
+
+
+      .signup-title {
+        font-size: 23px;
+      }
+
+
+      .signup-subtitle {
+        font-size: 13px;
+      }
+
+
+      .location-grid {
+        grid-template-columns: 1fr;
+
+        gap: 0;
+      }
+
+
+      .avatar-preview-box {
+        width: 126px;
+
+        height: 126px;
+      }
+
+
+      .avatar-actions {
+        gap: 7px;
+      }
+
+
+      .avatar-action-btn {
+        height: 63px;
+
+        border-radius: 13px;
+
+        padding: 6px 4px;
+      }
+
+
+      .avatar-action-icon {
+        width: 28px;
+
+        height: 28px;
+
+        border-radius: 9px;
+      }
+
+
+      .avatar-action-icon svg {
+        width: 17px;
+
+        height: 17px;
+      }
+
+
+      .avatar-action-btn span:last-child {
+        font-size: 10.5px;
+      }
+
+
+      .camera-modal {
+        padding: 12px;
+      }
+
+
+      .camera-modal-content {
+        padding: 14px;
+
+        border-radius: 22px;
+      }
+
+
+      .camera-preview-wrapper {
+        border-radius: 19px;
+      }
+
+
+      .terms-modal-card {
+        max-height: 92vh;
+
+        padding: 21px;
+
+        border-radius: 20px;
+      }
+
+    }
+
+
+    /* ==================================================
+       شاشات صغيرة جداً
+    ================================================== */
+
+    @media (max-width: 360px) {
+
+      .signup-card {
+        padding:
+          26px 15px 21px;
+      }
+
+
+      .signup-title {
+        font-size: 21px;
+      }
+
+
+      .form-group input,
+      .form-group select {
+        height: 49px;
+
+        font-size: 13px;
+      }
+
+
+      .signup-btn {
+        height: 51px;
+
+        font-size: 15px;
+      }
+
+
+      /* مهم:
+         أزرار الصورة تبقى أفقية
+      */
+
+      .avatar-actions {
+        flex-direction: row;
+
+        gap: 5px;
+      }
+
+
+      .avatar-action-btn {
+        width: auto;
+
+        height: 60px;
+
+        border-radius: 12px;
+      }
+
+
+      .avatar-action-icon {
+        width: 26px;
+
+        height: 26px;
+
+        border-radius: 8px;
+      }
+
+
+      .avatar-action-icon svg {
+        width: 16px;
+
+        height: 16px;
+      }
+
+
+      .avatar-action-btn span:last-child {
+        font-size: 10px;
+      }
+
+
+      .avatar-preview-box {
+        width: 120px;
+
+        height: 120px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- ==================================================
+       الصفحة الرئيسية
+  ================================================== -->
+
+  <main class="signup-page">
+
+    <section class="signup-card">
+
+
+      <!-- ==================================================
+           الهيدر
+      ================================================== -->
+
+      <header class="signup-header">
+
+        <div class="signup-logo">
+          Z
+        </div>
+
+        <h1 class="signup-title">
+          إنشاء حساب جديد
+        </h1>
+
+        <p class="signup-subtitle">
+          أنشئ حسابك كمندوب وابدأ بإدارة
+          مبيعاتك باستخدام Zain Sales
+        </p>
+
+      </header>
+
+
+      <!-- ==================================================
+           معلومات التسجيل
+      ================================================== -->
+
+      <div class="signup-info">
+
+        <div class="signup-info-icon">
+          ℹ
+        </div>
+
+        <div>
+          التسجيل مجاني، وبعد تأكيد الحساب
+          يمكنك اختيار الاشتراك المناسب لك.
+        </div>
+
+      </div>
+
+
+      <!-- ==================================================
+           صورة المندوب
+      ================================================== -->
+
+      <div class="avatar-section">
+
+
+        <!-- عنوان القسم -->
+
+        <div class="avatar-title">
+
+          <h3>
+            صورة المندوب
+          </h3>
+
+          <span class="required-label">
+            مطلوبة
+          </span>
+
+        </div>
+
+
+        <!-- ==================================================
+             دائرة الصورة
+        ================================================== -->
+
+        <div class="avatar-preview-wrapper">
+
+          <div
+            class="avatar-preview-box"
+            id="avatarPreview"
+          >
+
+            <img
+              id="avatarImage"
+              src=""
+              alt="صورة المندوب"
+              hidden
+            >
+
+            <div
+              id="avatarPlaceholder"
+              class="avatar-placeholder"
+            >
+
+              <span class="avatar-placeholder-icon">
+                👤
+              </span>
+
+              <span>
+                صورة المندوب
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             تحديد الصورة
+        ================================================== -->
+
+        <div class="avatar-select-title">
+          تحديد الصورة
+        </div>
+
+
+        <!-- ==================================================
+             أزرار الصور
+        ================================================== -->
+
+        <div class="avatar-actions">
+
+
+          <!-- الاستديو -->
+
+          <button
+            type="button"
+            class="avatar-action-btn"
+            id="galleryBtn"
+          >
+
+            <span class="avatar-action-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+
+                <rect
+                  x="3"
+                  y="4"
+                  width="18"
+                  height="16"
+                  rx="2"
+                ></rect>
+
+                <circle
+                  cx="8.5"
+                  cy="9"
+                  r="1.5"
+                ></circle>
+
+                <path
+                  d="M21 15l-4-4-7 7"
+                ></path>
+
+              </svg>
+
+            </span>
+
+            <span>
+              الاستديو
+            </span>
+
+          </button>
+
+
+          <!-- الكاميرا -->
+
+          <button
+            type="button"
+            class="avatar-action-btn"
+            id="cameraBtn"
+          >
+
+            <span class="avatar-action-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+
+                <path
+                  d="M4 7h3l1.5-2h5L15 7h3a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"
+                ></path>
+
+                <circle
+                  cx="12"
+                  cy="13"
+                  r="3.5"
+                ></circle>
+
+              </svg>
+
+            </span>
+
+            <span>
+              التقاط صورة
+            </span>
+
+          </button>
+
+
+          <!-- حذف -->
+
+          <button
+            type="button"
+            class="avatar-action-btn delete-avatar-btn"
+            id="removeAvatarBtn"
+            hidden
+          >
+
+            <span class="avatar-action-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+
+                <path
+                  d="M4 7h16"
+                ></path>
+
+                <path
+                  d="M10 11v6"
+                ></path>
+
+                <path
+                  d="M14 11v6"
+                ></path>
+
+                <path
+                  d="M6 7l1 13h10l1-13"
+                ></path>
+
+                <path
+                  d="M9 7V4h6v3"
+                ></path>
+
+              </svg>
+
+            </span>
+
+            <span>
+              حذف
+            </span>
+
+          </button>
+
+
+        </div>
+
+
+        <!-- ==================================================
+             Input الاستديو
+        ================================================== -->
+
+        <input
+          type="file"
+          id="galleryInput"
+          class="avatar-file-input"
+          accept="image/jpeg,image/png,image/webp"
+          hidden
+        >
+
+
+        <!-- ==================================================
+             Input الكاميرا
+        ================================================== -->
+
+        <input
+          type="file"
+          id="cameraInput"
+          class="avatar-file-input"
+          accept="image/jpeg,image/png,image/webp"
+          capture="user"
+          hidden
+        >
+
+      </div>
+
+
+      <!-- ==================================================
+           الفورم
+      ================================================== -->
+
+      <form
+        id="signupForm"
+        class="signup-form"
+        novalidate
+      >
+
+
+        <!-- ==================================================
+             بيانات المندوب
+        ================================================== -->
+
+        <div class="form-section-title">
+          بيانات المندوب
+        </div>
+
+
+        <!-- الاسم -->
+
+        <div class="form-group">
+
+          <label for="fullName">
+
+            اسم المندوب
+
+            <span class="required">
+              *
+            </span>
+
+          </label>
+
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            placeholder="اكتب اسمك الكامل"
+            autocomplete="name"
+            maxlength="100"
+            required
+          >
+
+        </div>
+
+
+        <!-- الإيميل -->
+
+        <div class="form-group">
+
+          <label for="email">
+
+            البريد الإلكتروني
+
+            <span class="required">
+              *
+            </span>
+
+          </label>
+
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="ltr-input"
+            placeholder="example@email.com"
+            autocomplete="email"
+            maxlength="150"
+            required
+          >
+
+          <div class="field-hint">
+            سيتم إرسال رسالة لتأكيد البريد الإلكتروني.
+          </div>
+
+        </div>
+
+
+        <!-- الهاتف -->
+
+        <div class="form-group">
+
+          <label for="phone">
+
+            رقم الهاتف
+
+            <span class="required">
+              *
+            </span>
+
+          </label>
+
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            class="ltr-input"
+            placeholder="078xxxxxxxx"
+            inputmode="numeric"
+            maxlength="11"
+            autocomplete="tel"
+            required
+          >
+
+          <div class="field-hint">
+            رقم عراقي مكون من 11 رقمًا ويبدأ بـ 07.
+          </div>
+
+        </div>
+
+
+        <!-- المحافظة والمنطقة -->
+
+        <div class="location-grid">
+
+
+          <!-- المحافظة -->
+
+          <div class="form-group">
+
+            <label for="governorate">
+
+              المحافظة
+
+              <span class="required">
+                *
+              </span>
+
+            </label>
+
+            <select
+              id="governorate"
+              name="governorate"
+              required
+            >
+
+              <option value="">
+                اختر المحافظة
+              </option>
+
+              <option value="بغداد">
+                بغداد
+              </option>
+
+              <option value="البصرة">
+                البصرة
+              </option>
+
+              <option value="نينوى">
+                نينوى
+              </option>
+
+              <option value="أربيل">
+                أربيل
+              </option>
+
+              <option value="النجف">
+                النجف
+              </option>
+
+              <option value="كربلاء">
+                كربلاء
+              </option>
+
+              <option value="ذي قار">
+                ذي قار
+              </option>
+
+              <option value="بابل">
+                بابل
+              </option>
+
+              <option value="الأنبار">
+                الأنبار
+              </option>
+
+              <option value="ديالى">
+                ديالى
+              </option>
+
+              <option value="واسط">
+                واسط
+              </option>
+
+              <option value="ميسان">
+                ميسان
+              </option>
+
+              <option value="القادسية">
+                القادسية
+              </option>
+
+              <option value="المثنى">
+                المثنى
+              </option>
+
+              <option value="صلاح الدين">
+                صلاح الدين
+              </option>
+
+              <option value="كركوك">
+                كركوك
+              </option>
+
+              <option value="دهوك">
+                دهوك
+              </option>
+
+              <option value="السليمانية">
+                السليمانية
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- المنطقة -->
+
+          <div class="form-group">
+
+            <label for="region">
+
+              المنطقة
+
+              <span class="required">
+                *
+              </span>
+
+            </label>
+
+            <input
+              type="text"
+              id="region"
+              name="region"
+              placeholder="مثال: الكرادة"
+              maxlength="100"
+              autocomplete="address-level3"
+              required
+            >
+
+          </div>
+
+
+        </div>
+
+
+        <!-- ==================================================
+             كلمة المرور
+        ================================================== -->
+
+        <div class="form-section-title">
+          أمان الحساب
+        </div>
+
+
+        <!-- كلمة المرور -->
+
+        <div class="form-group">
+
+          <label for="password">
+
+            كلمة المرور
+
+            <span class="required">
+              *
+            </span>
+
+          </label>
+
+
+          <div class="input-wrapper password-wrapper">
+
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="اكتب كلمة مرور قوية"
+              autocomplete="new-password"
+              minlength="6"
+              maxlength="72"
+              required
+            >
+
+          </div>
+
+
+          <!-- قوة كلمة المرور -->
+
+          <div
+            id="passwordStrength"
+            class="password-strength"
+          >
+
+            <div class="strength-track">
+
+              <div
+                id="strengthBar"
+                class="strength-bar"
+              ></div>
+
+            </div>
+
+
+            <div class="strength-info">
+
+              <span
+                id="strengthLabel"
+                class="strength-label"
+              >
+                قوة كلمة المرور
+              </span>
+
+              <span class="strength-requirements">
+                6 أحرف على الأقل
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- شروط كلمة المرور -->
+
+          <div class="password-rules">
+
+
+            <div
+              id="ruleLength"
+              class="password-rule"
+            >
+
+              <span class="password-rule-icon">
+                ✓
+              </span>
+
+              <span>
+                6 أحرف أو أكثر
+              </span>
+
+            </div>
+
+
+            <div
+              id="ruleNumber"
+              class="password-rule"
+            >
+
+              <span class="password-rule-icon">
+                ✓
+              </span>
+
+              <span>
+                تحتوي على رقم
+              </span>
+
+            </div>
+
+
+            <div
+              id="ruleUpper"
+              class="password-rule"
+            >
+
+              <span class="password-rule-icon">
+                ✓
+              </span>
+
+              <span>
+                تحتوي على حرف إنجليزي كبير
+              </span>
+
+            </div>
+
+
+            <div
+              id="ruleSpecial"
+              class="password-rule"
+            >
+
+              <span class="password-rule-icon">
+                ✓
+              </span>
+
+              <span>
+                تحتوي على رمز خاص
+              </span>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             تأكيد كلمة المرور
+        ================================================== -->
+
+        <div class="form-group">
+
+          <label for="confirmPassword">
+
+            تأكيد كلمة المرور
+
+            <span class="required">
+              *
+            </span>
+
+          </label>
+
+
+          <div class="input-wrapper password-wrapper">
+
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="أعد كتابة كلمة المرور"
+              autocomplete="new-password"
+              minlength="6"
+              maxlength="72"
+              required
+            >
+
+          </div>
+
+
+          <div
+            id="confirmStatus"
+            class="confirm-status"
+          ></div>
+
+        </div>
+
+
+        <!-- ==================================================
+             الشروط والأحكام
+        ================================================== -->
+
+        <div class="terms-box">
+
+          <label class="terms-check">
+
+            <input
+              type="checkbox"
+              id="termsAccepted"
+              name="termsAccepted"
+            >
+
+
+            <span class="terms-text">
+
+              أقر بأنني قرأت ووافقت على
+
+              <a
+                href="#"
+                id="termsLink"
+                class="terms-link"
+              >
+                الشروط والأحكام
+              </a>
+
+              و
+
+              <a
+                href="#"
+                id="privacyLink"
+                class="terms-link"
+              >
+                سياسة الخصوصية
+              </a>
+
+              الخاصة باستخدام Zain Sales.
+
+            </span>
+
+          </label>
+
+        </div>
+
+
+        <!-- ==================================================
+             زر إنشاء الحساب
+        ================================================== -->
+
+        <button
+          type="submit"
+          id="signupBtn"
+          class="signup-btn"
+        >
+          إنشاء الحساب
+        </button>
+
+
+      </form>
+
+
+      <!-- ==================================================
+           رسالة النظام
+      ================================================== -->
+
+      <div
+        id="signupMessage"
+        class="message"
+        role="alert"
+        aria-live="polite"
+      ></div>
+
+
+      <!-- ==================================================
+           تسجيل الدخول
+      ================================================== -->
+
+      <div class="login-link">
+
+        عندك حساب بالفعل؟
+
+        <a href="index.html">
+          تسجيل الدخول
+        </a>
+
+      </div>
+
+
+      <!-- ==================================================
+           الخصوصية
+      ================================================== -->
+
+      <div class="privacy-note">
+
+        <span>
+          🔒
+        </span>
+
+        <span>
+          بيانات حسابك ومبيعاتك محمية،
+          ولا يمكن للمندوبين الآخرين الوصول إليها.
+        </span>
+
+      </div>
+
+
+    </section>
+
+  </main>
+
+
+  <!-- ==================================================
+       نافذة الشروط والأحكام
+  ================================================== -->
+
+  <div
+    id="termsModal"
+    class="terms-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="termsModalTitle"
+  >
+
+    <div class="terms-modal-card">
+
+
+      <div class="terms-modal-header">
+
+        <h2
+          id="termsModalTitle"
+          class="terms-modal-title"
+        >
+          الشروط والأحكام
+        </h2>
+
+
+        <button
+          type="button"
+          id="termsClose"
+          class="terms-close"
+          aria-label="إغلاق"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="terms-content">
+
+
+        <h3>
+          1. استخدام الحساب
+        </h3>
+
+        <p>
+          حساب Zain Sales مخصص للمندوب المسجل فقط.
+          يلتزم المستخدم بالمحافظة على بيانات تسجيل الدخول
+          وعدم مشاركتها مع أي شخص آخر.
+        </p>
+
+
+        <h3>
+          2. صحة المعلومات
+        </h3>
+
+        <p>
+          يلتزم المستخدم بتقديم معلومات صحيحة عند إنشاء الحساب
+          وتحديثها عند الحاجة، بما في ذلك الاسم ورقم الهاتف
+          والمحافظة والمنطقة.
+        </p>
+
+
+        <h3>
+          3. بيانات المبيعات والعملاء
+        </h3>
+
+        <p>
+          المستخدم مسؤول عن البيانات التي يقوم بإدخالها داخل
+          النظام وعن التأكد من أن استخدامه لهذه البيانات
+          يتم بطريقة قانونية ومشروعة.
+        </p>
+
+
+        <ul>
+
+          <li>
+            يجب عدم إدخال بيانات لا يملك المستخدم حق استخدامها.
+          </li>
+
+          <li>
+            يجب عدم استخدام النظام للإضرار بالآخرين.
+          </li>
+
+          <li>
+            يجب عدم محاولة الوصول إلى بيانات حسابات أو مندوبين آخرين.
+          </li>
+
+        </ul>
+
+
+        <h3>
+          4. الحساب والاشتراك
+        </h3>
+
+        <p>
+          إنشاء الحساب لا يعني تفعيل الاشتراك المدفوع.
+          استخدام الخدمات المدفوعة يتطلب اختيار خطة اشتراك
+          وإتمام عملية الدفع والموافقة عليها من الإدارة.
+        </p>
+
+
+        <h3>
+          5. منع مشاركة الحساب
+        </h3>
+
+        <p>
+          لا يجوز بيع الحساب أو تأجيره أو مشاركته مع مندوب آخر.
+          الحساب مرتبط بالمستخدم الذي قام بإنشائه.
+        </p>
+
+
+        <h3>
+          6. إساءة الاستخدام
+        </h3>
+
+        <p>
+          يحق لإدارة الخدمة اتخاذ الإجراءات المناسبة،
+          بما في ذلك تعليق أو إيقاف الحساب، عند وجود استخدام
+          مخالف للشروط أو محاولة التلاعب بالنظام أو الوصول
+          غير المصرح به إلى بيانات الآخرين.
+        </p>
+
+
+        <h3>
+          7. دقة التقارير والتحليلات
+        </h3>
+
+        <p>
+          الإحصائيات والتحليلات والتوقعات التي يقدمها النظام
+          تعتمد على البيانات التي يتم إدخالها وعلى آلية التحليل،
+          ولا تعتبر ضمانًا لنتائج أو مبيعات مستقبلية.
+        </p>
+
+
+        <h3>
+          8. تحديث الخدمة
+        </h3>
+
+        <p>
+          قد يتم تطوير أو تعديل خصائص Zain Sales من وقت لآخر
+          بهدف تحسين الخدمة وإضافة وظائف جديدة.
+        </p>
+
+
+        <h3>
+          9. حماية الحساب
+        </h3>
+
+        <p>
+          المستخدم مسؤول عن المحافظة على كلمة المرور
+          وعدم مشاركتها، ويتحمل مسؤولية أي استخدام يتم
+          من خلال حسابه نتيجة إهمال حماية بيانات الدخول.
+        </p>
+
+
+        <div class="terms-warning">
+
+          <strong>
+            تنبيه:
+          </strong>
+
+          استخدام Zain Sales يعني موافقتك على هذه الشروط.
+          إذا كنت لا توافق عليها، يرجى عدم إنشاء الحساب.
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ==================================================
+       نافذة سياسة الخصوصية
+  ================================================== -->
+
+  <div
+    id="privacyModal"
+    class="terms-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="privacyModalTitle"
+  >
+
+    <div class="terms-modal-card">
+
+
+      <div class="terms-modal-header">
+
+        <h2
+          id="privacyModalTitle"
+          class="terms-modal-title"
+        >
+          سياسة الخصوصية
+        </h2>
+
+
+        <button
+          type="button"
+          id="privacyClose"
+          class="terms-close"
+          aria-label="إغلاق"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="terms-content">
+
+
+        <h3>
+          البيانات التي يتم جمعها
+        </h3>
+
+        <p>
+          يتم جمع البيانات التي تدخلها أثناء إنشاء الحساب،
+          مثل الاسم والبريد الإلكتروني ورقم الهاتف والمحافظة
+          والمنطقة، بالإضافة إلى البيانات التي تدخلها أثناء
+          استخدام النظام.
+        </p>
+
+
+        <h3>
+          استخدام البيانات
+        </h3>
+
+        <p>
+          تستخدم البيانات لتشغيل الحساب، إدارة المبيعات،
+          عرض الإحصائيات والتحليلات، وتحسين الخدمة.
+        </p>
+
+
+        <h3>
+          بيانات المبيعات
+        </h3>
+
+        <p>
+          بيانات المبيعات التي تدخلها تكون مرتبطة بحسابك،
+          ولا يتم عرضها للمندوبين الآخرين.
+        </p>
+
+
+        <h3>
+          صورة الحساب
+        </h3>
+
+        <p>
+          صورة المندوب مطلوبة لإنشاء الحساب، وتستخدم للتعريف
+          بالحساب وعرضها داخل واجهة Zain Sales ولوحة الإدارة
+          عند الحاجة.
+        </p>
+
+
+        <h3>
+          حماية البيانات
+        </h3>
+
+        <p>
+          يتم اتخاذ إجراءات تقنية مناسبة لحماية بيانات الحساب
+          ومنع الوصول غير المصرح به، مع ضرورة محافظة المستخدم
+          على بيانات تسجيل الدخول الخاصة به.
+        </p>
+
+
+        <h3>
+          حذف الحساب
+        </h3>
+
+        <p>
+          يمكن تطوير آلية لطلب حذف الحساب والبيانات المرتبطة به
+          وفق إجراءات الخدمة والسياسات المعمول بها.
+        </p>
+
+
+        <div class="terms-warning">
+
+          يتم تحديث سياسة الخصوصية عند الحاجة بما يتناسب
+          مع تطوير الخدمة وطريقة معالجة البيانات.
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ==================================================
+       نافذة الكاميرا
+  ================================================== -->
+
+  <div
+    id="cameraModal"
+    class="camera-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cameraModalTitle"
+  >
+
+    <div class="camera-modal-content">
+
+
+      <!-- رأس النافذة -->
+
+      <div class="camera-modal-header">
+
+        <h3 id="cameraModalTitle">
+          التقاط صورة المندوب
+        </h3>
+
+        <button
+          type="button"
+          id="closeCameraBtn"
+          class="camera-close-btn"
+          aria-label="إغلاق الكاميرا"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <!-- معاينة الكاميرا -->
+
+      <div class="camera-preview-wrapper">
+
+        <video
+          id="cameraVideo"
+          class="camera-video"
+          autoplay
+          playsinline
+          muted
+        ></video>
+
+      </div>
+
+
+      <!-- زر الالتقاط -->
+
+      <div class="camera-modal-actions">
+
+        <button
+          type="button"
+          id="captureCameraBtn"
+          class="capture-camera-btn"
+        >
+
+          <span class="capture-camera-icon">
+            📷
+          </span>
+
+          <span>
+            التقاط الصورة
+          </span>
+
+        </button>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <!-- ==================================================
+       Supabase
+  ================================================== -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
+
+  <!-- ==================================================
+       إعدادات Supabase
+  ================================================== -->
+
+  <script src="js/config.js"></script>
+
+
+  <!-- ==================================================
+       التسجيل
+  ================================================== -->
+
+  <script src="js/signup.js"></script>
+
+
+</body>
+
+</html>
