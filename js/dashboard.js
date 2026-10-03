@@ -1,7 +1,10 @@
 /* ======================================
    ZAIN SALES - DASHBOARD LOGIC
 ====================================== */
+document.addEventListener("DOMContentLoaded", async () => {
+  const user = await requireSubscription();
 
+  if (!user) return;
 const moneyFormatter = new Intl.NumberFormat("en-IQ");
 
 function formatMoney(value) {
@@ -362,4 +365,5 @@ initializeDashboard().catch(error => {
     "حدث خطأ أثناء فتح لوحة التحكم.",
     true
   );
+});
 });

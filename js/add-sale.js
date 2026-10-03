@@ -1,6 +1,10 @@
 /* ======================================
    ZAIN SALES - ADD SALE
 ====================================== */
+document.addEventListener("DOMContentLoaded", async () => {
+  const user = await requireSubscription();
+
+  if (!user) return;
 
 const saleForm = document.getElementById("saleForm");
 
@@ -406,4 +410,5 @@ async function initializeAddSale() {
 initializeAddSale().catch(error => {
   console.error("Initialization error:", error);
   showMessage("تعذر تهيئة صفحة إضافة المبيعات.");
+});
 });

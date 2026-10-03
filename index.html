@@ -11,7 +11,7 @@
       content="نظام إدارة مبيعات الخطوط والديون والإحصائيات">
 
 <meta property="og:image"
-      content="https://niverafashion.github.io/zain-salse/assets/images/social-preview.png">
+      content="https://niverafashion.github.io/zain-salse/zain-sales/assets/images/social-preview.png">
 
 <meta name="twitter:card"
       content="summary_large_image">
@@ -96,23 +96,22 @@
 
       </div>
 
-      <div class="form-group">
+<div class="form-group">
 
-        <label for="password">كلمة المرور</label>
+  <label for="password">كلمة المرور</label>
 
-        <input
+  <input
+    type="password"
+    id="password"
+    placeholder="أدخل كلمة المرور"
+    autocomplete="current-password"
+    required>
 
-          type="password"
+  <div class="forgot-password">
+    <a href="forgot-password.html">نسيت كلمة المرور؟</a>
+  </div>
 
-          id="password"
-
-          placeholder="أدخل كلمة المرور"
-
-          autocomplete="current-password"
-
-          required>
-
-      </div>
+</div>
 
       <p id="errorMessage"
 
@@ -127,7 +126,10 @@
         تسجيل الدخول
 
       </button>
-
+<div class="signup-link">
+  <span>ليس لديك حساب ؟</span>
+  <a href="signup.html">إنشاء حساب جديد</a>
+</div>
     </form>
 <button id="installAppBtn"
         type="button"

@@ -1,6 +1,10 @@
 /* =====================================
    ZAIN SALES - STATISTICS
 ===================================== */
+document.addEventListener("DOMContentLoaded", async () => {
+  const user = await requireSubscription();
+
+  if (!user) return;
 
 const $ = id => document.getElementById(id);
 
@@ -670,4 +674,5 @@ initializeStatistics().catch(error => {
     "تعذر فتح صفحة الإحصائيات.",
     true
   );
+});
 });

@@ -1,4 +1,8 @@
 /* ZAIN SALES - SALES RECORD */
+document.addEventListener("DOMContentLoaded", async () => {
+  const user = await requireSubscription();
+
+  if (!user) return;
 
 const $ = id => document.getElementById(id);
 
@@ -819,4 +823,5 @@ async function initializeSales() {
 initializeSales().catch(error => {
   console.error(error);
   message("حدث خطأ أثناء فتح سجل المبيعات.", true);
+});
 });

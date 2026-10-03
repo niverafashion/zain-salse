@@ -131,6 +131,23 @@ button:disabled {
     padding: 30px 22px;
   }
 }
+.signup-link {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 14px;
+  color: #777;
+}
+
+.signup-link a {
+  color: #6c2bd9;
+  font-weight: 700;
+  text-decoration: none;
+  margin-right: 5px;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
 
 /* ======================================
    ZAIN SALES - DASHBOARD

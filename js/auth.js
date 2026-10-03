@@ -9,8 +9,20 @@ async function login(email, password) {
     throw new Error("تعذر تسجيل الدخول. تأكد من بيانات الحساب.");
   }
 
-  window.location.replace("dashboard.html");
+  // بعد نجاح تسجيل الدخول نفحص الاشتراك
+  const hasSubscription = await hasActiveSubscription();
+
+  if (hasSubscription) {
+    window.location.replace("dashboard.html");
+  } else {
+    window.location.replace("subscription.html");
+  }
 }
+
+
+// =====================================================
+// تسجيل الخروج
+// =====================================================
 
 async function logout() {
   const { error } =
@@ -24,6 +36,11 @@ async function logout() {
   window.location.replace("index.html");
 }
 
+
+// =====================================================
+// التحقق من تسجيل الدخول
+// =====================================================
+
 async function requireAuth() {
   const { data, error } =
     await supabaseClient.auth.getUser();
@@ -34,4 +51,50 @@ async function requireAuth() {
   }
 
   return data.user;
+}
+
+
+// =====================================================
+// التحقق من وجود اشتراك فعال
+// =====================================================
+
+async function hasActiveSubscription() {
+  const { data, error } =
+    await supabaseClient.rpc(
+      "has_active_subscription"
+    );
+
+  if (error) {
+    console.error(
+      "Subscription check error:",
+      error
+    );
+
+    return false;
+  }
+
+  return data === true;
+}
+
+
+// =====================================================
+// حماية الصفحات التي تحتاج اشتراك
+// =====================================================
+
+async function requireSubscription() {
+  const user = await requireAuth();
+
+  if (!user) {
+    return null;
+  }
+
+  const hasSubscription =
+    await hasActiveSubscription();
+
+  if (!hasSubscription) {
+    window.location.replace("subscription.html");
+    return null;
+  }
+
+  return user;
 }
