@@ -1,7 +1,6 @@
-const CACHE_NAME = "zain-sales-static-v1";
+const CACHE_NAME = "zain-sales-static-v2";
 
 const STATIC_FILES = [
-  "./css/style.css",
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png",
   "./assets/icons/icon-maskable.png",
@@ -9,74 +8,185 @@ const STATIC_FILES = [
   "./offline.html"
 ];
 
+
+// =====================================================
+// INSTALL
+// =====================================================
+
 self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache =>
-      cache.addAll(STATIC_FILES)
-    )
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(STATIC_FILES);
+    })
   );
 
+  // تفعيل النسخة الجديدة مباشرة
   self.skipWaiting();
 });
 
+
+// =====================================================
+// ACTIVATE
+// =====================================================
+
 self.addEventListener("activate", event => {
   event.waitUntil(
-    Promise.all([
-      caches.keys().then(keys =>
-        Promise.all(
-          keys
-            .filter(key => key !== CACHE_NAME)
-            .map(key => caches.delete(key))
-        )
-      ),
-      self.clients.claim()
-    ])
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys
+          .filter(key => key !== CACHE_NAME)
+          .map(key => caches.delete(key))
+      );
+    }).then(() => {
+      return self.clients.claim();
+    })
   );
 });
 
+
+// =====================================================
+// FETCH
+// =====================================================
+
 self.addEventListener("fetch", event => {
+
   const request = event.request;
-  const url = new URL(request.url);
 
-  if (request.method !== "GET") return;
-  if (url.origin !== self.location.origin) return;
-
-  // HTML pages always request the latest version.
-  // If offline, show a simple offline page.
-  if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request).catch(() =>
-        caches.match("./offline.html")
-      )
-    );
+  // نهتم فقط بطلبات GET
+  if (request.method !== "GET") {
     return;
   }
 
-  // Cache only the explicitly approved static files.
-  const approved = STATIC_FILES.some(path =>
-    url.pathname === new URL(
-      path,
-      self.registration.scope
-    ).pathname
-  );
+  const url = new URL(request.url);
 
-  if (!approved) return;
+  // فقط نفس الدومين
+  if (url.origin !== self.location.origin) {
+    return;
+  }
+
+
+  // ===================================================
+  // HTML
+  // ===================================================
+
+  // دائمًا نحاول جلب أحدث HTML
+  // وإذا ماكو إنترنت نستخدم offline.html
+
+  if (request.mode === "navigate") {
+
+    event.respondWith(
+      fetch(request)
+        .then(response => {
+
+          // لا نخزن HTML
+          return response;
+
+        })
+        .catch(() => {
+
+          return caches.match("./offline.html");
+
+        })
+    );
+
+    return;
+  }
+
+
+  // ===================================================
+  // CSS + JS
+  // ===================================================
+
+  // مهم جدًا:
+  // CSS و JS دائمًا من الشبكة أولاً
+  // حتى أي تعديل جديد يظهر بعد Refresh.
+
+  const isCssOrJs =
+    url.pathname.endsWith(".css") ||
+    url.pathname.endsWith(".js");
+
+  if (isCssOrJs) {
+
+    event.respondWith(
+
+      fetch(request)
+        .then(response => {
+
+          return response;
+
+        })
+        .catch(() => {
+
+          // إذا ماكو إنترنت نستخدم الكاش إن وجد
+          return caches.match(request);
+
+        })
+
+    );
+
+    return;
+  }
+
+
+  // ===================================================
+  // STATIC ASSETS
+  // ===================================================
+
+  const approved = STATIC_FILES.some(path => {
+
+    return (
+      url.pathname ===
+      new URL(
+        path,
+        self.registration.scope
+      ).pathname
+    );
+
+  });
+
+
+  if (!approved) {
+    return;
+  }
+
+
+  // ===================================================
+  // CACHE FIRST
+  // ===================================================
 
   event.respondWith(
+
     caches.match(request).then(cached => {
-      if (cached) return cached;
+
+      if (cached) {
+        return cached;
+      }
 
       return fetch(request).then(response => {
-        if (response.ok) {
-          const copy = response.clone();
 
-          caches.open(CACHE_NAME).then(cache =>
-            cache.put(request, copy)
-          );
+        if (response.ok) {
+
+          const copy =
+            response.clone();
+
+          caches.open(CACHE_NAME)
+            .then(cache => {
+
+              cache.put(
+                request,
+                copy
+              );
+
+            });
+
         }
 
         return response;
+
       });
+
     })
+
   );
+
 });

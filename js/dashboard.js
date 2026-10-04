@@ -367,3 +367,178 @@ initializeDashboard().catch(error => {
   );
 });
 });
+// =====================================================
+// بيانات المندوب - الاسم والصورة
+// =====================================================
+
+async function loadRepresentativeProfile() {
+
+  try {
+
+    // جلب المستخدم الحالي
+    const {
+      data: userData,
+      error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !userData.user) {
+      return;
+    }
+
+    const user = userData.user;
+
+
+    // جلب بيانات المندوب من profiles
+    const {
+      data: profile,
+      error: profileError
+    } = await supabaseClient
+      .from("profiles")
+      .select("full_name, avatar_url")
+      .eq("id", user.id)
+      .maybeSingle();
+
+
+    if (profileError) {
+
+      console.error(
+        "Profile loading error:",
+        profileError
+      );
+
+      return;
+    }
+
+
+    // =================================================
+    // الاسم
+    // =================================================
+
+    const representativeName =
+      profile?.full_name?.trim() ||
+      "مندوب المبيعات";
+
+
+    const sidebarUserName =
+      document.getElementById("sidebarUserName");
+
+    const welcomeName =
+      document.getElementById("welcomeName");
+
+
+    if (sidebarUserName) {
+
+      sidebarUserName.textContent =
+        representativeName;
+
+    }
+
+
+    if (welcomeName) {
+
+      welcomeName.textContent =
+        representativeName;
+
+    }
+
+
+    // =================================================
+    // الصورة
+    // =================================================
+
+    const avatarUrl =
+      profile?.avatar_url?.trim();
+
+
+    const sidebarAvatar =
+      document.getElementById("sidebarUserAvatar");
+
+    const headerAvatar =
+      document.getElementById("headerUserAvatar");
+
+
+    // إذا عنده صورة
+    if (avatarUrl) {
+
+      setAvatarImage(
+        sidebarAvatar,
+        avatarUrl,
+        representativeName
+      );
+
+      setAvatarImage(
+        headerAvatar,
+        avatarUrl,
+        representativeName
+      );
+
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      "Representative profile error:",
+      error
+    );
+
+  }
+
+}
+
+
+// =====================================================
+// وضع صورة المندوب
+// =====================================================
+
+function setAvatarImage(
+  element,
+  imageUrl,
+  name
+) {
+  if (!element) {
+    return;
+  }
+
+  if (!imageUrl) {
+    element.textContent = "Z";
+    element.style.backgroundImage = "none";
+    return;
+  }
+
+  // تنظيف أي محتوى سابق
+  element.textContent = "";
+
+  // تثبيت الصورة داخل نفس العنصر
+  element.style.backgroundImage =
+    `url("${imageUrl}")`;
+
+  element.style.backgroundSize = "cover";
+  element.style.backgroundPosition = "center";
+  element.style.backgroundRepeat = "no-repeat";
+
+  // منع الصورة من التأثير على حجم العنصر
+  element.style.overflow = "hidden";
+
+  // إذا فشل تحميل الصورة
+  const testImage = new Image();
+
+  testImage.onload = () => {
+    element.style.backgroundImage =
+      `url("${imageUrl}")`;
+  };
+
+  testImage.onerror = () => {
+    element.style.backgroundImage = "none";
+    element.textContent = "Z";
+  };
+
+  testImage.src = imageUrl;
+}
+
+
+// =====================================================
+// تشغيل تحميل بيانات المندوب
+// =====================================================
+
+loadRepresentativeProfile();
