@@ -650,109 +650,131 @@
 
 
 
-      <!-- =================================================
-           ANALYTICS TABS
-      ================================================== -->
+     <!-- =================================================
+     ANALYTICS TABS
+================================================== -->
 
-      <nav
-        class="statistics-tabs"
-        id="statisticsTabs"
-        aria-label="أقسام الإحصائيات"
-      >
+<nav
+  class="statistics-tabs"
+  id="statisticsTabs"
+  aria-label="أقسام الإحصائيات"
+>
 
-
-        <button
-          type="button"
-          class="statistics-tab active"
-          data-analytics-tab="sales"
-          aria-selected="true"
-        >
-
-          <span class="statistics-tab-icon">
-            ▥
-          </span>
-
-          <span>
-            حركة المبيعات
-          </span>
-
-        </button>
+  <button
+    type="button"
+    class="statistics-tabs-arrow statistics-tabs-arrow-prev"
+    id="statisticsTabsPrev"
+    aria-label="القسم السابق"
+  ></button>
 
 
-        <button
-          type="button"
-          class="statistics-tab"
-          data-analytics-tab="packages"
-          aria-selected="false"
-        >
-
-          <span class="statistics-tab-icon">
-            ▤
-          </span>
-
-          <span>
-            الباقات
-          </span>
-
-        </button>
+  <div
+    class="statistics-tabs-scroll"
+    id="statisticsTabsScroll"
+  >
 
 
-        <button
-          type="button"
-          class="statistics-tab"
-          data-analytics-tab="receipts"
-          aria-selected="false"
-        >
+    <button
+      type="button"
+      class="statistics-tab active"
+      data-analytics-tab="sales"
+      aria-selected="true"
+    >
 
-          <span class="statistics-tab-icon">
-            ↗
-          </span>
+      <span class="statistics-tab-icon">
+        ▥
+      </span>
 
-          <span>
-            المقبوضات
-          </span>
+      <span>
+        حركة المبيعات
+      </span>
 
-        </button>
-
-
-        <button
-          type="button"
-          class="statistics-tab"
-          data-analytics-tab="time"
-          aria-selected="false"
-        >
-
-          <span class="statistics-tab-icon">
-            ◷
-          </span>
-
-          <span>
-            أوقات البيع
-          </span>
-
-        </button>
+    </button>
 
 
-        <button
-          type="button"
-          class="statistics-tab"
-          data-analytics-tab="areas"
-          aria-selected="false"
-        >
+    <button
+      type="button"
+      class="statistics-tab"
+      data-analytics-tab="packages"
+      aria-selected="false"
+    >
 
-          <span class="statistics-tab-icon">
-            ⌖
-          </span>
+      <span class="statistics-tab-icon">
+        ▤
+      </span>
 
-          <span>
-            المناطق
-          </span>
+      <span>
+        الباقات
+      </span>
 
-        </button>
+    </button>
 
 
-      </nav>
+    <button
+      type="button"
+      class="statistics-tab"
+      data-analytics-tab="receipts"
+      aria-selected="false"
+    >
 
+      <span class="statistics-tab-icon">
+        ↗️
+      </span>
+
+      <span>
+        المقبوضات
+      </span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="statistics-tab"
+      data-analytics-tab="time"
+      aria-selected="false"
+    >
+
+      <span class="statistics-tab-icon">
+        ◷
+      </span>
+
+      <span>
+        أوقات البيع
+      </span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="statistics-tab"
+      data-analytics-tab="areas"
+      aria-selected="false"
+    >
+
+      <span class="statistics-tab-icon">
+        ⌖
+      </span>
+
+      <span>
+        المناطق
+      </span>
+
+    </button>
+
+
+  </div>
+
+
+  <button
+    type="button"
+    class="statistics-tabs-arrow statistics-tabs-arrow-next"
+    id="statisticsTabsNext"
+    aria-label="القسم التالي"
+  ></button>
+
+</nav>
 
 
       <!-- =================================================
@@ -1475,7 +1497,12 @@
   </div>
 
 </main>
-
+<button
+  type="button"
+  id="scrollToTopBtn"
+  class="scroll-to-top-btn"
+  aria-label="العودة إلى أعلى الصفحة"
+></button>
 
 
 <!-- =====================================================

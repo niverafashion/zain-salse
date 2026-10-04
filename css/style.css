@@ -3734,6 +3734,454 @@ button:disabled {
   }
 
 }
+/* ======================================
+   STATISTICS - DATE INPUTS
+====================================== */
+
+.statistics-page .stats-date-grid input[type="date"] {
+  width: 100%;
+  min-width: 0;
+  height: 49px;
+  min-height: 49px;
+  padding: 0 14px;
+  border: 1px solid #e8e5ef;
+  border-radius: 11px;
+  background: #faf9fc;
+  color: #3b3447;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: normal;
+  text-align: center;
+  direction: center;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.statistics-page .stats-date-grid input[type="date"]:focus {
+  outline: none;
+  border-color: #7139b7;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(113, 57, 183, 0.08);
+}
+
+/* Chrome / Edge */
+.statistics-page
+.stats-date-grid
+input[type="date"]::-webkit-date-and-time-value {
+  text-align: right;
+}
+
+.statistics-page
+.stats-date-grid
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.65;
+  cursor: pointer;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .statistics-page .stats-date-grid {
+    gap: 12px;
+  }
+
+  .statistics-page .stats-date-grid > div {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .statistics-page .stats-date-grid input[type="date"] {
+    width: 100%;
+    height: 48px;
+    min-height: 48px;
+    font-size: 13px;
+    padding: 0 12px;
+  }
+}
+/* ======================================
+   SCROLL TO TOP — PREMIUM
+====================================== */
+
+.statistics-page .scroll-to-top-btn {
+  position: fixed;
+
+  left: 22px;
+  bottom: 24px;
+
+  width: 46px;
+  height: 46px;
+
+  padding: 0;
+
+  border: 1px solid rgba(113, 57, 183, 0.14);
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(248, 243, 252, 0.96)
+    );
+
+  box-shadow:
+    0 10px 28px rgba(66, 36, 91, 0.13),
+    0 2px 7px rgba(66, 36, 91, 0.07);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  z-index: 100;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transform:
+    translateY(16px)
+    scale(0.86);
+
+  transition:
+    opacity 0.28s ease,
+    visibility 0.28s ease,
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+
+/* ======================================
+   VISIBLE
+====================================== */
+
+.statistics-page .scroll-to-top-btn.show {
+  opacity: 1;
+  visibility: visible;
+
+  transform:
+    translateY(0)
+    scale(1);
+}
+
+
+/* ======================================
+   INNER GLOW
+====================================== */
+
+.statistics-page .scroll-to-top-btn::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 4px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(113, 57, 183, 0.07);
+
+  pointer-events: none;
+}
+
+
+/* ======================================
+   ARROW
+====================================== */
+
+.statistics-page .scroll-to-top-btn::before {
+  content: "";
+
+  position: absolute;
+
+  width: 8px;
+  height: 8px;
+
+  border-left: 2px solid #7139b7;
+  border-top: 2px solid #7139b7;
+
+  transform: rotate(45deg);
+
+  top: 19px;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+
+
+/* ======================================
+   HOVER
+====================================== */
+
+.statistics-page .scroll-to-top-btn:hover {
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #f5eefb
+    );
+
+  border-color:
+    rgba(113, 57, 183, 0.26);
+
+  box-shadow:
+    0 14px 32px rgba(66, 36, 91, 0.17),
+    0 3px 9px rgba(66, 36, 91, 0.08);
+
+  transform:
+    translateY(-3px)
+    scale(1.04);
+}
+
+
+.statistics-page .scroll-to-top-btn:hover::before {
+
+  transform:
+    rotate(45deg)
+    translate(-1px, -2px);
+
+  border-color: #56258f;
+}
+
+
+/* ======================================
+   PRESS
+====================================== */
+
+.statistics-page .scroll-to-top-btn:active {
+
+  transform:
+    translateY(0)
+    scale(0.93);
+
+  box-shadow:
+    0 5px 14px rgba(66, 36, 91, 0.12);
+}
+
+
+/* ======================================
+   MOBILE
+====================================== */
+
+@media (max-width: 768px) {
+
+  .statistics-page .scroll-to-top-btn {
+
+    left: 16px;
+    bottom: 18px;
+
+    width: 44px;
+    height: 44px;
+
+    box-shadow:
+      0 8px 22px rgba(66, 36, 91, 0.13),
+      0 2px 6px rgba(66, 36, 91, 0.06);
+  }
+
+  .statistics-page .scroll-to-top-btn::before {
+
+    width: 8px;
+    height: 8px;
+
+    top: 18px;
+  }
+
+}
+
+
+/* ======================================
+   SMALL PHONES
+====================================== */
+
+@media (max-width: 380px) {
+
+  .statistics-page .scroll-to-top-btn {
+
+    left: 14px;
+    bottom: 16px;
+
+    width: 42px;
+    height: 42px;
+  }
+
+  .statistics-page .scroll-to-top-btn::before {
+
+    width: 7px;
+    height: 7px;
+
+    top: 17px;
+  }
+
+}
+/* ======================================
+   STATISTICS TABS NAVIGATION
+====================================== */
+
+.statistics-page .statistics-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  width: 100%;
+  padding: 8px;
+
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #ebe6f1;
+  border-radius: 14px;
+
+  box-shadow: 0 5px 18px rgba(45, 28, 67, 0.06);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  margin-bottom: 18px;
+}
+
+.statistics-page .statistics-tabs-scroll {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  flex: 1;
+  min-width: 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+.statistics-page .statistics-tabs-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.statistics-page .statistics-tab {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+/* ======================================
+   الأسهم
+====================================== */
+
+.statistics-page .statistics-tabs-arrow {
+  position: relative;
+
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+
+  border: 1px solid #e7e0ef;
+  border-radius: 10px;
+
+  background: #faf8fc;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.statistics-page .statistics-tabs-arrow:hover {
+  background: #f1e8fa;
+  border-color: #d8c7e8;
+}
+
+.statistics-page .statistics-tabs-arrow:active {
+  transform: scale(0.94);
+}
+
+
+/* ======================================
+   السهم السابق <
+====================================== */
+
+.statistics-page .statistics-tabs-arrow-prev::before {
+  content: "";
+
+  position: absolute;
+
+  width: 7px;
+  height: 7px;
+
+  border-left: 2px solid #7139b7;
+  border-bottom: 2px solid #7139b7;
+
+  transform: rotate(45deg);
+
+  top: 12px;
+  left: 12px;
+}
+
+
+/* ======================================
+   السهم التالي >
+====================================== */
+
+.statistics-page .statistics-tabs-arrow-next::before {
+  content: "";
+
+  position: absolute;
+
+  width: 7px;
+  height: 7px;
+
+  border-right: 2px solid #7139b7;
+  border-top: 2px solid #7139b7;
+
+  transform: rotate(45deg);
+
+  top: 12px;
+  left: 10px;
+}
+
+
+.statistics-page .statistics-tabs-arrow.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+
+/* ======================================
+   الموبايل
+====================================== */
+
+@media (max-width: 768px) {
+
+  .statistics-page .statistics-tabs-arrow {
+    flex-basis: 31px;
+    width: 31px;
+    height: 31px;
+    border-radius: 9px;
+  }
+
+  .statistics-page .statistics-tabs-arrow-prev::before,
+  .statistics-page .statistics-tabs-arrow-next::before {
+    width: 6px;
+    height: 6px;
+    top: 11px;
+  }
+
+  .statistics-page .statistics-tabs-arrow-prev::before {
+    left: 11px;
+  }
+
+  .statistics-page .statistics-tabs-arrow-next::before {
+    left: 9px;
+  }
+}
+
 /* =========================================
    DATE + TIME - SIDE BY SIDE
 ========================================= */

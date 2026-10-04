@@ -2759,7 +2759,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     */
 
     initializeAnalyticsTabs();
-
+initializeStatisticsNavigation();
 
     /*
       Logout
@@ -3077,3 +3077,262 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
 
 });
+function initializeStatisticsNavigation() {
+
+  /* ======================================
+     ELEMENTS
+  ====================================== */
+
+  const tabs = [
+    ...document.querySelectorAll(".statistics-tab")
+  ];
+
+  const tabsScroll =
+    document.getElementById("statisticsTabsScroll");
+
+  const prevButton =
+    document.getElementById("statisticsTabsPrev");
+
+  const nextButton =
+    document.getElementById("statisticsTabsNext");
+
+  const scrollTopButton =
+    document.getElementById("scrollToTopBtn");
+
+
+  /* ======================================
+     TABS NAVIGATION
+  ====================================== */
+
+  if (tabs.length) {
+
+    function getActiveIndex() {
+
+      const index =
+        tabs.findIndex(
+          tab =>
+            tab.classList.contains("active")
+        );
+
+      return index >= 0
+        ? index
+        : 0;
+
+    }
+
+
+    function updateArrowState() {
+
+      const activeIndex =
+        getActiveIndex();
+
+
+      if (prevButton) {
+
+        prevButton.classList.toggle(
+          "disabled",
+          activeIndex <= 0
+        );
+
+      }
+
+
+      if (nextButton) {
+
+        nextButton.classList.toggle(
+          "disabled",
+          activeIndex >= tabs.length - 1
+        );
+
+      }
+
+    }
+
+
+    function activateTabByIndex(
+      index
+    ) {
+
+      if (!tabs.length) {
+        return;
+      }
+
+
+      const safeIndex =
+        Math.max(
+          0,
+          Math.min(
+            index,
+            tabs.length - 1
+          )
+        );
+
+
+      /*
+        إذا ضغطنا على السهم،
+        نستخدم نفس نظام التبويبات
+        الموجود عندك.
+      */
+
+      tabs[safeIndex].click();
+
+
+      /*
+        نخلي التبويب المختار
+        واضح للمستخدم.
+      */
+
+      tabs[safeIndex].scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center"
+      });
+
+
+      updateArrowState();
+
+    }
+
+
+    /*
+      إذا المستخدم ضغط على أحد
+      الأقسام مباشرة، نحدث حالة الأسهم.
+    */
+
+    tabs.forEach(
+      tab => {
+
+        tab.addEventListener(
+          "click",
+          () => {
+
+            requestAnimationFrame(
+              updateArrowState
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+    /*
+      القسم السابق
+    */
+
+    if (prevButton) {
+
+      prevButton.addEventListener(
+        "click",
+        () => {
+
+          const activeIndex =
+            getActiveIndex();
+
+
+          if (activeIndex > 0) {
+
+            activateTabByIndex(
+              activeIndex - 1
+            );
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /*
+      القسم التالي
+    */
+
+    if (nextButton) {
+
+      nextButton.addEventListener(
+        "click",
+        () => {
+
+          const activeIndex =
+            getActiveIndex();
+
+
+          if (
+            activeIndex <
+            tabs.length - 1
+          ) {
+
+            activateTabByIndex(
+              activeIndex + 1
+            );
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /*
+      الحالة الأولى للأسهم
+    */
+
+    updateArrowState();
+
+  }
+
+
+  /* ======================================
+     SCROLL TO TOP
+  ====================================== */
+
+  if (scrollTopButton) {
+
+    function updateScrollTopButton() {
+
+      const shouldShow =
+        window.scrollY > 350;
+
+
+      scrollTopButton.classList.toggle(
+        "show",
+        shouldShow
+      );
+
+    }
+
+
+    window.addEventListener(
+      "scroll",
+      updateScrollTopButton,
+      {
+        passive: true
+      }
+    );
+
+
+    scrollTopButton.addEventListener(
+      "click",
+      () => {
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+
+      }
+    );
+
+
+    /*
+      فحص أولي عند فتح الصفحة
+    */
+
+    updateScrollTopButton();
+
+  }
+
+}
