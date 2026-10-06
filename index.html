@@ -1,148 +1,1088 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
 
 <head>
 
-    <meta property="og:type" content="website">
-<meta property="og:title"
-      content="Zain Sales | إدارة المبيعات">
-<meta property="og:description"
-      content="نظام إدارة مبيعات الخطوط والديون والإحصائيات">
-
-<meta property="og:image"
-      content="https://niverafashion.github.io/zain-salse/zain-sales/assets/images/social-preview.png">
-
-<meta name="twitter:card"
-      content="summary_large_image">
-
-
-<link rel="manifest" href="./manifest.webmanifest">
-
-<meta name="theme-color" content="#7139b7">
-
-<meta name="apple-mobile-web-app-capable"
-      content="yes">
-
-<meta name="apple-mobile-web-app-status-bar-style"
-      content="default">
-
-<meta name="apple-mobile-web-app-title"
-      content="Zain Sales">
-
-<link rel="apple-touch-icon"
-      href="./assets/icons/apple-touch-icon.png">
-
-
   <meta charset="UTF-8">
 
-  <meta name="viewport"
-
-        content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+  >
 
   <title>تسجيل الدخول | Zain Sales</title>
 
-  <link rel="preconnect"
 
-        href="https://fonts.googleapis.com">
+  <!-- =====================================================
+       Open Graph
+  ====================================================== -->
 
-  <link rel="preconnect"
+  <meta
+    property="og:type"
+    content="website"
+  >
 
-        href="https://fonts.gstatic.com"
+  <meta
+    property="og:title"
+    content="Zain Sales | إدارة المبيعات"
+  >
 
-        crossorigin>
+  <meta
+    property="og:description"
+    content="نظام إدارة مبيعات الخطوط والديون والإحصائيات"
+  >
+
+  <meta
+    property="og:image"
+    content="https://niverafashion.github.io/zain-salse/zain-sales/assets/images/social-preview.png"
+  >
+
+  <meta
+    name="twitter:card"
+    content="summary_large_image"
+  >
+
+
+  <!-- =====================================================
+       PWA
+  ====================================================== -->
 
   <link
+    rel="manifest"
+    href="./manifest.webmanifest"
+  >
 
+  <meta
+    name="theme-color"
+    content="#7139b7"
+  >
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  >
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default"
+  >
+
+  <meta
+    name="apple-mobile-web-app-title"
+    content="Zain Sales"
+  >
+
+  <link
+    rel="apple-touch-icon"
+    href="./assets/icons/apple-touch-icon.png"
+  >
+
+
+  <!-- =====================================================
+       Font
+  ====================================================== -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
     href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
 
-    rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css">
+  <!-- =====================================================
+       Global CSS
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
+
+  <!-- =====================================================
+       Login Page Style
+  ====================================================== -->
+
+  <style>
+
+    :root {
+      --login-primary: #7139b7;
+      --login-primary-dark: #5d2d9b;
+      --login-primary-light: #8b57cf;
+
+      --login-bg: #f7f5fb;
+      --login-card: #ffffff;
+
+      --login-text: #241d2d;
+      --login-muted: #81798b;
+
+      --login-border: #e8e2ef;
+      --login-border-focus: #b99cda;
+
+      --login-danger: #d84b5b;
+
+      --login-shadow:
+        0 20px 60px rgba(72, 43, 104, 0.10);
+
+      --login-radius: 24px;
+    }
+
+
+    /* =====================================================
+       Base
+    ====================================================== */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--login-bg);
+    }
+
+    body.login-page {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+
+      font-family: "Cairo", sans-serif;
+
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(113, 57, 183, 0.12),
+          transparent 38%
+        ),
+        linear-gradient(
+          180deg,
+          #faf9fc 0%,
+          #f5f2f9 100%
+        );
+
+      color: var(--login-text);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding:
+        max(24px, env(safe-area-inset-top))
+        20px
+        max(24px, env(safe-area-inset-bottom))
+        20px;
+
+      -webkit-tap-highlight-color: transparent;
+    }
+
+
+    /* =====================================================
+       Login Card
+    ====================================================== */
+
+    .login-card {
+      width: 100%;
+      max-width: 430px;
+
+      background: var(--login-card);
+
+      border: 1px solid rgba(113, 57, 183, 0.07);
+
+      border-radius: var(--login-radius);
+
+      box-shadow: var(--login-shadow);
+
+      padding: 34px 30px 28px;
+
+      position: relative;
+
+      overflow: hidden;
+    }
+
+
+    .login-card::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      right: 0;
+      left: 0;
+
+      height: 4px;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--login-primary-dark),
+          var(--login-primary),
+          var(--login-primary-light)
+        );
+    }
+
+
+    /* =====================================================
+       Logo
+    ====================================================== */
+
+    .logo {
+      width: 68px;
+      height: 68px;
+
+      margin: 4px auto 18px;
+
+      border-radius: 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--login-primary-light),
+          var(--login-primary-dark)
+        );
+
+      color: #ffffff;
+
+      font-size: 34px;
+      font-weight: 800;
+
+      box-shadow:
+        0 12px 28px rgba(113, 57, 183, 0.22);
+
+      user-select: none;
+    }
+
+
+    /* =====================================================
+       Title
+    ====================================================== */
+
+    .login-card h1 {
+      margin: 0;
+
+      text-align: center;
+
+      color: var(--login-text);
+
+      font-size: 27px;
+      line-height: 1.35;
+
+      font-weight: 800;
+
+      letter-spacing: -0.3px;
+    }
+
+
+    .subtitle {
+      margin: 7px 0 30px;
+
+      text-align: center;
+
+      color: var(--login-muted);
+
+      font-size: 13.5px;
+      line-height: 1.7;
+
+      font-weight: 500;
+    }
+
+
+    /* =====================================================
+       Form
+    ====================================================== */
+
+    #loginForm {
+      width: 100%;
+    }
+
+
+    .form-group {
+      margin-bottom: 19px;
+    }
+
+
+    .form-group > label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: #342b3d;
+
+      font-size: 13.5px;
+
+      font-weight: 700;
+
+      line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       Inputs
+    ====================================================== */
+
+    .form-group input {
+      width: 100%;
+
+      height: 53px;
+
+      border: 1px solid var(--login-border);
+
+      border-radius: 14px;
+
+      background: #fcfbfd;
+
+      color: var(--login-text);
+
+      padding: 0 15px;
+
+      font-family: "Cairo", sans-serif;
+
+      font-size: 14px;
+
+      font-weight: 500;
+
+      outline: none;
+
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+    }
+
+
+    .form-group input::placeholder {
+      color: #aaa2b1;
+    }
+
+
+    .form-group input:hover {
+      border-color: #d9d0e2;
+    }
+
+
+    .form-group input:focus {
+      background: #ffffff;
+
+      border-color: var(--login-primary);
+
+      box-shadow:
+        0 0 0 4px rgba(113, 57, 183, 0.09);
+    }
+
+
+    /* =====================================================
+       Password Field
+    ====================================================== */
+
+    .password-field {
+      position: relative;
+    }
+
+
+    .password-field input {
+      padding-left: 52px;
+    }
+
+
+    .password-toggle {
+      position: absolute;
+
+      left: 8px;
+      top: 50%;
+
+      width: 38px;
+      height: 38px;
+
+      transform: translateY(-50%);
+
+      border: 0;
+
+      border-radius: 10px;
+
+      background: transparent;
+
+      color: #81798b;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 0;
+
+      cursor: pointer;
+
+      transition:
+        background 0.2s ease,
+        color 0.2s ease;
+    }
+
+
+    .password-toggle:hover {
+      background: rgba(113, 57, 183, 0.07);
+
+      color: var(--login-primary);
+    }
+
+
+    .password-toggle:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+
+    .password-toggle:focus-visible {
+      outline: 2px solid rgba(113, 57, 183, 0.35);
+
+      outline-offset: 2px;
+    }
+
+
+    .password-toggle svg {
+      width: 21px;
+      height: 21px;
+
+      display: block;
+
+      pointer-events: none;
+    }
+
+
+    .password-toggle .eye-off-icon {
+      display: none;
+    }
+
+
+    .password-toggle.is-visible .eye-icon {
+      display: none;
+    }
+
+
+    .password-toggle.is-visible .eye-off-icon {
+      display: block;
+    }
+
+
+    /* =====================================================
+       Forgot Password
+    ====================================================== */
+
+    .forgot-password {
+      margin-top: 9px;
+
+      display: flex;
+      justify-content: flex-start;
+    }
+
+
+    .forgot-password a {
+      color: var(--login-primary);
+
+      font-size: 12.5px;
+
+      font-weight: 700;
+
+      text-decoration: none;
+
+      transition: color 0.2s ease;
+    }
+
+
+    .forgot-password a:hover {
+      color: var(--login-primary-dark);
+
+      text-decoration: underline;
+    }
+
+
+    /* =====================================================
+       Error Message
+    ====================================================== */
+
+    .error-message {
+      min-height: 0;
+
+      margin: 4px 0 14px;
+
+      padding: 0;
+
+      color: var(--login-danger);
+
+      font-size: 12.5px;
+
+      line-height: 1.7;
+
+      font-weight: 600;
+
+      text-align: right;
+    }
+
+
+    .error-message:not(:empty) {
+      padding: 10px 12px;
+
+      border-radius: 11px;
+
+      background: rgba(216, 75, 91, 0.07);
+
+      border: 1px solid rgba(216, 75, 91, 0.12);
+    }
+
+
+    /* =====================================================
+       Login Button
+    ====================================================== */
+
+    #loginBtn {
+      width: 100%;
+
+      height: 54px;
+
+      border: 0;
+
+      border-radius: 14px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--login-primary),
+          var(--login-primary-dark)
+        );
+
+      color: #ffffff;
+
+      font-family: "Cairo", sans-serif;
+
+      font-size: 14px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 10px 22px rgba(113, 57, 183, 0.18);
+
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        opacity 0.18s ease;
+    }
+
+
+    #loginBtn:hover:not(:disabled) {
+      transform: translateY(-1px);
+
+      box-shadow:
+        0 13px 26px rgba(113, 57, 183, 0.24);
+    }
+
+
+    #loginBtn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+
+    #loginBtn:disabled {
+      cursor: not-allowed;
+
+      opacity: 0.68;
+
+      box-shadow: none;
+    }
+
+
+    /* =====================================================
+       Signup
+    ====================================================== */
+
+    .signup-link {
+      margin-top: 21px;
+
+      padding-top: 20px;
+
+      border-top: 1px solid #eee9f2;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 5px;
+
+      flex-wrap: wrap;
+
+      color: var(--login-muted);
+
+      font-size: 12.5px;
+
+      line-height: 1.7;
+    }
+
+
+    .signup-link span {
+      font-weight: 500;
+    }
+
+
+    .signup-link a {
+      color: var(--login-primary);
+
+      font-weight: 800;
+
+      text-decoration: none;
+    }
+
+
+    .signup-link a:hover {
+      color: var(--login-primary-dark);
+
+      text-decoration: underline;
+    }
+
+
+    /* =====================================================
+       Install App Button
+    ====================================================== */
+
+    #installAppBtn {
+      width: 100%;
+
+      min-height: 46px;
+
+      margin-top: 15px;
+
+      padding: 10px 14px;
+
+      border: 1px solid rgba(113, 57, 183, 0.18);
+
+      border-radius: 13px;
+
+      background: rgba(113, 57, 183, 0.05);
+
+      color: var(--login-primary);
+
+      font-family: "Cairo", sans-serif;
+
+      font-size: 12.5px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.18s ease;
+    }
+
+
+    #installAppBtn:hover {
+      background: rgba(113, 57, 183, 0.09);
+
+      border-color: rgba(113, 57, 183, 0.28);
+    }
+
+
+    #installAppBtn:active {
+      transform: scale(0.99);
+    }
+
+
+    /* =====================================================
+       Footer
+    ====================================================== */
+
+    .footer-text {
+      margin: 23px 0 0;
+
+      text-align: center;
+
+      color: #aaa2b0;
+
+      font-size: 11px;
+
+      font-weight: 500;
+    }
+
+
+    /* =====================================================
+       Mobile
+    ====================================================== */
+
+    @media (max-width: 480px) {
+
+      body.login-page {
+        align-items: flex-start;
+
+        padding:
+          max(18px, env(safe-area-inset-top))
+          15px
+          max(18px, env(safe-area-inset-bottom))
+          15px;
+      }
+
+
+      .login-card {
+        margin-top: 18px;
+
+        padding:
+          30px 20px
+          24px;
+
+        border-radius: 22px;
+
+        box-shadow:
+          0 15px 45px rgba(72, 43, 104, 0.09);
+      }
+
+
+      .logo {
+        width: 62px;
+        height: 62px;
+
+        border-radius: 18px;
+
+        font-size: 31px;
+
+        margin-bottom: 16px;
+      }
+
+
+      .login-card h1 {
+        font-size: 25px;
+      }
+
+
+      .subtitle {
+        margin-bottom: 26px;
+
+        font-size: 13px;
+      }
+
+
+      .form-group {
+        margin-bottom: 17px;
+      }
+
+
+      .form-group input {
+        height: 52px;
+      }
+
+
+      #loginBtn {
+        height: 53px;
+      }
+
+    }
+
+
+    /* =====================================================
+       Very Small Screens
+    ====================================================== */
+
+    @media (max-width: 360px) {
+
+      .login-card {
+        padding-left: 17px;
+        padding-right: 17px;
+      }
+
+
+      .signup-link {
+        font-size: 12px;
+      }
+
+    }
+
+
+    /* =====================================================
+       Reduced Motion
+    ====================================================== */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+
+        transition-duration: 0.01ms !important;
+
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+      }
+
+    }
+
+  </style>
 
 </head>
 
+
 <body class="login-page">
+
 
   <main class="login-card">
 
-    <div class="logo">Z</div>
 
-    <h1>Zain Sales</h1>
+    <!-- ===================================================
+         Logo
+    ==================================================== -->
+
+    <div
+      class="logo"
+      aria-hidden="true"
+    >
+      Z
+    </div>
+
+
+    <!-- ===================================================
+         Header
+    ==================================================== -->
+
+    <h1>
+      Zain Sales
+    </h1>
 
     <p class="subtitle">
-
       نظام إدارة مبيعات خطوط زين
-
     </p>
 
-    <form id="loginForm">
+
+    <!-- ===================================================
+         Login Form
+    ==================================================== -->
+
+    <form
+      id="loginForm"
+      novalidate
+    >
+
+
+      <!-- Email -->
 
       <div class="form-group">
 
-        <label for="email">البريد الإلكتروني</label>
+        <label for="email">
+          البريد الإلكتروني
+        </label>
 
         <input
-
           type="email"
-
           id="email"
-
+          name="email"
           placeholder="أدخل بريدك الإلكتروني"
-
           autocomplete="username"
-
-          required>
+          inputmode="email"
+          autocapitalize="none"
+          spellcheck="false"
+          required
+        >
 
       </div>
 
-<div class="form-group">
 
-  <label for="password">كلمة المرور</label>
+      <!-- Password -->
 
-  <input
-    type="password"
-    id="password"
-    placeholder="أدخل كلمة المرور"
-    autocomplete="current-password"
-    required>
+      <div class="form-group">
 
-  <div class="forgot-password">
-    <a href="forgot-password.html">نسيت كلمة المرور؟</a>
-  </div>
+        <label for="password">
+          كلمة المرور
+        </label>
 
-</div>
 
-      <p id="errorMessage"
+        <div class="password-field">
 
-         class="error-message"
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="أدخل كلمة المرور"
+            autocomplete="current-password"
+            required
+          >
 
-         role="alert"
 
-         aria-live="polite"></p>
+          <button
+            type="button"
+            id="togglePasswordBtn"
+            class="password-toggle"
+            aria-label="إظهار كلمة المرور"
+            aria-pressed="false"
+            title="إظهار كلمة المرور"
+          >
 
-      <button type="submit" id="loginBtn">
+            <!-- Eye -->
 
+            <svg
+              class="eye-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+
+              <path
+                d="M2.5 12C2.5 12 6 5.5 12 5.5C18 5.5 21.5 12 21.5 12C21.5 12 18 18.5 12 18.5C6 18.5 2.5 12 2.5 12Z"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+              <circle
+                cx="12"
+                cy="12"
+                r="3"
+                stroke="currentColor"
+                stroke-width="1.8"
+              />
+
+            </svg>
+
+
+            <!-- Eye Off -->
+
+            <svg
+              class="eye-off-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+
+              <path
+                d="M3 3L21 21"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+
+              <path
+                d="M10.6 5.75C11.05 5.58 11.52 5.5 12 5.5C18 5.5 21.5 12 21.5 12C21.5 12 20.18 14.43 17.95 16.33"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+              <path
+                d="M6.15 7.1C3.85 9.02 2.5 12 2.5 12C2.5 12 6 18.5 12 18.5C13.03 18.5 14 18.31 14.9 17.99"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+              <path
+                d="M9.88 9.88C9.32 10.44 9 11.19 9 12C9 13.66 10.34 15 12 15C12.81 15 13.56 14.68 14.12 14.12"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+            </svg>
+
+          </button>
+
+        </div>
+
+
+        <!-- Forgot Password -->
+
+        <div class="forgot-password">
+
+          <a href="forgot-password.html">
+            نسيت كلمة المرور؟
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- Error -->
+
+      <p
+        id="errorMessage"
+        class="error-message"
+        role="alert"
+        aria-live="polite"
+      ></p>
+
+
+      <!-- Login -->
+
+      <button
+        type="submit"
+        id="loginBtn"
+      >
         تسجيل الدخول
-
       </button>
-<div class="signup-link">
-  <span>ليس لديك حساب ؟</span>
-  <a href="signup.html">إنشاء حساب جديد</a>
-</div>
+
+
+      <!-- Signup -->
+
+      <div class="signup-link">
+
+        <span>
+          ليس لديك حساب؟
+        </span>
+
+        <a href="signup.html">
+          إنشاء حساب جديد
+        </a>
+
+      </div>
+
+
     </form>
-<button id="installAppBtn"
-        type="button"
-        hidden>
-  تثبيت Zain Sales
-</button>
+
+
+    <!-- ===================================================
+         Install App
+    ==================================================== -->
+
+    <button
+      id="installAppBtn"
+      type="button"
+      hidden
+    >
+      تثبيت Zain Sales
+    </button>
+
+
+    <!-- ===================================================
+         Footer
+    ==================================================== -->
+
     <p class="footer-text">
-
       نظام إدارة المبيعات
-
     </p>
 
+
   </main>
+
+
+  <!-- =====================================================
+       Supabase
+  ====================================================== -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 
@@ -150,66 +1090,237 @@
 
   <script src="js/auth.js"></script>
 
+
+  <!-- =====================================================
+       Login Logic
+  ====================================================== -->
+
   <script>
 
-    const form = document.getElementById("loginForm");
+    const form =
+      document.getElementById("loginForm");
 
-    const btn = document.getElementById("loginBtn");
+    const btn =
+      document.getElementById("loginBtn");
 
     const errorBox =
-
       document.getElementById("errorMessage");
 
-    form.addEventListener("submit", async (event) => {
+    const emailInput =
+      document.getElementById("email");
 
-      event.preventDefault();
+    const passwordInput =
+      document.getElementById("password");
 
-      errorBox.textContent = "";
+    const togglePasswordBtn =
+      document.getElementById("togglePasswordBtn");
 
-      btn.disabled = true;
 
-      btn.textContent = "جاري تسجيل الدخول...";
+    /* =====================================================
+       Show / Hide Password
+    ====================================================== */
 
-      try {
+    togglePasswordBtn.addEventListener(
+      "click",
+      () => {
 
-        await login(
+        const isPassword =
+          passwordInput.type === "password";
 
-          document.getElementById("email").value.trim(),
 
-          document.getElementById("password").value
+        passwordInput.type =
+          isPassword
+            ? "text"
+            : "password";
 
+
+        togglePasswordBtn.classList.toggle(
+          "is-visible",
+          isPassword
         );
 
-      } catch (error) {
 
-        errorBox.textContent = error.message;
+        togglePasswordBtn.setAttribute(
+          "aria-pressed",
+          String(isPassword)
+        );
 
-        btn.disabled = false;
 
-        btn.textContent = "تسجيل الدخول";
+        togglePasswordBtn.setAttribute(
+          "aria-label",
+          isPassword
+            ? "إخفاء كلمة المرور"
+            : "إظهار كلمة المرور"
+        );
+
+
+        togglePasswordBtn.setAttribute(
+          "title",
+          isPassword
+            ? "إخفاء كلمة المرور"
+            : "إظهار كلمة المرور"
+        );
 
       }
+    );
 
-    });
 
-    // Skip login when a valid session exists.
+    /* =====================================================
+       Login
+    ====================================================== */
 
-    supabaseClient.auth.getUser().then(
+    form.addEventListener(
+      "submit",
+      async (event) => {
 
-      ({ data, error }) => {
+        event.preventDefault();
 
-        if (!error && data.user) {
 
-          window.location.replace("dashboard.html");
+        errorBox.textContent = "";
+
+
+        const email =
+          emailInput.value.trim();
+
+        const password =
+          passwordInput.value;
+
+
+        if (!email || !password) {
+
+          errorBox.textContent =
+            "يرجى إدخال البريد الإلكتروني وكلمة المرور.";
+
+          return;
+
+        }
+
+
+        btn.disabled = true;
+
+        btn.textContent =
+          "جاري تسجيل الدخول...";
+
+
+        try {
+
+          /*
+           * auth.js هو المسؤول عن تحديد نوع الحساب:
+           *
+           * Admin
+           *   ↓
+           * admin.html
+           *
+           * مندوب + اشتراك فعال
+           *   ↓
+           * dashboard.html
+           *
+           * مندوب بدون اشتراك
+           *   ↓
+           * subscription.html
+           */
+
+          await login(
+            email,
+            password
+          );
+
+        } catch (error) {
+
+          console.error(
+            "Login error:",
+            error
+          );
+
+
+          errorBox.textContent =
+            error?.message ||
+            "تعذر تسجيل الدخول. تأكد من بيانات الحساب.";
+
+
+          btn.disabled = false;
+
+          btn.textContent =
+            "تسجيل الدخول";
 
         }
 
       }
-
     );
 
+
+    /* =====================================================
+       Existing Session
+       =====================================================
+
+       لا نقوم هنا بتحويل المستخدم مباشرة إلى
+       dashboard.html.
+
+       auth.js هو المسؤول عن معرفة هل الحساب:
+       - Admin
+       - مندوب لديه اشتراك
+       - مندوب بدون اشتراك
+
+       لذلك إذا كانت هناك جلسة موجودة مسبقاً،
+       نترك auth.js يتعامل معها بالطريقة الصحيحة.
+    ====================================================== */
+
+    async function handleExistingSession() {
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient.auth.getUser();
+
+
+        if (error || !data?.user) {
+          return;
+        }
+
+
+        /*
+         * إذا كان auth.js يحتوي على
+         * redirectAuthenticatedUser()
+         * نستخدمه.
+         *
+         * وإذا لم يكن موجوداً، لا نقوم بأي
+         * تحويل تلقائي من صفحة تسجيل الدخول.
+         */
+
+        if (
+          typeof redirectAuthenticatedUser === "function"
+        ) {
+
+          await redirectAuthenticatedUser();
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Existing session check error:",
+          error
+        );
+
+      }
+
+    }
+
+
+    handleExistingSession();
+
   </script>
-<script src="js/pwa.js"></script>
+
+
+  <!-- =====================================================
+       PWA
+  ====================================================== -->
+
+  <script src="js/pwa.js"></script>
+
 </body>
 
 </html>

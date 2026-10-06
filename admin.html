@@ -1,935 +1,2130 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
   >
+
   <title>لوحة الإدارة | Zain Sales</title>
-  <link rel="stylesheet" href="css/style.css">
+
+  <meta
+    name="theme-color"
+    content="#7139b7"
+  >
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  >
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default"
+  >
+
+  <meta
+    name="apple-mobile-web-app-title"
+    content="Zain Sales"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
   <style>
+
     /* =====================================================
-       Zain Sales - Admin Dashboard
+       Zain Sales
+       Admin Dashboard
+       Final UI
        ===================================================== */
-    * {
-      box-sizing: border-box;
+
+    :root {
+      --admin-primary: #7139b7;
+      --admin-primary-dark: #5b21b6;
+      --admin-primary-soft: #f3ebff;
+
+      --admin-bg: #f6f4fa;
+      --admin-card: #ffffff;
+
+      --admin-text: #292433;
+      --admin-text-soft: #746d7e;
+      --admin-text-muted: #9b94a4;
+
+      --admin-border: #ebe6f2;
+
+      --admin-success: #16a34a;
+      --admin-success-bg: #effbf3;
+      --admin-success-border: #ccefd7;
+
+      --admin-danger: #dc2626;
+      --admin-danger-bg: #fff1f1;
+      --admin-danger-border: #ffd3d3;
+
+      --admin-warning: #a16207;
+      --admin-warning-bg: #fff9e8;
+      --admin-warning-border: #f2dfa4;
+
+      --admin-shadow:
+        0 10px 35px rgba(80, 50, 120, 0.055);
+
+      --admin-shadow-hover:
+        0 15px 38px rgba(80, 50, 120, 0.095);
+
+      --admin-radius-xl: 26px;
+      --admin-radius-lg: 21px;
+      --admin-radius-md: 15px;
+      --admin-radius-sm: 12px;
     }
+
+
+    /* =====================================================
+       Reset
+       ===================================================== */
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+
+    html {
+      min-height: 100%;
+      background: var(--admin-bg);
+      scroll-behavior: smooth;
+    }
+
+
     body {
       margin: 0;
+      min-height: 100vh;
+
       background:
         radial-gradient(
-          circle at top right,
-          #f0e8ff 0,
-          #f6f5fb 35%,
-          #f6f5fb 100%
-        );
-      color: #292633;
-      font-family: Arial, sans-serif;
+          circle at 100% 0%,
+          #eee3ff 0,
+          rgba(238, 227, 255, 0.42) 17%,
+          rgba(246, 244, 250, 0) 39%
+        ),
+        radial-gradient(
+          circle at 0% 100%,
+          #f2ebff 0,
+          rgba(242, 235, 255, 0.22) 18%,
+          rgba(246, 244, 250, 0) 38%
+        ),
+        var(--admin-bg);
+
+      color: var(--admin-text);
+
+      font-family:
+        "Cairo",
+        "Tajawal",
+        Arial,
+        sans-serif;
+
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
+
+
+    button,
+    input {
+      font: inherit;
+    }
+
+
     button {
-      font-family: inherit;
+      -webkit-appearance: none;
+      appearance: none;
     }
+
+
     /* =====================================================
-       الحاوية
+       الصفحة
        ===================================================== */
+
+    .admin-page {
+      width: 100%;
+      min-height: 100vh;
+    }
+
+
     .admin-container {
       width: 100%;
       max-width: 1180px;
+
       margin: 0 auto;
-      padding: 25px 18px 45px;
+
+      padding:
+        max(18px, env(safe-area-inset-top))
+        18px
+        max(42px, env(safe-area-inset-bottom))
+        18px;
     }
+
+
     /* =====================================================
-       الهيدر
+       Header
        ===================================================== */
+
     .admin-header {
       position: relative;
-      background: rgba(255, 255, 255, 0.96);
-      border: 1px solid #ebe5f5;
-      border-radius: 26px;
-      padding: 24px 26px;
-      margin-bottom: 20px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       gap: 20px;
-      box-shadow:
-        0 12px 35px rgba(80, 50, 120, 0.08);
+
+      min-height: 118px;
+
+      padding: 24px 26px;
+
+      margin-bottom: 20px;
+
       overflow: hidden;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.98),
+          rgba(250, 247, 255, 0.98)
+        );
+
+      border: 1px solid var(--admin-border);
+
+      border-radius: var(--admin-radius-xl);
+
+      box-shadow: var(--admin-shadow);
     }
+
+
     .admin-header::before {
       content: "";
+
       position: absolute;
-      width: 130px;
-      height: 130px;
-      left: -55px;
-      top: -60px;
-      background: #f0e6ff;
+
+      width: 190px;
+      height: 190px;
+
+      left: -80px;
+      top: -105px;
+
       border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(113, 57, 183, 0.13),
+          rgba(113, 57, 183, 0)
+        );
+
+      pointer-events: none;
     }
+
+
+    .admin-header::after {
+      content: "";
+
+      position: absolute;
+
+      width: 110px;
+      height: 110px;
+
+      right: 42%;
+
+      bottom: -80px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(113, 57, 183, 0.035);
+
+      pointer-events: none;
+    }
+
+
     .admin-header-content {
       position: relative;
-      z-index: 1;
+      z-index: 2;
+
+      min-width: 0;
     }
+
+
+    .admin-title-row {
+      display: flex;
+      align-items: center;
+
+      gap: 11px;
+
+      margin-bottom: 7px;
+    }
+
+
+    .admin-title-icon {
+      width: 42px;
+      height: 42px;
+
+      flex: 0 0 42px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 13px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #7139b7,
+          #8b5bd1
+        );
+
+      color: #ffffff;
+
+      font-size: 19px;
+
+      box-shadow:
+        0 8px 20px rgba(113, 57, 183, 0.22);
+    }
+
+
     .admin-header h1 {
-      margin: 0 0 7px;
-      color: #5b21b6;
-      font-size: 26px;
-      font-weight: 800;
+      margin: 0;
+
+      color: var(--admin-primary-dark);
+
+      font-size: 25px;
+
+      font-weight: 900;
+
+      line-height: 1.35;
+
+      letter-spacing: -0.3px;
     }
+
+
     .admin-header p {
       margin: 0;
-      color: #8a8391;
-      font-size: 14px;
+
+      color: var(--admin-text-soft);
+
+      font-size: 13px;
+
+      line-height: 1.7;
     }
+
+
+    .admin-header-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-top: 11px;
+
+      min-height: 30px;
+
+      padding: 5px 11px;
+
+      border-radius: 30px;
+
+      background: var(--admin-primary-soft);
+
+      border: 1px solid #e5d7fa;
+
+      color: var(--admin-primary-dark);
+
+      font-size: 11px;
+
+      font-weight: 800;
+    }
+
+
     /* =====================================================
-       تسجيل الخروج
+       Logout
        ===================================================== */
+
     .logout-btn {
       position: relative;
-      z-index: 2;
-      border: 1px solid #e6d8fa;
-      background: #f8f3ff;
-      color: #6d28d9;
-      min-height: 44px;
-      padding: 0 18px;
+      z-index: 3;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 8px;
+
+      min-width: 125px;
+      min-height: 45px;
+
+      padding: 0 17px;
+
+      border: 1px solid #e5d8f5;
+
       border-radius: 13px;
+
+      background: #faf7ff;
+
+      color: #6d28d9;
+
       cursor: pointer;
-      font-size: 14px;
-      font-weight: 700;
+
+      font-size: 13px;
+      font-weight: 800;
+
       transition:
         background 0.2s ease,
+        border-color 0.2s ease,
         transform 0.15s ease,
         box-shadow 0.2s ease;
     }
+
+
     .logout-btn:hover {
-      background: #eee3ff;
+      background: #f2eaff;
+
+      border-color: #d8c4ef;
+
       box-shadow:
-        0 5px 15px rgba(109, 40, 217, 0.08);
+        0 7px 18px rgba(109, 40, 217, 0.08);
     }
+
+
     .logout-btn:active {
       transform: scale(0.97);
     }
+
+
+    .logout-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+
     /* =====================================================
        الرسائل
        ===================================================== */
+
     .message {
       display: none;
+
       width: 100%;
-      padding: 14px 16px;
+
+      padding: 13px 15px;
+
       margin-bottom: 18px;
+
       border-radius: 14px;
-      font-size: 14px;
-      line-height: 1.7;
+
+      font-size: 13px;
+
+      line-height: 1.8;
     }
+
+
     .message.show {
       display: block;
     }
+
+
     .message.error {
-      background: #fff0f0;
-      border: 1px solid #ffd4d4;
+      background: var(--admin-danger-bg);
+
+      border: 1px solid var(--admin-danger-border);
+
       color: #b42318;
     }
+
+
     .message.success {
-      background: #effbf3;
-      border: 1px solid #ccefd7;
+      background: var(--admin-success-bg);
+
+      border: 1px solid var(--admin-success-border);
+
       color: #187a3d;
     }
+
+
     .message.warning {
-      background: #fff9e8;
-      border: 1px solid #f8e5a9;
+      background: var(--admin-warning-bg);
+
+      border: 1px solid var(--admin-warning-border);
+
       color: #8a6500;
     }
+
+
     /* =====================================================
        الإحصائيات
        ===================================================== */
+
     .stats-grid {
       display: grid;
+
       grid-template-columns:
         repeat(3, minmax(0, 1fr));
-      gap: 15px;
-      margin-bottom: 22px;
+
+      gap: 14px;
+
+      margin-bottom: 20px;
     }
+
+
     .stat-card {
       position: relative;
-      background: #ffffff;
-      border: 1px solid #eeeaf5;
-      border-radius: 21px;
+
+      min-height: 126px;
+
       padding: 20px;
-      min-height: 120px;
+
       overflow: hidden;
-      box-shadow:
-        0 8px 27px rgba(80, 50, 120, 0.055);
+
+      background: rgba(255, 255, 255, 0.96);
+
+      border: 1px solid var(--admin-border);
+
+      border-radius: var(--admin-radius-lg);
+
+      box-shadow: var(--admin-shadow);
+
       transition:
         transform 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
     }
+
+
     .stat-card:hover {
       transform: translateY(-2px);
-      box-shadow:
-        0 12px 30px rgba(80, 50, 120, 0.09);
+
+      border-color: #e0d5ed;
+
+      box-shadow: var(--admin-shadow-hover);
     }
-    .stat-card::after {
+
+
+    .stat-card::before {
       content: "";
+
       position: absolute;
-      width: 70px;
-      height: 70px;
-      left: -28px;
-      bottom: -28px;
-      background: #f4edff;
+
+      width: 95px;
+      height: 95px;
+
+      left: -40px;
+      bottom: -48px;
+
       border-radius: 50%;
+
+      background:
+        rgba(113, 57, 183, 0.055);
     }
-    .stat-card span {
-      display: block;
-      margin-bottom: 10px;
-      color: #817b89;
-      font-size: 13px;
-      font-weight: 600;
-    }
-    .stat-card strong {
-      display: block;
+
+
+    .stat-card-top {
       position: relative;
       z-index: 1;
-      color: #5b21b6;
-      font-size: 29px;
-      font-weight: 800;
-      line-height: 1.2;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      margin-bottom: 12px;
     }
+
+
+    .stat-card-label {
+      color: var(--admin-text-soft);
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      line-height: 1.6;
+    }
+
+
+    .stat-card-icon {
+      width: 34px;
+      height: 34px;
+
+      flex: 0 0 34px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 11px;
+
+      background: var(--admin-primary-soft);
+
+      color: var(--admin-primary);
+
+      font-size: 16px;
+    }
+
+
+    .stat-card strong {
+      position: relative;
+      z-index: 1;
+
+      display: block;
+
+      color: var(--admin-primary-dark);
+
+      font-size: 29px;
+
+      font-weight: 900;
+
+      line-height: 1.2;
+
+      direction: rtl;
+    }
+
+
+    #pendingAmount {
+      font-size: 22px;
+    }
+
+
     /* =====================================================
        قسم الطلبات
        ===================================================== */
+
     .requests-section {
-      background: rgba(255, 255, 255, 0.88);
-      border: 1px solid #eeeaf5;
-      border-radius: 26px;
+      background:
+        rgba(255, 255, 255, 0.91);
+
+      border: 1px solid var(--admin-border);
+
+      border-radius: var(--admin-radius-xl);
+
       padding: 22px;
-      box-shadow:
-        0 10px 35px rgba(80, 50, 120, 0.055);
+
+      box-shadow: var(--admin-shadow);
     }
+
+
     .section-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       gap: 15px;
+
       margin-bottom: 20px;
     }
+
+
+    .section-title-wrap {
+      min-width: 0;
+    }
+
+
     .section-title {
       margin: 0;
+
       color: #302b38;
-      font-size: 21px;
-      font-weight: 800;
+
+      font-size: 20px;
+
+      font-weight: 900;
+
+      line-height: 1.5;
     }
+
+
     .section-subtitle {
       margin: 5px 0 0;
-      color: #918b98;
+
+      color: var(--admin-text-muted);
+
       font-size: 12px;
+
+      line-height: 1.7;
     }
+
+
     /* =====================================================
-       الطلبات
+       أدوات البحث والفلترة
        ===================================================== */
+
+    .requests-tools {
+      margin-bottom: 18px;
+    }
+
+
+    .search-box {
+      position: relative;
+
+      width: 100%;
+
+      margin-bottom: 11px;
+    }
+
+
+    .search-box input {
+      width: 100%;
+
+      min-height: 49px;
+
+      padding:
+        0
+        45px
+        0
+        16px;
+
+      outline: none;
+
+      background: #faf9fc;
+
+      border: 1px solid #e8e3ef;
+
+      border-radius: 14px;
+
+      color: #302b38;
+
+      font-family: inherit;
+
+      font-size: 13px;
+
+      direction: rtl;
+
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+
+    .search-box input::placeholder {
+      color: #a09aa7;
+    }
+
+
+    .search-box input:focus {
+      background: #ffffff;
+
+      border-color: #b994e8;
+
+      box-shadow:
+        0 0 0 4px rgba(109, 40, 217, 0.065);
+    }
+
+
+    .search-icon {
+      position: absolute;
+
+      right: 15px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      width: 21px;
+      height: 21px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: #817a8b;
+
+      font-size: 16px;
+
+      pointer-events: none;
+    }
+
+
+    .filter-tabs {
+      display: flex;
+      align-items: center;
+
+      gap: 7px;
+
+      overflow-x: auto;
+
+      padding:
+        1px
+        1px
+        3px;
+
+      scrollbar-width: none;
+    }
+
+
+    .filter-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+
+    .filter-btn {
+      flex: 0 0 auto;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 7px;
+
+      min-height: 40px;
+
+      padding: 0 13px;
+
+      border-radius: 12px;
+
+      border: 1px solid #e7e1ef;
+
+      background: #ffffff;
+
+      color: #696270;
+
+      font-family: inherit;
+
+      font-size: 12px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease;
+    }
+
+
+    .filter-btn:hover {
+      background: #f8f3ff;
+
+      border-color: #d8c8ed;
+
+      color: #6d28d9;
+    }
+
+
+    .filter-btn:active {
+      transform: scale(0.97);
+    }
+
+
+    .filter-btn.active {
+      background: var(--admin-primary);
+
+      border-color: var(--admin-primary);
+
+      color: #ffffff;
+
+      box-shadow:
+        0 5px 14px rgba(113, 57, 183, 0.16);
+    }
+
+
+    .filter-btn span {
+      min-width: 22px;
+      height: 22px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 0 6px;
+
+      border-radius: 20px;
+
+      background: #f2edf8;
+
+      color: var(--admin-primary);
+
+      font-size: 10px;
+
+      font-weight: 900;
+    }
+
+
+    .filter-btn.active span {
+      background: rgba(255, 255, 255, 0.18);
+
+      color: #ffffff;
+    }
+
+
+    /* =====================================================
+       حاوية الطلبات
+       ===================================================== */
+
     #requestsContainer {
       display: flex;
+
       flex-direction: column;
-      gap: 14px;
+
+      gap: 13px;
+
+      min-height: 120px;
     }
+
+
     .loading {
-      min-height: 150px;
+      min-height: 180px;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       color: #88818f;
-      font-size: 14px;
-    }
-    .empty-state {
-      min-height: 190px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #918b98;
-      font-size: 14px;
+
+      font-size: 13px;
+
       background: #faf9fc;
-      border: 1px dashed #ddd4e8;
+
+      border: 1px dashed #ded6e8;
+
       border-radius: 18px;
     }
-    .empty-state-icon {
-      font-size: 34px;
-      margin-bottom: 10px;
-      opacity: 0.7;
+
+
+    .empty-state {
+      min-height: 200px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      color: #918b98;
+
+      font-size: 13px;
+
+      line-height: 1.8;
+
+      background: #faf9fc;
+
+      border: 1px dashed #ddd4e8;
+
+      border-radius: 18px;
+
+      padding: 25px;
     }
+
+
+    .empty-state-icon {
+      width: 56px;
+      height: 56px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-bottom: 11px;
+
+      border-radius: 18px;
+
+      background: #f2edf8;
+
+      color: #8b5cc6;
+
+      font-size: 25px;
+    }
+
+
     /* =====================================================
        كرت الطلب
        ===================================================== */
+
     .request-card {
       position: relative;
-      background: #ffffff;
-      border: 1px solid #ebe7f1;
-      border-radius: 21px;
-      padding: 20px;
+
+      padding: 19px;
+
       overflow: hidden;
+
+      background: #ffffff;
+
+      border: 1px solid #ebe7f1;
+
+      border-radius: var(--admin-radius-lg);
+
       box-shadow:
         0 5px 20px rgba(80, 50, 120, 0.035);
+
       transition:
         transform 0.2s ease,
         border-color 0.2s ease,
         box-shadow 0.2s ease;
     }
+
+
     .request-card:hover {
       transform: translateY(-2px);
+
       border-color: #dacbed;
+
       box-shadow:
-        0 12px 30px rgba(80, 50, 120, 0.08);
+        0 12px 30px rgba(80, 50, 120, 0.075);
     }
-    /* خط جانبي للطلب */
+
+
     .request-card.pending {
-      border-right: 4px solid #7c3aed;
+      border-right:
+        4px solid #7c3aed;
     }
+
+
     .request-card.approved {
-      border-right: 4px solid #16a34a;
+      border-right:
+        4px solid var(--admin-success);
     }
+
+
     .request-card.rejected {
-      border-right: 4px solid #dc2626;
+      border-right:
+        4px solid var(--admin-danger);
     }
+
+
     /* =====================================================
-       أعلى الكرت
+       أعلى الطلب
        ===================================================== */
+
     .request-top {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
+
       gap: 18px;
-      padding-bottom: 17px;
-      margin-bottom: 17px;
-      border-bottom: 1px solid #f0edf4;
+
+      padding-bottom: 16px;
+
+      margin-bottom: 16px;
+
+      border-bottom:
+        1px solid #f0edf4;
     }
+
+
     .request-user-area {
       min-width: 0;
+
       display: flex;
       align-items: center;
+
       gap: 12px;
     }
-    /* أيقونة المندوب */
+
+
     .request-avatar {
-      width: 48px;
-      height: 48px;
-      flex: 0 0 48px;
+      width: 49px;
+      height: 49px;
+
+      flex: 0 0 49px;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       background:
         linear-gradient(
           135deg,
           #ede1ff,
           #f7f2ff
         );
+
       border: 1px solid #e5d7fa;
+
       border-radius: 15px;
+
       color: #6d28d9;
-      font-size: 21px;
-      font-weight: 800;
+
+      font-size: 20px;
+
+      font-weight: 900;
     }
+
+
     .request-user-info {
       min-width: 0;
     }
+
+
     .request-user {
       color: #292532;
-      font-size: 16px;
-      font-weight: 800;
-      line-height: 1.4;
+
+      font-size: 15px;
+
+      font-weight: 900;
+
+      line-height: 1.5;
+
       word-break: break-word;
     }
+
+
     .request-email {
-      margin-top: 5px;
+      margin-top: 4px;
+
       color: #918b98;
-      font-size: 12px;
+
+      font-size: 11px;
+
       direction: ltr;
+
       text-align: right;
+
       word-break: break-all;
     }
+
+
     /* =====================================================
-       الحالة
+       Badge
        ===================================================== */
+
     .status-badge {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+
       min-height: 31px;
-      padding: 6px 12px;
+
+      padding: 5px 11px;
+
       border-radius: 30px;
-      font-size: 12px;
-      font-weight: 700;
+
+      font-size: 11px;
+
+      font-weight: 800;
+
       white-space: nowrap;
     }
+
+
     .status-pending {
-      background: #fff8df;
-      border: 1px solid #f2dfa4;
+      background: var(--admin-warning-bg);
+
+      border:
+        1px solid var(--admin-warning-border);
+
       color: #876400;
     }
+
+
     .status-approved {
-      background: #effbf3;
-      border: 1px solid #ccefd7;
+      background: var(--admin-success-bg);
+
+      border:
+        1px solid var(--admin-success-border);
+
       color: #187a3d;
     }
+
+
     .status-rejected {
-      background: #fff0f0;
-      border: 1px solid #ffd3d3;
+      background: var(--admin-danger-bg);
+
+      border:
+        1px solid var(--admin-danger-border);
+
       color: #b42318;
     }
+
+
     /* =====================================================
        معلومات الطلب
        ===================================================== */
+
     .request-info {
       display: grid;
+
       grid-template-columns:
         repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 14px;
+
+      gap: 9px;
+
+      margin-bottom: 12px;
     }
+
+
     .info-box {
-      background: #faf9fc;
-      border: 1px solid #f0edf4;
-      border-radius: 14px;
-      padding: 13px 14px;
       min-width: 0;
+
+      padding: 12px 13px;
+
+      background: #faf9fc;
+
+      border:
+        1px solid #f0edf4;
+
+      border-radius: 13px;
     }
+
+
     .info-box span {
       display: block;
-      margin-bottom: 7px;
+
+      margin-bottom: 6px;
+
       color: #938d9b;
-      font-size: 11px;
-      font-weight: 600;
+
+      font-size: 10px;
+
+      font-weight: 700;
+
+      line-height: 1.5;
     }
+
+
     .info-box strong {
       display: block;
+
       color: #393341;
-      font-size: 13px;
-      font-weight: 750;
-      line-height: 1.5;
+
+      font-size: 12px;
+
+      font-weight: 800;
+
+      line-height: 1.6;
+
       word-break: break-word;
     }
+
+
     .info-box.price-box {
       background: #f8f2ff;
+
       border-color: #e8daf8;
     }
+
+
     .info-box.price-box strong {
       color: #6d28d9;
-      font-size: 15px;
+
+      font-size: 14px;
     }
+
+
     /* =====================================================
-       تفاصيل إضافية
+       التفاصيل الإضافية
        ===================================================== */
+
     .request-extra {
       display: grid;
+
       grid-template-columns:
         repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 15px;
+
+      gap: 9px;
+
+      margin-bottom: 13px;
     }
+
+
     .extra-box {
-      background: #fcfbfd;
-      border: 1px solid #f0edf4;
-      border-radius: 14px;
-      padding: 12px 14px;
       min-width: 0;
+
+      padding: 11px 13px;
+
+      background: #fcfbfd;
+
+      border:
+        1px solid #f0edf4;
+
+      border-radius: 13px;
     }
+
+
     .extra-box span {
       display: block;
+
+      margin-bottom: 5px;
+
       color: #938d9b;
-      font-size: 11px;
-      margin-bottom: 6px;
+
+      font-size: 10px;
+
+      font-weight: 700;
     }
+
+
     .extra-box strong {
       display: block;
+
       color: #4a4551;
-      font-size: 13px;
-      line-height: 1.6;
+
+      font-size: 12px;
+
+      line-height: 1.65;
+
       word-break: break-word;
     }
+
+
     .payment-reference {
       direction: ltr;
+
       text-align: right;
-      font-family: monospace;
+
+      font-family:
+        monospace,
+        Arial,
+        sans-serif;
+
       color: #5b21b6 !important;
     }
+
+
     /* =====================================================
        الملاحظات
        ===================================================== */
+
     .request-notes {
+      padding: 12px 13px;
+
+      margin-bottom: 14px;
+
       background: #f8f6fc;
-      border: 1px solid #ece6f7;
-      border-radius: 14px;
-      padding: 13px 14px;
-      margin-bottom: 16px;
+
+      border:
+        1px solid #ece6f7;
+
+      border-radius: 13px;
+
       color: #625c69;
-      font-size: 13px;
-      line-height: 1.7;
+
+      font-size: 12px;
+
+      line-height: 1.75;
+
+      word-break: break-word;
     }
+
+
     .request-notes-title {
       display: block;
+
       margin-bottom: 4px;
+
       color: #5b21b6;
-      font-size: 12px;
-      font-weight: 800;
+
+      font-size: 11px;
+
+      font-weight: 900;
     }
+
+
     /* =====================================================
-       الأزرار
+       أزرار الطلب
        ===================================================== */
+
     .request-actions {
       display: grid;
+
       grid-template-columns:
         1fr 1fr;
-      gap: 10px;
+
+      gap: 9px;
+
       padding-top: 2px;
     }
+
+
     .action-btn {
-      border: none;
       min-height: 46px;
-      padding: 0 18px;
+
+      padding: 0 17px;
+
       border-radius: 13px;
+
       cursor: pointer;
-      font-size: 14px;
-      font-weight: 800;
+
+      font-family: inherit;
+
+      font-size: 13px;
+
+      font-weight: 900;
+
       transition:
         transform 0.15s ease,
         opacity 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        background 0.2s ease;
     }
+
+
     .action-btn:hover {
       box-shadow:
-        0 6px 16px rgba(0, 0, 0, 0.09);
+        0 6px 16px rgba(0, 0, 0, 0.08);
     }
+
+
     .action-btn:active {
       transform: scale(0.98);
     }
+
+
     .action-btn:disabled {
       opacity: 0.55;
+
       cursor: not-allowed;
+
       box-shadow: none;
     }
+
+
     .approve-btn {
+      border: 1px solid #16a34a;
+
       background: #16a34a;
+
       color: #ffffff;
     }
+
+
     .approve-btn:hover {
       background: #15803d;
     }
+
+
     .reject-btn {
-      background: #fff0f0;
-      border: 1px solid #ffd3d3;
+      border:
+        1px solid var(--admin-danger-border);
+
+      background: var(--admin-danger-bg);
+
       color: #c62828;
     }
+
+
     .reject-btn:hover {
       background: #ffe3e3;
     }
+
+
     /* =====================================================
-       موبايل
+       لا توجد نتائج للبحث / الفلتر
        ===================================================== */
-    @media (max-width: 850px) {
+
+    .filter-empty {
+      min-height: 165px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      padding: 25px;
+
+      text-align: center;
+
+      background: #faf9fc;
+
+      border:
+        1px dashed #ddd4e8;
+
+      border-radius: 17px;
+
+      color: #918b98;
+
+      font-size: 13px;
+
+      line-height: 1.8;
+    }
+
+
+    .filter-empty-icon {
+      width: 48px;
+      height: 48px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-bottom: 8px;
+
+      border-radius: 15px;
+
+      background: #f2edf8;
+
+      color: #8b5cc6;
+
+      font-size: 22px;
+    }
+
+
+    /* =====================================================
+       Focus
+       ===================================================== */
+
+    button:focus-visible,
+    input:focus-visible {
+      outline:
+        3px solid rgba(113, 57, 183, 0.18);
+
+      outline-offset: 2px;
+    }
+
+
+    /* =====================================================
+       Tablet
+       ===================================================== */
+
+    @media (max-width: 900px) {
+
       .request-info {
         grid-template-columns:
           repeat(2, minmax(0, 1fr));
       }
+
     }
+
+
+    /* =====================================================
+       Mobile
+       ===================================================== */
+
     @media (max-width: 700px) {
+
       .admin-container {
-        padding: 12px 10px 30px;
+        padding:
+          max(11px, env(safe-area-inset-top))
+          10px
+          max(30px, env(safe-area-inset-bottom))
+          10px;
       }
+
+
       .admin-header {
-        border-radius: 20px;
-        padding: 18px;
-        align-items: flex-start;
+        align-items: stretch;
+
         flex-direction: column;
+
+        min-height: auto;
+
+        padding: 18px;
+
+        margin-bottom: 12px;
+
+        border-radius: 20px;
       }
+
+
+      .admin-title-row {
+        gap: 9px;
+      }
+
+
+      .admin-title-icon {
+        width: 39px;
+        height: 39px;
+
+        flex-basis: 39px;
+
+        border-radius: 12px;
+
+        font-size: 17px;
+      }
+
+
       .admin-header h1 {
-        font-size: 22px;
+        font-size: 21px;
       }
+
+
+      .admin-header p {
+        font-size: 12px;
+      }
+
+
+      .admin-header-badge {
+        margin-top: 9px;
+      }
+
+
       .logout-btn {
         width: 100%;
+
+        min-height: 45px;
       }
+
+
       .stats-grid {
         grid-template-columns: 1fr;
-        gap: 10px;
+
+        gap: 9px;
+
+        margin-bottom: 12px;
       }
+
+
       .stat-card {
-        min-height: 95px;
-        padding: 17px;
-        border-radius: 18px;
+        min-height: 93px;
+
+        padding: 15px;
+
+        border-radius: 17px;
       }
+
+
       .stat-card strong {
         font-size: 25px;
       }
+
+
+      #pendingAmount {
+        font-size: 20px;
+      }
+
+
       .requests-section {
-        padding: 15px;
+        padding: 14px;
+
         border-radius: 20px;
       }
+
+
+      .section-header {
+        margin-bottom: 16px;
+      }
+
+
       .section-title {
         font-size: 18px;
       }
+
+
+      .section-subtitle {
+        font-size: 11px;
+      }
+
+
+      .search-box input {
+        min-height: 47px;
+
+        font-size: 12px;
+      }
+
+
+      .filter-tabs {
+        gap: 6px;
+      }
+
+
+      .filter-btn {
+        min-height: 38px;
+
+        padding: 0 11px;
+
+        font-size: 11px;
+      }
+
+
       .request-card {
         padding: 15px;
+
         border-radius: 17px;
       }
+
+
       .request-top {
         align-items: flex-start;
+
         flex-direction: column;
-        gap: 12px;
+
+        gap: 11px;
       }
+
+
       .request-user-area {
         width: 100%;
       }
-      .status-badge {
-        font-size: 11px;
+
+
+      .request-avatar {
+        width: 44px;
+        height: 44px;
+
+        flex-basis: 44px;
+
+        border-radius: 13px;
       }
+
+
+      .status-badge {
+        font-size: 10px;
+      }
+
+
       .request-info {
         grid-template-columns:
           repeat(2, minmax(0, 1fr));
-        gap: 8px;
+
+        gap: 7px;
       }
+
+
       .request-extra {
         grid-template-columns: 1fr;
       }
+
+
       .info-box {
-        padding: 11px;
+        padding: 10px;
       }
-      .info-box strong {
-        font-size: 12px;
+
+
+      .info-box span,
+      .extra-box span {
+        font-size: 9px;
       }
+
+
+      .info-box strong,
+      .extra-box strong {
+        font-size: 11px;
+      }
+
+
       .request-actions {
         grid-template-columns: 1fr;
       }
+
+
       .action-btn {
         width: 100%;
       }
+
     }
+
+
+    /* =====================================================
+       Small Mobile
+       ===================================================== */
+
     @media (max-width: 380px) {
-      .request-info {
-        grid-template-columns: 1fr;
-      }
+
       .admin-container {
         padding-left: 8px;
         padding-right: 8px;
       }
-      .request-avatar {
-        width: 43px;
-        height: 43px;
-        flex-basis: 43px;
+
+
+      .requests-section {
+        padding: 12px;
       }
-      /* =====================================================
-   أدوات البحث والفلترة
-   ===================================================== */
-.requests-tools {
-  margin-bottom: 18px;
-}
-/* =========================
-   البحث
-========================== */
-.search-box {
-  position: relative;
-  width: 100%;
-  margin-bottom: 12px;
-}
-.search-box input {
-  width: 100%;
-  min-height: 48px;
-  padding: 0 45px 0 15px;
-  background: #faf9fc;
-  border: 1px solid #e8e3ef;
-  border-radius: 14px;
-  outline: none;
-  color: #302b38;
-  font-family: inherit;
-  font-size: 13px;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
-}
-.search-box input::placeholder {
-  color: #a09aa7;
-}
-.search-box input:focus {
-  background: #ffffff;
-  border-color: #b994e8;
-  box-shadow:
-    0 0 0 4px rgba(109, 40, 217, 0.07);
-}
-.search-icon {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  pointer-events: none;
-  opacity: 0.7;
-}
-/* =========================
-   أزرار الفلترة
-========================== */
-.filter-tabs {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 2px;
-  scrollbar-width: none;
-}
-.filter-tabs::-webkit-scrollbar {
-  display: none;
-}
-.filter-btn {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  min-height: 40px;
-  padding: 0 13px;
-  border-radius: 12px;
-  border: 1px solid #e7e1ef;
-  background: #ffffff;
-  color: #696270;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.15s ease;
-}
-.filter-btn:hover {
-  background: #f8f3ff;
-  border-color: #d8c8ed;
-  color: #6d28d9;
-}
-.filter-btn:active {
-  transform: scale(0.97);
-}
-/* الفلتر المختار */
-.filter-btn.active {
-  background: #6d28d9;
-  border-color: #6d28d9;
-  color: #ffffff;
-}
-/* العدد داخل الفلتر */
-.filter-btn span {
-  min-width: 22px;
-  height: 22px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 6px;
-  border-radius: 20px;
-  background: #f2edf8;
-  color: #6d28d9;
-  font-size: 11px;
-  font-weight: 800;
-}
-.filter-btn.active span {
-  background: rgba(255, 255, 255, 0.18);
-  color: #ffffff;
-}
-/* =========================
-   لا توجد نتائج للفلتر
-========================== */
-.filter-empty {
-  min-height: 150px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: #faf9fc;
-  border: 1px dashed #ddd4e8;
-  border-radius: 17px;
-  color: #918b98;
-  font-size: 13px;
-}
-.filter-empty-icon {
-  margin-bottom: 9px;
-  font-size: 28px;
-}
-/* =========================
-   موبايل
-========================== */
-@media (max-width: 700px) {
-  .filter-tabs {
-    gap: 6px;
-  }
-  .filter-btn {
-    min-height: 38px;
-    padding: 0 11px;
-    font-size: 11px;
-  }
-  .search-box input {
-    min-height: 46px;
-    font-size: 12px;
-  }
-}
+
+
+      .request-info {
+        grid-template-columns: 1fr;
+      }
+
+
+      .request-user {
+        font-size: 14px;
+      }
+
+
+      .request-email {
+        font-size: 10px;
+      }
+
+
+      .filter-btn {
+        padding: 0 10px;
+      }
+
     }
+
+
+    /* =====================================================
+       Reduced Motion
+       ===================================================== */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      html {
+        scroll-behavior: auto;
+      }
+
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+
+    }
+
   </style>
+
 </head>
+
+
 <body>
-  <div class="admin-container">
-    <!-- =========================
-         Header
-    ========================== -->
-    <header class="admin-header">
-      <div class="admin-header-content">
-        <h1>
-          لوحة الإدارة
-        </h1>
-        <p>
-          إدارة اشتراكات Zain Sales
-        </p>
-      </div>
-      <button
-        id="logoutBtn"
-        class="logout-btn"
-        type="button"
-      >
-        تسجيل الخروج
-      </button>
-    </header>
-    <!-- =========================
-         Message
-    ========================== -->
-    <div
-      id="adminMessage"
-      class="message"
-    ></div>
-    <!-- =========================
-         Statistics
-    ========================== -->
-    <section class="stats-grid">
-      <div class="stat-card">
-        <span>
-          طلبات قيد المراجعة
-        </span>
-        <strong id="pendingCount">
-          0
-        </strong>
-      </div>
-      <div class="stat-card">
-        <span>
-          إجمالي الطلبات
-        </span>
-        <strong id="totalCount">
-          0
-        </strong>
-      </div>
-      <div class="stat-card">
-        <span>
-          المبلغ قيد المراجعة
-        </span>
-        <strong id="pendingAmount">
-          0 د.ع
-        </strong>
-      </div>
-    </section>
-    <!-- =========================
-         Requests
-    ========================== -->
-    <section class="requests-section">
-<div class="section-header">
 
-  <div>
-    <h2 class="section-title">
-      طلبات الاشتراك
-    </h2>
+  <div class="admin-page">
 
-    <p class="section-subtitle">
-      راجع بيانات الدفع ثم وافق أو ارفض الطلب
-    </p>
-  </div>
-
-</div>
+    <main class="admin-container">
 
 
-<!-- =========================
-     أدوات البحث والفلترة
-========================== -->
+      <!-- =================================================
+           Header
+           ================================================= -->
 
-<div class="requests-tools">
+      <header class="admin-header">
 
-  <!-- البحث -->
-  <div class="search-box">
+        <div class="admin-header-content">
 
-    <span class="search-icon">
-      🔎
-    </span>
+          <div class="admin-title-row">
 
-    <input
-      id="requestSearch"
-      type="search"
-      placeholder="ابحث باسم المندوب أو الإيميل أو رقم العملية..."
-      autocomplete="off"
-    >
+            <div
+              class="admin-title-icon"
+              aria-hidden="true"
+            >
+              ⚙️
+            </div>
 
-  </div>
+            <div>
 
+              <h1>
+                لوحة الإدارة
+              </h1>
 
-  <!-- الفلاتر -->
-  <div class="filter-tabs">
+              <p>
+                إدارة اشتراكات Zain Sales
+              </p>
 
-    <button
-      type="button"
-      class="filter-btn active"
-      data-filter="all"
-    >
-      الكل
-      <span id="filterAllCount">0</span>
-    </button>
+            </div>
+
+          </div>
 
 
-    <button
-      type="button"
-      class="filter-btn"
-      data-filter="pending"
-    >
-      قيد المراجعة
-      <span id="filterPendingCount">0</span>
-    </button>
+          <div class="admin-header-badge">
+            منطقة الإدارة
+          </div>
+
+        </div>
 
 
-    <button
-      type="button"
-      class="filter-btn"
-      data-filter="approved"
-    >
-      تمت الموافقة
-      <span id="filterApprovedCount">0</span>
-    </button>
+        <button
+          id="logoutBtn"
+          class="logout-btn"
+          type="button"
+        >
+
+          <span
+            class="logout-icon"
+            aria-hidden="true"
+          >
+            ↪
+          </span>
+
+          <span>
+            تسجيل الخروج
+          </span>
+
+        </button>
+
+      </header>
 
 
-    <button
-      type="button"
-      class="filter-btn"
-      data-filter="rejected"
-    >
-      مرفوض
-      <span id="filterRejectedCount">0</span>
-    </button>
+      <!-- =================================================
+           Admin Message
+           ================================================= -->
 
-  </div>
-
-</div>
       <div
-        id="requestsContainer"
-        class="loading"
+        id="adminMessage"
+        class="message"
+        role="alert"
+        aria-live="polite"
+      ></div>
+
+
+      <!-- =================================================
+           Statistics
+           ================================================= -->
+
+      <section
+        class="stats-grid"
+        aria-label="إحصائيات الإدارة"
       >
-        جاري تحميل الطلبات...
-      </div>
-    </section>
+
+        <article class="stat-card">
+
+          <div class="stat-card-top">
+
+            <span class="stat-card-label">
+              طلبات قيد المراجعة
+            </span>
+
+            <div
+              class="stat-card-icon"
+              aria-hidden="true"
+            >
+              ⏳
+            </div>
+
+          </div>
+
+          <strong id="pendingCount">
+            0
+          </strong>
+
+        </article>
+
+
+        <article class="stat-card">
+
+          <div class="stat-card-top">
+
+            <span class="stat-card-label">
+              إجمالي الطلبات
+            </span>
+
+            <div
+              class="stat-card-icon"
+              aria-hidden="true"
+            >
+              📋
+            </div>
+
+          </div>
+
+          <strong id="totalCount">
+            0
+          </strong>
+
+        </article>
+
+
+        <article class="stat-card">
+
+          <div class="stat-card-top">
+
+            <span class="stat-card-label">
+              المبلغ قيد المراجعة
+            </span>
+
+            <div
+              class="stat-card-icon"
+              aria-hidden="true"
+            >
+              💰
+            </div>
+
+          </div>
+
+          <strong id="pendingAmount">
+            0 د.ع
+          </strong>
+
+        </article>
+
+      </section>
+
+
+      <!-- =================================================
+           Requests
+           ================================================= -->
+
+      <section class="requests-section">
+
+
+        <div class="section-header">
+
+          <div class="section-title-wrap">
+
+            <h2 class="section-title">
+              طلبات الاشتراك
+            </h2>
+
+            <p class="section-subtitle">
+              راجع بيانات الدفع ثم وافق أو ارفض الطلب
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             Search & Filters
+             ================================================= -->
+
+        <div class="requests-tools">
+
+
+          <div class="search-box">
+
+            <span
+              class="search-icon"
+              aria-hidden="true"
+            >
+              🔎
+            </span>
+
+            <input
+              id="requestSearch"
+              type="search"
+              placeholder="ابحث باسم المندوب أو الإيميل أو رقم العملية..."
+              autocomplete="off"
+              enterkeyhint="search"
+              aria-label="البحث في طلبات الاشتراك"
+            >
+
+          </div>
+
+
+          <div
+            class="filter-tabs"
+            role="tablist"
+            aria-label="فلترة طلبات الاشتراك"
+          >
+
+            <button
+              type="button"
+              class="filter-btn active"
+              data-filter="all"
+              role="tab"
+              aria-selected="true"
+            >
+
+              <span>
+                الكل
+              </span>
+
+              <span id="filterAllCount">
+                0
+              </span>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="filter-btn"
+              data-filter="pending"
+              role="tab"
+              aria-selected="false"
+            >
+
+              <span>
+                قيد المراجعة
+              </span>
+
+              <span id="filterPendingCount">
+                0
+              </span>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="filter-btn"
+              data-filter="approved"
+              role="tab"
+              aria-selected="false"
+            >
+
+              <span>
+                تمت الموافقة
+              </span>
+
+              <span id="filterApprovedCount">
+                0
+              </span>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="filter-btn"
+              data-filter="rejected"
+              role="tab"
+              aria-selected="false"
+            >
+
+              <span>
+                مرفوض
+              </span>
+
+              <span id="filterRejectedCount">
+                0
+              </span>
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             Requests Container
+             ================================================= -->
+
+        <div
+          id="requestsContainer"
+          class="loading"
+          aria-live="polite"
+          aria-busy="true"
+        >
+          جاري تحميل الطلبات...
+        </div>
+
+
+      </section>
+
+
+    </main>
+
   </div>
-  <!-- =========================
-       Scripts
-  ========================== -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+  <!-- =====================================================
+       Supabase
+       ===================================================== -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
+
+  <!-- =====================================================
+       Configuration
+       ===================================================== -->
+
   <script src="js/config.js"></script>
+
+
+  <!-- =====================================================
+       Authentication
+       ===================================================== -->
+
   <script src="js/auth.js"></script>
+
+
+  <!-- =====================================================
+       Admin Logic
+       ===================================================== -->
+
   <script src="js/admin.js"></script>
+
+
 </body>
+
 </html>

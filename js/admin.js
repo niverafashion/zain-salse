@@ -1,170 +1,560 @@
+// =====================================================
+// Zain Sales - Admin
+// لوحة إدارة الاشتراكات
+// =====================================================
+
+
+// =====================================================
+// الإعدادات
+// =====================================================
+
+const ADMIN_POLL_INTERVAL = 10000;
+
+
+// =====================================================
+// الحالة العامة
+// =====================================================
+
+let currentUser = null;
+
 let allRequests = [];
 
 let currentFilter = "all";
 
 let currentSearch = "";
 
+let isLoading = false;
 
-/* =====================================================
-   تشغيل لوحة الإدارة
-   ===================================================== */
+let isProcessing = false;
 
-document.addEventListener(
-  "DOMContentLoaded",
-  async () => {
-
-    try {
-
-      const user =
-        await requireAuth();
-
-      if (!user) {
-        return;
-      }
+let pollTimer = null;
 
 
-      const isAdmin =
-        await checkAdmin();
+// =====================================================
+// عناصر الصفحة
+// =====================================================
+
+const adminMessage =
+  document.getElementById("adminMessage");
+
+const pendingCount =
+  document.getElementById("pendingCount");
+
+const totalCount =
+  document.getElementById("totalCount");
+
+const pendingAmount =
+  document.getElementById("pendingAmount");
+
+const requestSearch =
+  document.getElementById("requestSearch");
+
+const requestsContainer =
+  document.getElementById("requestsContainer");
+
+const logoutBtn =
+  document.getElementById("logoutBtn");
 
 
-      if (!isAdmin) {
-
-        window.location.replace(
-          "dashboard.html"
-        );
-
-        return;
-      }
-
-
-      setupLogout();
-
-      setupFilters();
-
-      setupSearch();
-
-      await loadRequests();
-
-
-    } catch (error) {
-
-      console.error(
-        "Admin initialization error:",
-        error
-      );
-
-
-      showMessage(
-        error.message ||
-        "حدث خطأ أثناء تحميل لوحة الإدارة.",
-        "error"
-      );
-
-    }
-
-  }
-);
-
-
-/* =====================================================
-   التحقق من الأدمن
-   ===================================================== */
-
-async function checkAdmin() {
-
-  const {
-    data,
-    error
-  } = await supabaseClient.rpc(
-    "is_admin"
+const filterButtons =
+  document.querySelectorAll(
+    "[data-filter]"
   );
 
 
-  if (error) {
+const filterAllCount =
+  document.getElementById("filterAllCount");
+
+const filterPendingCount =
+  document.getElementById("filterPendingCount");
+
+const filterApprovedCount =
+  document.getElementById("filterApprovedCount");
+
+const filterRejectedCount =
+  document.getElementById("filterRejectedCount");
+
+
+// =====================================================
+// عند تحميل الصفحة
+// =====================================================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  initializeAdmin
+);
+
+
+// =====================================================
+// التهيئة الرئيسية
+// =====================================================
+
+async function initializeAdmin() {
+
+  try {
+
+    if (
+      typeof supabaseClient === "undefined"
+    ) {
+      showMessage(
+        "تعذر الاتصال بقاعدة البيانات.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (
+      typeof requireAuth === "function"
+    ) {
+      const authResult =
+        await requireAuth();
+
+      if (!authResult) {
+        return;
+      }
+    }
+
+
+    const {
+      data: {
+        user
+      },
+      error: userError
+    } =
+      await supabaseClient.auth.getUser();
+
+
+    if (userError) {
+      throw userError;
+    }
+
+
+    if (!user) {
+
+      window.location.href =
+        "index.html";
+
+      return;
+    }
+
+
+    currentUser = user;
+
+
+    // ---------------------------------------------
+    // التحقق من صلاحية الأدمن
+    // ---------------------------------------------
+
+    const {
+      data: isAdmin,
+      error: adminError
+    } =
+      await supabaseClient.rpc(
+        "is_admin"
+      );
+
+
+    if (adminError) {
+
+      console.error(
+        "is_admin error:",
+        adminError
+      );
+
+      showMessage(
+        "تعذر التحقق من صلاحيات الحساب.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (!isAdmin) {
+
+      showMessage(
+        "ليس لديك صلاحية الدخول إلى لوحة الإدارة.",
+        "error"
+      );
+
+
+      setTimeout(() => {
+
+        window.location.href =
+          "index.html";
+
+      }, 1800);
+
+
+      return;
+    }
+
+
+    // ---------------------------------------------
+    // الأحداث
+    // ---------------------------------------------
+
+    setupEvents();
+
+
+    // ---------------------------------------------
+    // تحميل الطلبات
+    // ---------------------------------------------
+
+    await loadRequests();
+
+
+    // ---------------------------------------------
+    // بدء التحديث التلقائي
+    // ---------------------------------------------
+
+    startPolling();
+
+
+  } catch (error) {
 
     console.error(
-      "Admin check error:",
+      "Admin initialization error:",
       error
     );
 
 
-    throw new Error(
-      "تعذر التحقق من صلاحيات الإدارة."
+    showMessage(
+      getFriendlyError(error),
+      "error"
     );
-
   }
-
-
-  return data === true;
-
 }
 
 
-/* =====================================================
-   تسجيل الخروج
-   ===================================================== */
+// =====================================================
+// إعداد الأحداث
+// =====================================================
 
-function setupLogout() {
+function setupEvents() {
 
-  const logoutBtn =
-    document.getElementById(
-      "logoutBtn"
+
+  // ---------------------------------------------
+  // تسجيل الخروج
+  // ---------------------------------------------
+
+  if (logoutBtn) {
+
+    logoutBtn.addEventListener(
+      "click",
+      async () => {
+
+        if (
+          typeof logout === "function"
+        ) {
+
+          await logout();
+
+          return;
+        }
+
+
+        await supabaseClient.auth.signOut();
+
+        window.location.href =
+          "index.html";
+      }
     );
-
-
-  if (!logoutBtn) {
-    return;
   }
 
 
-  logoutBtn.addEventListener(
-    "click",
-    async () => {
+  // ---------------------------------------------
+  // البحث
+  // ---------------------------------------------
 
-      logoutBtn.disabled = true;
+  if (requestSearch) {
 
-      await logout();
+    requestSearch.addEventListener(
+      "input",
+      event => {
+
+        currentSearch =
+          String(
+            event.target.value || ""
+          )
+            .trim()
+            .toLowerCase();
+
+
+        renderRequests();
+      }
+    );
+  }
+
+
+  // ---------------------------------------------
+  // الفلاتر
+  // ---------------------------------------------
+
+  filterButtons.forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const filter =
+            button.dataset.filter ||
+            "all";
+
+
+          currentFilter =
+            filter;
+
+
+          filterButtons.forEach(
+            item => {
+
+              item.classList.toggle(
+                "active",
+                item === button
+              );
+
+            }
+          );
+
+
+          renderRequests();
+        }
+      );
 
     }
   );
-
 }
 
 
-/* =====================================================
-   تحميل الطلبات
-   ===================================================== */
+// =====================================================
+// تحميل الطلبات
+// =====================================================
 
-async function loadRequests() {
+async function loadRequests(
+  options = {}
+) {
 
-  const container =
-    document.getElementById(
-      "requestsContainer"
-    );
+  const silent =
+    options.silent === true;
 
 
-  if (!container) {
+  if (isLoading) {
     return;
   }
 
 
-  container.className =
-    "loading";
+  isLoading = true;
 
 
-  container.innerHTML =
-    "جاري تحميل الطلبات...";
+  if (!silent) {
+
+    showLoading();
+  }
 
 
-  const {
-    data,
-    error
-  } = await supabaseClient.rpc(
-    "get_admin_subscription_requests"
-  );
+  try {
+
+    // ---------------------------------------------
+    // جلب طلبات الاشتراك
+    // ---------------------------------------------
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from(
+          "subscription_payment_requests"
+        )
+        .select(`
+          id,
+          user_id,
+          plan_id,
+          amount,
+          payment_method,
+          payment_reference,
+          customer_notes,
+          status,
+          admin_notes,
+          created_at,
+          reviewed_at,
+          subscription_id
+        `)
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
 
 
-  if (error) {
+    if (error) {
+      throw error;
+    }
+
+
+    const requests =
+      Array.isArray(data)
+        ? data
+        : [];
+
+
+    // ---------------------------------------------
+    // جلب بيانات المستخدمين
+    // ---------------------------------------------
+
+    const userIds = [
+      ...new Set(
+        requests
+          .map(
+            request =>
+              request.user_id
+          )
+          .filter(Boolean)
+      )
+    ];
+
+
+    let profiles = [];
+
+
+    if (userIds.length > 0) {
+
+      const {
+        data: profileData,
+        error: profileError
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select(`
+            id,
+            full_name,
+            phone,
+            governorate,
+            region,
+            avatar_url
+          `)
+          .in(
+            "id",
+            userIds
+          );
+
+
+      if (profileError) {
+
+        console.warn(
+          "Profiles query warning:",
+          profileError
+        );
+
+      } else {
+
+        profiles =
+          Array.isArray(profileData)
+            ? profileData
+            : [];
+      }
+    }
+
+
+    // ---------------------------------------------
+    // جلب الخطط
+    // ---------------------------------------------
+
+    let plans = [];
+
+
+    const {
+      data: planData,
+      error: planError
+    } =
+      await supabaseClient
+        .from("subscription_plans")
+        .select(`
+          id,
+          code,
+          name,
+          price,
+          duration_days,
+          is_active
+        `);
+
+
+    if (planError) {
+
+      console.warn(
+        "Plans query warning:",
+        planError
+      );
+
+    } else {
+
+      plans =
+        Array.isArray(planData)
+          ? planData
+          : [];
+    }
+
+
+    // ---------------------------------------------
+    // تحويل البيانات إلى شكل واحد
+    // ---------------------------------------------
+
+    allRequests =
+      requests.map(
+        request => {
+
+          const profile =
+            profiles.find(
+              item =>
+                item.id ===
+                request.user_id
+            ) || null;
+
+
+          const plan =
+            plans.find(
+              item =>
+                String(item.id) ===
+                String(request.plan_id)
+            ) || null;
+
+
+          return {
+
+            ...request,
+
+            profile,
+
+            plan,
+
+            // إذا كان الـ RPC مستقبلاً
+            // يرجع user_email سيستخدمه
+            user_email:
+              request.user_email ||
+              request.email ||
+              null
+          };
+        }
+      );
+
+
+    updateStatistics();
+
+    renderRequests();
+
+
+    if (!silent) {
+
+      hideMessage();
+    }
+
+
+  } catch (error) {
 
     console.error(
       "Load requests error:",
@@ -172,309 +562,151 @@ async function loadRequests() {
     );
 
 
-    container.className =
-      "empty-state";
+    if (!silent) {
+
+      showMessage(
+        getFriendlyError(error),
+        "error"
+      );
 
 
-    container.innerHTML = `
-
-      <div class="empty-state-icon">
-        ⚠️
-      </div>
-
-      <div>
-        تعذر تحميل طلبات الاشتراك.
-      </div>
-
-    `;
+      showErrorState();
+    }
 
 
-    showMessage(
-      error.message ||
-      "حدث خطأ أثناء تحميل الطلبات.",
-      "error"
-    );
+  } finally {
 
-
-    return;
+    isLoading = false;
   }
-
-
-  allRequests =
-    Array.isArray(data)
-      ? data
-      : [];
-
-
-  updateStatistics(
-    allRequests
-  );
-
-
-  updateFilterCounts(
-    allRequests
-  );
-
-
-  applyFilters();
-
 }
 
 
-/* =====================================================
-   الإحصائيات
-   ===================================================== */
+// =====================================================
+// تحديث الإحصائيات
+// =====================================================
 
-function updateStatistics(
-  requests
-) {
+function updateStatistics() {
 
-  const pendingRequests =
-    requests.filter(
+  const total =
+    allRequests.length;
+
+
+  const pending =
+    allRequests.filter(
       request =>
-        request.status === "pending"
+        request.status ===
+        "pending"
     );
 
 
-  const pendingCount =
-    document.getElementById(
-      "pendingCount"
+  const approved =
+    allRequests.filter(
+      request =>
+        request.status ===
+        "approved"
     );
 
 
-  const totalCount =
-    document.getElementById(
-      "totalCount"
+  const rejected =
+    allRequests.filter(
+      request =>
+        request.status ===
+        "rejected"
     );
 
 
-  const pendingAmount =
-    document.getElementById(
-      "pendingAmount"
+  const pendingTotal =
+    pending.reduce(
+      (
+        total,
+        request
+      ) =>
+        total +
+        Number(
+          request.amount || 0
+        ),
+      0
     );
-
-
-  if (pendingCount) {
-
-    pendingCount.textContent =
-      pendingRequests.length
-        .toLocaleString("en-US");
-
-  }
 
 
   if (totalCount) {
 
     totalCount.textContent =
-      requests.length
-        .toLocaleString("en-US");
-
-  }
-
-
-  if (pendingAmount) {
-
-    const amount =
-      pendingRequests.reduce(
-        (
-          total,
-          request
-        ) => {
-
-          return (
-            total +
-            Number(
-              request.amount || 0
-            )
-          );
-
-        },
-        0
-      );
-
-
-    pendingAmount.textContent =
-      formatIQD(amount);
-
-  }
-
-}
-
-
-/* =====================================================
-   عدادات الفلاتر
-   ===================================================== */
-
-function updateFilterCounts(
-  requests
-) {
-
-  const allCount =
-    document.getElementById(
-      "filterAllCount"
-    );
-
-
-  const pendingCount =
-    document.getElementById(
-      "filterPendingCount"
-    );
-
-
-  const approvedCount =
-    document.getElementById(
-      "filterApprovedCount"
-    );
-
-
-  const rejectedCount =
-    document.getElementById(
-      "filterRejectedCount"
-    );
-
-
-  if (allCount) {
-
-    allCount.textContent =
-      requests.length;
-
+      formatNumber(total);
   }
 
 
   if (pendingCount) {
 
     pendingCount.textContent =
-      requests.filter(
-        request =>
-          request.status === "pending"
-      ).length;
-
-  }
-
-
-  if (approvedCount) {
-
-    approvedCount.textContent =
-      requests.filter(
-        request =>
-          request.status === "approved"
-      ).length;
-
-  }
-
-
-  if (rejectedCount) {
-
-    rejectedCount.textContent =
-      requests.filter(
-        request =>
-          request.status === "rejected"
-      ).length;
-
-  }
-
-}
-
-
-/* =====================================================
-   إعداد الفلاتر
-   ===================================================== */
-
-function setupFilters() {
-
-  const buttons =
-    document.querySelectorAll(
-      ".filter-btn"
-    );
-
-
-  buttons.forEach(
-    button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          currentFilter =
-            button.dataset.filter ||
-            "all";
-
-
-          buttons.forEach(
-            item => {
-
-              item.classList.remove(
-                "active"
-              );
-
-            }
-          );
-
-
-          button.classList.add(
-            "active"
-          );
-
-
-          applyFilters();
-
-        }
+      formatNumber(
+        pending.length
       );
+  }
 
-    }
-  );
 
+  if (pendingAmount) {
+
+    pendingAmount.textContent =
+      formatCurrency(
+        pendingTotal
+      );
+  }
+
+
+  if (filterAllCount) {
+
+    filterAllCount.textContent =
+      formatNumber(total);
+  }
+
+
+  if (filterPendingCount) {
+
+    filterPendingCount.textContent =
+      formatNumber(
+        pending.length
+      );
+  }
+
+
+  if (filterApprovedCount) {
+
+    filterApprovedCount.textContent =
+      formatNumber(
+        approved.length
+      );
+  }
+
+
+  if (filterRejectedCount) {
+
+    filterRejectedCount.textContent =
+      formatNumber(
+        rejected.length
+      );
+  }
 }
 
 
-/* =====================================================
-   إعداد البحث
-   ===================================================== */
+// =====================================================
+// عرض الطلبات
+// =====================================================
 
-function setupSearch() {
+function renderRequests() {
 
-  const searchInput =
-    document.getElementById(
-      "requestSearch"
-    );
-
-
-  if (!searchInput) {
+  if (!requestsContainer) {
     return;
   }
 
-
-  searchInput.addEventListener(
-    "input",
-    () => {
-
-      currentSearch =
-        searchInput.value
-          .trim()
-          .toLowerCase();
-
-
-      applyFilters();
-
-    }
-  );
-
-}
-
-
-/* =====================================================
-   تطبيق الفلترة والبحث
-   ===================================================== */
-
-function applyFilters() {
 
   let filtered =
     [...allRequests];
 
 
-  /* =========================
-     فلترة الحالة
-  ========================== */
+  // ---------------------------------------------
+  // الفلترة حسب الحالة
+  // ---------------------------------------------
 
   if (
     currentFilter !== "all"
@@ -486,13 +718,12 @@ function applyFilters() {
           request.status ===
           currentFilter
       );
-
   }
 
 
-  /* =========================
-     البحث
-  ========================== */
+  // ---------------------------------------------
+  // البحث
+  // ---------------------------------------------
 
   if (currentSearch) {
 
@@ -500,195 +731,250 @@ function applyFilters() {
       filtered.filter(
         request => {
 
-          const name =
-            String(
-              request.full_name || ""
-            ).toLowerCase();
+          const profile =
+            request.profile || {};
 
 
-          const email =
-            String(
-              request.email || ""
-            ).toLowerCase();
+          const searchableText = [
+
+            profile.full_name,
+
+            profile.phone,
+
+            profile.governorate,
+
+            profile.region,
+
+            request.user_email,
+
+            request.payment_reference,
+
+            request.customer_notes,
+
+            request.admin_notes,
+
+            getPlanName(
+              request
+            ),
+
+            getPaymentMethodName(
+              request.payment_method
+            ),
+
+            request.status
+
+          ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
 
 
-          const reference =
-            String(
-              request.payment_reference ||
-              ""
-            ).toLowerCase();
-
-
-          return (
-            name.includes(
-              currentSearch
-            ) ||
-
-            email.includes(
-              currentSearch
-            ) ||
-
-            reference.includes(
-              currentSearch
-            )
+          return searchableText.includes(
+            currentSearch
           );
-
         }
       );
-
   }
 
 
-  renderRequests(
+  // ---------------------------------------------
+  // لا توجد نتائج
+  // ---------------------------------------------
+
+  if (filtered.length === 0) {
+
+    if (
+      allRequests.length === 0
+    ) {
+
+      renderEmptyState();
+
+    } else {
+
+      renderFilterEmptyState();
+    }
+
+
+    return;
+  }
+
+
+  // ---------------------------------------------
+  // رسم البطاقات
+  // ---------------------------------------------
+
+  requestsContainer.innerHTML =
     filtered
-  );
-
-}
-
-
-/* =====================================================
-   عرض الطلبات
-   ===================================================== */
-
-function renderRequests(
-  requests
-) {
-
-  const container =
-    document.getElementById(
-      "requestsContainer"
-    );
-
-
-  if (!container) {
-    return;
-  }
-
-
-  if (!requests.length) {
-
-    container.className =
-      "filter-empty";
-
-
-    container.innerHTML = `
-
-      <div class="filter-empty-icon">
-        🔍
-      </div>
-
-      <div>
-        لا توجد طلبات تطابق البحث أو الفلتر المحدد.
-      </div>
-
-    `;
-
-
-    return;
-  }
-
-
-  container.className = "";
-
-
-  container.innerHTML =
-    requests
       .map(
         request =>
-          createRequestCard(
+          renderRequestCard(
             request
           )
       )
       .join("");
 
 
-  setupRequestButtons();
-
+  bindRequestActions();
 }
 
 
-/* =====================================================
-   إنشاء كرت الطلب
-   ===================================================== */
+// =====================================================
+// إنشاء بطاقة الطلب
+// =====================================================
 
-function createRequestCard(
+function renderRequestCard(
   request
 ) {
 
-  const fullName =
-    request.full_name ||
-    "مندوب بدون اسم";
-
-
-  const email =
-    request.email ||
-    "لا يوجد إيميل";
+  const profile =
+    request.profile || {};
 
 
   const status =
-    request.status ||
-    "pending";
+    request.status || "pending";
 
 
   const planName =
-    request.plan_name ||
-    "غير معروف";
+    getPlanName(request);
 
 
   const paymentMethod =
-    request.payment_method ||
-    "manual";
+    getPaymentMethodName(
+      request.payment_method
+    );
 
 
-  const paymentReference =
-    request.payment_reference ||
-    "غير مذكور";
+  const userName =
+    profile.full_name ||
+    "مستخدم بدون اسم";
 
 
-  const customerNotes =
-    request.customer_notes ||
+  const email =
+    request.user_email ||
+    request.email ||
+    "—";
+
+
+  const phone =
+    profile.phone ||
+    "—";
+
+
+  const governorate =
+    profile.governorate ||
+    "—";
+
+
+  const region =
+    profile.region ||
+    "—";
+
+
+  const avatarUrl =
+    profile.avatar_url ||
     "";
 
 
-  const date =
-    formatDate(
+  const avatarHtml =
+    avatarUrl
+      ? `
+        <img
+          class="request-avatar"
+          src="${escapeAttribute(
+            avatarUrl
+          )}"
+          alt="${escapeAttribute(
+            userName
+          )}"
+          loading="lazy"
+        >
+      `
+      : `
+        <div
+          class="request-avatar request-avatar-placeholder"
+          aria-hidden="true"
+        >
+          ${escapeHtml(
+            getInitials(userName)
+          )}
+        </div>
+      `;
+
+
+  const statusText =
+    getStatusName(status);
+
+
+  const createdAt =
+    formatDateTime(
       request.created_at
     );
 
 
-  const statusClass =
-    getStatusClass(
-      status
+  const reviewedAt =
+    request.reviewed_at
+      ? formatDateTime(
+          request.reviewed_at
+        )
+      : "";
+
+
+  const amount =
+    formatCurrency(
+      request.amount
     );
 
 
-  return `
+  const reference =
+    request.payment_reference ||
+    "—";
 
+
+  const notes =
+    request.customer_notes ||
+    "";
+
+
+  const adminNotes =
+    request.admin_notes ||
+    "";
+
+
+  const cardClass =
+    [
+      "request-card",
+      status
+    ]
+      .filter(Boolean)
+      .join(" ");
+
+
+  return `
     <article
-      class="
-        request-card
-        ${statusClass}
-      "
+      class="${cardClass}"
+      data-request-id="${escapeAttribute(
+        request.id
+      )}"
     >
 
-      <div class="request-top">
+      <div class="request-header">
 
-        <div class="request-user-area">
+        <div class="request-user">
 
-          <div class="request-avatar">
-            ${getInitial(fullName)}
-          </div>
+          ${avatarHtml}
 
+          <div class="request-user-text">
 
-          <div class="request-user-info">
-
-            <div class="request-user">
-              ${escapeHtml(fullName)}
+            <div class="request-user-name">
+              ${escapeHtml(
+                userName
+              )}
             </div>
 
-
             <div class="request-email">
-              ${escapeHtml(email)}
+              ${escapeHtml(
+                email
+              )}
             </div>
 
           </div>
@@ -697,12 +983,13 @@ function createRequestCard(
 
 
         <span
-          class="
-            status-badge
-            status-${escapeHtml(status)}
-          "
+          class="status-badge status-${escapeAttribute(
+            status
+          )}"
         >
-          ${getStatusText(status)}
+          ${escapeHtml(
+            statusText
+          )}
         </span>
 
       </div>
@@ -712,26 +999,13 @@ function createRequestCard(
 
         <div class="info-box">
 
-          <span>
-            الباقة
+          <span class="info-label">
+            رقم الهاتف
           </span>
 
           <strong>
-            ${escapeHtml(planName)}
-          </strong>
-
-        </div>
-
-
-        <div class="info-box price-box">
-
-          <span>
-            المبلغ
-          </span>
-
-          <strong>
-            ${formatIQD(
-              request.amount
+            ${escapeHtml(
+              phone
             )}
           </strong>
 
@@ -740,13 +1014,13 @@ function createRequestCard(
 
         <div class="info-box">
 
-          <span>
-            مدة الاشتراك
+          <span class="info-label">
+            المحافظة
           </span>
 
           <strong>
-            ${getDurationText(
-              request.duration_days
+            ${escapeHtml(
+              governorate
             )}
           </strong>
 
@@ -755,15 +1029,58 @@ function createRequestCard(
 
         <div class="info-box">
 
-          <span>
+          <span class="info-label">
+            المنطقة
+          </span>
+
+          <strong>
+            ${escapeHtml(
+              region
+            )}
+          </strong>
+
+        </div>
+
+
+        <div class="info-box">
+
+          <span class="info-label">
+            الخطة
+          </span>
+
+          <strong>
+            ${escapeHtml(
+              planName
+            )}
+          </strong>
+
+        </div>
+
+
+        <div class="info-box">
+
+          <span class="info-label">
             طريقة الدفع
           </span>
 
           <strong>
             ${escapeHtml(
-              getPaymentMethodText(
-                paymentMethod
-              )
+              paymentMethod
+            )}
+          </strong>
+
+        </div>
+
+
+        <div class="price-box">
+
+          <span class="info-label">
+            المبلغ
+          </span>
+
+          <strong>
+            ${escapeHtml(
+              amount
             )}
           </strong>
 
@@ -776,7 +1093,43 @@ function createRequestCard(
 
         <div class="extra-box">
 
-          <span>
+          <span class="info-label">
+            تاريخ الطلب
+          </span>
+
+          <strong>
+            ${escapeHtml(
+              createdAt
+            )}
+          </strong>
+
+        </div>
+
+
+        ${
+          reviewedAt
+            ? `
+              <div class="extra-box">
+
+                <span class="info-label">
+                  تاريخ المراجعة
+                </span>
+
+                <strong>
+                  ${escapeHtml(
+                    reviewedAt
+                  )}
+                </strong>
+
+              </div>
+            `
+            : ""
+        }
+
+
+        <div class="extra-box">
+
+          <span class="info-label">
             رقم العملية
           </span>
 
@@ -784,21 +1137,8 @@ function createRequestCard(
             class="payment-reference"
           >
             ${escapeHtml(
-              paymentReference
+              reference
             )}
-          </strong>
-
-        </div>
-
-
-        <div class="extra-box">
-
-          <span>
-            تاريخ الطلب
-          </span>
-
-          <strong>
-            ${escapeHtml(date)}
           </strong>
 
         </div>
@@ -807,21 +1147,42 @@ function createRequestCard(
 
 
       ${
-        customerNotes
+        notes
           ? `
-
             <div class="request-notes">
 
-              <span class="request-notes-title">
-                ملاحظات المندوب
-              </span>
+              <div class="request-notes-title">
+                ملاحظات المستخدم
+              </div>
 
-              ${escapeHtml(
-                customerNotes
-              )}
+              <div>
+                ${escapeHtml(
+                  notes
+                )}
+              </div>
 
             </div>
+          `
+          : ""
+      }
 
+
+      ${
+        adminNotes
+          ? `
+            <div class="request-notes admin-notes">
+
+              <div class="request-notes-title">
+                ملاحظة الإدارة
+              </div>
+
+              <div>
+                ${escapeHtml(
+                  adminNotes
+                )}
+              </div>
+
+            </div>
           `
           : ""
       }
@@ -830,64 +1191,68 @@ function createRequestCard(
       ${
         status === "pending"
           ? `
-
             <div class="request-actions">
 
               <button
                 type="button"
-                class="
-                  action-btn
-                  approve-btn
-                "
+                class="action-btn approve-btn"
                 data-action="approve"
-                data-request-id="${escapeHtml(
+                data-request-id="${escapeAttribute(
                   request.id
                 )}"
               >
-                ✓ الموافقة وتفعيل الاشتراك
+                <span>
+                  ✓
+                </span>
+
+                <span>
+                  موافقة
+                </span>
+
               </button>
 
 
               <button
                 type="button"
-                class="
-                  action-btn
-                  reject-btn
-                "
+                class="action-btn reject-btn"
                 data-action="reject"
-                data-request-id="${escapeHtml(
+                data-request-id="${escapeAttribute(
                   request.id
                 )}"
               >
-                ✕ رفض الطلب
+                <span>
+                  ×
+                </span>
+
+                <span>
+                  رفض
+                </span>
+
               </button>
 
             </div>
-
           `
           : ""
       }
 
     </article>
-
   `;
-
 }
 
 
-/* =====================================================
-   أزرار الطلبات
-   ===================================================== */
+// =====================================================
+// ربط أزرار الطلبات
+// =====================================================
 
-function setupRequestButtons() {
+function bindRequestActions() {
 
-  const buttons =
-    document.querySelectorAll(
+  const actionButtons =
+    requestsContainer.querySelectorAll(
       "[data-action]"
     );
 
 
-  buttons.forEach(
+  actionButtons.forEach(
     button => {
 
       button.addEventListener(
@@ -902,35 +1267,26 @@ function setupRequestButtons() {
             button.dataset.requestId;
 
 
-          if (
-            !action ||
-            !requestId
-          ) {
+          if (!requestId) {
             return;
           }
 
 
-          if (
-            action === "approve"
-          ) {
+          if (action === "approve") {
 
             await approveRequest(
-              requestId,
-              button
+              requestId
             );
 
+            return;
           }
 
 
-          if (
-            action === "reject"
-          ) {
+          if (action === "reject") {
 
             await rejectRequest(
-              requestId,
-              button
+              requestId
             );
-
           }
 
         }
@@ -938,22 +1294,63 @@ function setupRequestButtons() {
 
     }
   );
-
 }
 
 
-/* =====================================================
-   الموافقة
-   ===================================================== */
+// =====================================================
+// الموافقة على الطلب
+// =====================================================
 
 async function approveRequest(
-  requestId,
-  clickedButton
+  requestId
 ) {
+
+  if (isProcessing) {
+    return;
+  }
+
+
+  const request =
+    allRequests.find(
+      item =>
+        item.id ===
+        requestId
+    );
+
+
+  if (!request) {
+
+    showMessage(
+      "تعذر العثور على الطلب.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (
+    request.status !==
+    "pending"
+  ) {
+
+    showMessage(
+      "هذا الطلب تمت معالجته مسبقاً.",
+      "warning"
+    );
+
+    return;
+  }
+
+
+  const userName =
+    request.profile?.full_name ||
+    "هذا المستخدم";
+
 
   const confirmed =
     window.confirm(
-      "هل تريد الموافقة على هذا الطلب وتفعيل الاشتراك للمندوب؟"
+      `هل أنت متأكد من الموافقة على طلب اشتراك ${userName}؟`
     );
 
 
@@ -962,155 +1359,257 @@ async function approveRequest(
   }
 
 
-  setRequestButtonsDisabled(
-    clickedButton,
-    true
+  isProcessing = true;
+
+  setProcessingState(
+    requestId,
+    "approve"
   );
 
 
-  const {
-    data,
-    error
-  } = await supabaseClient.rpc(
-    "approve_subscription_request",
-    {
-      p_request_id:
-        requestId
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.rpc(
+        "approve_subscription_request",
+        {
+          p_request_id:
+            requestId
+        }
+      );
+
+
+    if (error) {
+      throw error;
     }
-  );
 
 
-  if (error) {
+    console.log(
+      "Approve result:",
+      data
+    );
+
+
+    showMessage(
+      "تمت الموافقة على طلب الاشتراك بنجاح.",
+      "success"
+    );
+
+
+    await loadRequests({
+      silent: true
+    });
+
+
+  } catch (error) {
 
     console.error(
-      "Approve error:",
+      "Approve request error:",
       error
     );
 
 
     showMessage(
-      error.message ||
-      "تعذر الموافقة على الطلب.",
+      getFriendlyError(error),
       "error"
     );
 
 
-    setRequestButtonsDisabled(
-      clickedButton,
-      false
+  } finally {
+
+    isProcessing = false;
+
+    clearProcessingState(
+      requestId
     );
-
-
-    return;
   }
-
-
-  console.log(
-    "Subscription approved:",
-    data
-  );
-
-
-  showMessage(
-    "تمت الموافقة على الطلب وتفعيل الاشتراك بنجاح.",
-    "success"
-  );
-
-
-  await loadRequests();
-
 }
 
 
-/* =====================================================
-   الرفض
-   ===================================================== */
+// =====================================================
+// رفض الطلب
+// =====================================================
 
 async function rejectRequest(
-  requestId,
-  clickedButton
+  requestId
 ) {
 
-  const reason =
-    window.prompt(
-      "اكتب سبب رفض الطلب (اختياري):"
-    );
-
-
-  if (reason === null) {
+  if (isProcessing) {
     return;
   }
 
 
-  setRequestButtonsDisabled(
-    clickedButton,
-    true
+  const request =
+    allRequests.find(
+      item =>
+        item.id ===
+        requestId
+    );
+
+
+  if (!request) {
+
+    showMessage(
+      "تعذر العثور على الطلب.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (
+    request.status !==
+    "pending"
+  ) {
+
+    showMessage(
+      "هذا الطلب تمت معالجته مسبقاً.",
+      "warning"
+    );
+
+    return;
+  }
+
+
+  const userName =
+    request.profile?.full_name ||
+    "المستخدم";
+
+
+  const adminNotes =
+    window.prompt(
+      `اكتب سبب رفض طلب ${userName}:\n\nيمكنك الضغط على إلغاء للرجوع.`,
+      ""
+    );
+
+
+  if (adminNotes === null) {
+    return;
+  }
+
+
+  const reason =
+    adminNotes.trim();
+
+
+  if (!reason) {
+
+    showMessage(
+      "يجب كتابة سبب رفض الطلب.",
+      "warning"
+    );
+
+    return;
+  }
+
+
+  const confirmed =
+    window.confirm(
+      "هل أنت متأكد من رفض هذا الطلب؟"
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  isProcessing = true;
+
+  setProcessingState(
+    requestId,
+    "reject"
   );
 
 
-  const {
-    data,
-    error
-  } = await supabaseClient.rpc(
-    "reject_subscription_request",
-    {
-      p_request_id:
-        requestId,
+  try {
 
-      p_admin_notes:
-        reason.trim() || null
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.rpc(
+        "reject_subscription_request",
+        {
+          p_request_id:
+            requestId,
+
+          p_admin_notes:
+            reason
+        }
+      );
+
+
+    if (error) {
+      throw error;
     }
-  );
 
 
-  if (error) {
+    console.log(
+      "Reject result:",
+      data
+    );
+
+
+    showMessage(
+      "تم رفض طلب الاشتراك.",
+      "success"
+    );
+
+
+    await loadRequests({
+      silent: true
+    });
+
+
+  } catch (error) {
 
     console.error(
-      "Reject error:",
+      "Reject request error:",
       error
     );
 
 
     showMessage(
-      error.message ||
-      "تعذر رفض الطلب.",
+      getFriendlyError(error),
       "error"
     );
 
 
-    setRequestButtonsDisabled(
-      clickedButton,
-      false
+  } finally {
+
+    isProcessing = false;
+
+    clearProcessingState(
+      requestId
     );
+  }
+}
 
 
+// =====================================================
+// حالة معالجة الزر
+// =====================================================
+
+function setProcessingState(
+  requestId,
+  action
+) {
+
+  if (!requestsContainer) {
     return;
   }
 
 
-  showMessage(
-    "تم رفض طلب الاشتراك.",
-    "success"
-  );
-
-
-  await loadRequests();
-
-}
-
-
-/* =====================================================
-   تعطيل أزرار الكرت
-   ===================================================== */
-
-function setRequestButtonsDisabled(
-  button,
-  disabled
-) {
-
   const card =
-    button.closest(
-      ".request-card"
+    requestsContainer.querySelector(
+      `[data-request-id="${cssEscape(
+        requestId
+      )}"]`
     );
 
 
@@ -1121,102 +1620,428 @@ function setRequestButtonsDisabled(
 
   const buttons =
     card.querySelectorAll(
-      ".action-btn"
+      "[data-action]"
     );
 
 
   buttons.forEach(
-    item => {
+    button => {
 
-      item.disabled =
-        disabled;
+      button.disabled = true;
+
+      button.dataset.originalText =
+        button.innerText;
 
     }
   );
 
+
+  const target =
+    card.querySelector(
+      `[data-action="${cssEscape(
+        action
+      )}"]`
+    );
+
+
+  if (target) {
+
+    target.innerText =
+      action === "approve"
+        ? "جاري الموافقة..."
+        : "جاري الرفض...";
+  }
 }
 
 
-/* =====================================================
-   CSS class للحالة
-   ===================================================== */
+// =====================================================
+// إعادة الأزرار
+// =====================================================
 
-function getStatusClass(
-  status
+function clearProcessingState(
+  requestId
+) {
+
+  if (!requestsContainer) {
+    return;
+  }
+
+
+  const card =
+    requestsContainer.querySelector(
+      `[data-request-id="${cssEscape(
+        requestId
+      )}"]`
+    );
+
+
+  if (!card) {
+    return;
+  }
+
+
+  const buttons =
+    card.querySelectorAll(
+      "[data-action]"
+    );
+
+
+  buttons.forEach(
+    button => {
+
+      button.disabled = false;
+
+
+      if (
+        button.dataset.originalText
+      ) {
+
+        button.innerText =
+          button.dataset.originalText;
+      }
+
+    }
+  );
+}
+
+
+// =====================================================
+// Polling
+// =====================================================
+
+function startPolling() {
+
+  stopPolling();
+
+
+  pollTimer =
+    setInterval(
+      async () => {
+
+        if (
+          document.hidden ||
+          isProcessing ||
+          isLoading
+        ) {
+          return;
+        }
+
+
+        await loadRequests({
+          silent: true
+        });
+
+      },
+      ADMIN_POLL_INTERVAL
+    );
+}
+
+
+// =====================================================
+// إيقاف Polling
+// =====================================================
+
+function stopPolling() {
+
+  if (pollTimer) {
+
+    clearInterval(
+      pollTimer
+    );
+
+    pollTimer = null;
+  }
+}
+
+
+// =====================================================
+// عند مغادرة الصفحة
+// =====================================================
+
+window.addEventListener(
+  "beforeunload",
+  stopPolling
+);
+
+
+// =====================================================
+// إظهار رسالة
+// =====================================================
+
+function showMessage(
+  message,
+  type = "info"
+) {
+
+  if (!adminMessage) {
+    return;
+  }
+
+
+  adminMessage.textContent =
+    message;
+
+
+  adminMessage.className =
+    `admin-message ${type}`;
+
+
+  adminMessage.hidden = false;
+}
+
+
+// =====================================================
+// إخفاء الرسالة
+// =====================================================
+
+function hideMessage() {
+
+  if (!adminMessage) {
+    return;
+  }
+
+
+  adminMessage.hidden = true;
+
+  adminMessage.textContent = "";
+}
+
+
+// =====================================================
+// Loading
+// =====================================================
+
+function showLoading() {
+
+  if (!requestsContainer) {
+    return;
+  }
+
+
+  requestsContainer.innerHTML = `
+    <div class="empty-state">
+
+      <div class="empty-state-icon">
+        ⏳
+      </div>
+
+      <h3>
+        جاري تحميل الطلبات
+      </h3>
+
+      <p>
+        انتظر قليلاً...
+      </p>
+
+    </div>
+  `;
+}
+
+
+// =====================================================
+// Empty state
+// =====================================================
+
+function renderEmptyState() {
+
+  requestsContainer.innerHTML = `
+    <div class="empty-state">
+
+      <div class="empty-state-icon">
+        ✓
+      </div>
+
+      <h3>
+        لا توجد طلبات اشتراك
+      </h3>
+
+      <p>
+        لم يتم العثور على أي طلبات حتى الآن.
+      </p>
+
+    </div>
+  `;
+}
+
+
+// =====================================================
+// Filter empty
+// =====================================================
+
+function renderFilterEmptyState() {
+
+  const filterName =
+    getFilterName(
+      currentFilter
+    );
+
+
+  requestsContainer.innerHTML = `
+    <div class="filter-empty">
+
+      <div class="filter-empty-icon">
+        🔎
+      </div>
+
+      <h3>
+        لا توجد نتائج
+      </h3>
+
+      <p>
+        لا توجد طلبات ضمن فلتر ${escapeHtml(
+          filterName
+        )}${currentSearch
+          ? " أو تطابق البحث الحالي"
+          : ""}.
+      </p>
+
+    </div>
+  `;
+}
+
+
+// =====================================================
+// Error state
+// =====================================================
+
+function showErrorState() {
+
+  if (!requestsContainer) {
+    return;
+  }
+
+
+  requestsContainer.innerHTML = `
+    <div class="empty-state">
+
+      <div class="empty-state-icon">
+        !
+      </div>
+
+      <h3>
+        تعذر تحميل الطلبات
+      </h3>
+
+      <p>
+        حاول تحديث الصفحة مرة أخرى.
+      </p>
+
+    </div>
+  `;
+}
+
+
+// =====================================================
+// اسم الخطة
+// =====================================================
+
+function getPlanName(
+  request
 ) {
 
   if (
-    status === "approved"
+    request &&
+    request.plan &&
+    request.plan.name
   ) {
 
-    return "approved";
-
+    return request.plan.name;
   }
 
 
   if (
-    status === "rejected"
+    request &&
+    request.plan &&
+    request.plan.code
   ) {
 
-    return "rejected";
-
+    return formatPlanCode(
+      request.plan.code
+    );
   }
 
 
-  return "pending";
+  if (
+    request &&
+    request.plan_id
+  ) {
 
+    return `اشتراك #${request.plan_id}`;
+  }
+
+
+  return "غير محددة";
 }
 
 
-/* =====================================================
-   اسم الحالة
-   ===================================================== */
+// =====================================================
+// تنسيق كود الخطة
+// =====================================================
 
-function getStatusText(
-  status
+function formatPlanCode(
+  code
 ) {
 
-  switch (status) {
-
-    case "approved":
-
-      return "تمت الموافقة";
-
-
-    case "rejected":
-
-      return "مرفوض";
+  const value =
+    String(
+      code || ""
+    )
+      .trim()
+      .toLowerCase();
 
 
-    case "pending":
+  if (
+    value === "monthly"
+  ) {
 
-    default:
-
-      return "قيد المراجعة";
-
+    return "اشتراك شهري";
   }
 
+
+  if (
+    value === "yearly" ||
+    value === "annual"
+  ) {
+
+    return "اشتراك سنوي";
+  }
+
+
+  return String(
+    code || "غير محددة"
+  );
 }
 
 
-/* =====================================================
-   طريقة الدفع
-   ===================================================== */
+// =====================================================
+// طريقة الدفع
+// =====================================================
 
-function getPaymentMethodText(
+function getPaymentMethodName(
   method
 ) {
 
-  switch (method) {
+  const value =
+    String(
+      method || ""
+    )
+      .trim()
+      .toLowerCase();
+
+
+  switch (value) {
 
     case "zain_cash":
+    case "zaincash":
+    case "zain cash":
 
       return "Zain Cash";
 
 
-    case "manual":
+    case "mastercard":
+    case "master_card":
 
-      return "تحويل يدوي";
+      return "MasterCard";
 
 
     case "cash":
@@ -1228,93 +2053,111 @@ function getPaymentMethodText(
 
       return method ||
         "غير محددة";
-
   }
-
 }
 
 
-/* =====================================================
-   مدة الاشتراك
-   ===================================================== */
+// =====================================================
+// اسم الحالة
+// =====================================================
 
-function getDurationText(
-  days
+function getStatusName(
+  status
 ) {
 
-  const value =
-    Number(days);
+  switch (status) {
+
+    case "pending":
+      return "قيد المراجعة";
 
 
-  if (value === 30) {
+    case "approved":
+      return "تمت الموافقة";
 
-    return "شهر";
 
+    case "rejected":
+      return "مرفوض";
+
+
+    default:
+      return "غير معروف";
   }
-
-
-  if (value === 365) {
-
-    return "سنة";
-
-  }
-
-
-  if (!value) {
-
-    return "غير محددة";
-
-  }
-
-
-  return `${value} يوم`;
-
 }
 
 
-/* =====================================================
-   السعر
-   ===================================================== */
+// =====================================================
+// اسم الفلتر
+// =====================================================
 
-function formatIQD(
+function getFilterName(
+  filter
+) {
+
+  switch (filter) {
+
+    case "pending":
+      return "قيد المراجعة";
+
+
+    case "approved":
+      return "تمت الموافقة";
+
+
+    case "rejected":
+      return "المرفوضة";
+
+
+    default:
+      return "الكل";
+  }
+}
+
+
+// =====================================================
+// تنسيق العملة
+// =====================================================
+
+function formatCurrency(
   value
 ) {
 
-  const number =
-    Number(value);
+  const amount =
+    Number(value || 0);
 
 
-  if (
-    Number.isNaN(number)
-  ) {
-
-    return "0 د.ع";
-
-  }
+  return new Intl.NumberFormat(
+    "en-IQ"
+  ).format(amount) +
+    " د.ع";
+}
 
 
-  return (
-    number.toLocaleString(
-      "en-US"
-    ) +
-    " د.ع"
+// =====================================================
+// تنسيق الأرقام
+// =====================================================
+
+function formatNumber(
+  value
+) {
+
+  return new Intl.NumberFormat(
+    "en-US"
+  ).format(
+    Number(value || 0)
   );
-
 }
 
 
-/* =====================================================
-   التاريخ
-   ===================================================== */
+// =====================================================
+// تنسيق التاريخ والوقت
+// =====================================================
 
-function formatDate(
+function formatDateTime(
   value
 ) {
 
   if (!value) {
-
-    return "غير معروف";
-
+    return "—";
   }
 
 
@@ -1328,152 +2171,268 @@ function formatDate(
     )
   ) {
 
-    return "غير معروف";
-
+    return "—";
   }
 
 
-  return date.toLocaleString(
-    "en-IQ",
+  return new Intl.DateTimeFormat(
+    "ar-IQ",
     {
-      year: "numeric",
+      timeZone:
+        "Asia/Baghdad",
 
-      month: "2-digit",
+      year:
+        "numeric",
 
-      day: "2-digit",
+      month:
+        "2-digit",
 
-      hour: "2-digit",
+      day:
+        "2-digit",
 
-      minute: "2-digit"
+      hour:
+        "2-digit",
+
+      minute:
+        "2-digit",
+
+      hour12:
+        true
     }
-  );
-
+  ).format(date);
 }
 
 
-/* =====================================================
-   الحرف الأول
-   ===================================================== */
+// =====================================================
+// الأحرف الأولى
+// =====================================================
 
-function getInitial(
+function getInitials(
   name
 ) {
 
-  if (!name) {
+  const value =
+    String(
+      name || ""
+    ).trim();
 
-    return "م";
 
+  if (!value) {
+    return "Z";
   }
 
 
-  const cleanName =
-    String(name).trim();
+  const parts =
+    value
+      .split(/\s+/)
+      .filter(Boolean);
 
 
-  if (!cleanName) {
+  if (parts.length === 1) {
 
-    return "م";
-
+    return parts[0]
+      .slice(0, 2);
   }
 
 
-  return escapeHtml(
-    cleanName.charAt(0)
+  return (
+    parts[0][0] +
+    parts[1][0]
   );
-
 }
 
 
-/* =====================================================
-   حماية HTML
-   ===================================================== */
+// =====================================================
+// حماية HTML
+// =====================================================
 
 function escapeHtml(
   value
 ) {
 
-  if (
-    value === null ||
-    value === undefined
-  ) {
-
-    return "";
-
-  }
-
-
-  return String(value)
-
-    .replaceAll(
-      "&",
+  return String(
+    value ?? ""
+  )
+    .replace(
+      /&/g,
       "&amp;"
     )
-
-    .replaceAll(
-      "<",
+    .replace(
+      /</g,
       "&lt;"
     )
-
-    .replaceAll(
-      ">",
+    .replace(
+      />/g,
       "&gt;"
     )
-
-    .replaceAll(
-      '"',
+    .replace(
+      /"/g,
       "&quot;"
     )
-
-    .replaceAll(
-      "'",
+    .replace(
+      /'/g,
       "&#039;"
     );
-
 }
 
 
-/* =====================================================
-   الرسائل
-   ===================================================== */
+// =====================================================
+// حماية Attribute
+// =====================================================
 
-function showMessage(
-  message,
-  type = "success"
+function escapeAttribute(
+  value
 ) {
 
-  const element =
-    document.getElementById(
-      "adminMessage"
+  return escapeHtml(
+    value
+  );
+}
+
+
+// =====================================================
+// CSS.escape بديل آمن
+// =====================================================
+
+function cssEscape(
+  value
+) {
+
+  const stringValue =
+    String(
+      value ?? ""
     );
 
 
-  if (!element) {
-    return;
+  if (
+    window.CSS &&
+    typeof window.CSS.escape ===
+      "function"
+  ) {
+
+    return window.CSS.escape(
+      stringValue
+    );
   }
 
 
-  element.textContent =
-    message;
-
-
-  element.className =
-    `message show ${type}`;
-
-
-  window.clearTimeout(
-    showMessage.timer
+  return stringValue.replace(
+    /[^a-zA-Z0-9_-]/g,
+    "\\$&"
   );
+}
 
 
-  showMessage.timer =
-    window.setTimeout(
-      () => {
+// =====================================================
+// الأخطاء المفهومة للمستخدم
+// =====================================================
 
-        element.className =
-          "message";
+function getFriendlyError(
+  error
+) {
 
-      },
-      4500
+  if (!error) {
+
+    return "حدث خطأ غير متوقع.";
+  }
+
+
+  const rawMessage =
+    String(
+      error.message ||
+      error.details ||
+      error.hint ||
+      error
     );
 
+
+  const message =
+    rawMessage.toLowerCase();
+
+
+  if (
+    message.includes(
+      "not authorized"
+    ) ||
+    message.includes(
+      "unauthorized"
+    ) ||
+    message.includes(
+      "permission denied"
+    )
+  ) {
+
+    return "ليس لديك صلاحية لتنفيذ هذا الإجراء.";
+  }
+
+
+  if (
+    message.includes(
+      "is_admin"
+    )
+  ) {
+
+    return "تعذر التحقق من صلاحيات الأدمن.";
+  }
+
+
+  if (
+    message.includes(
+      "approve_subscription_request"
+    )
+  ) {
+
+    return "تعذر تنفيذ الموافقة. تأكد من وجود دالة الموافقة في قاعدة البيانات.";
+  }
+
+
+  if (
+    message.includes(
+      "reject_subscription_request"
+    )
+  ) {
+
+    return "تعذر تنفيذ الرفض. تأكد من وجود دالة الرفض في قاعدة البيانات.";
+  }
+
+
+  if (
+    message.includes(
+      "network"
+    ) ||
+    message.includes(
+      "fetch"
+    )
+  ) {
+
+    return "تعذر الاتصال بالخادم. تحقق من اتصال الإنترنت.";
+  }
+
+
+  return rawMessage ||
+    "حدث خطأ غير متوقع.";
 }
+
+
+// =====================================================
+// حماية إضافية عند إخفاء الصفحة
+// =====================================================
+
+document.addEventListener(
+  "visibilitychange",
+  () => {
+
+    if (
+      !document.hidden &&
+      currentUser &&
+      !isProcessing &&
+      !isLoading
+    ) {
+
+      loadRequests({
+        silent: true
+      });
+    }
+
+  }
+);
