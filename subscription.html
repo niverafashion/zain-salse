@@ -1,726 +1,3864 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width,
-                 initial-scale=1.0,
-                 maximum-scale=1.0,
-                 user-scalable=no,
-                 viewport-fit=cover">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+  >
+
   <title>الاشتراك | Zain Sales</title>
-  <meta name="theme-color" content="#7139b7">
-  <link rel="stylesheet" href="css/style.css">
+
+  <meta
+    name="theme-color"
+    content="#7139b7"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
   <style>
+
     * {
       box-sizing: border-box;
     }
+
     body {
       margin: 0;
-      background: #f7f5fb;
+
+      background:
+        radial-gradient(
+          circle at 10% 0%,
+          rgba(113, 57, 183, 0.08),
+          transparent 32%
+        ),
+        #f7f5fb;
     }
+
+
+    /* ==================================================
+       الصفحة
+    ================================================== */
+
     .subscription-page {
       min-height: 100vh;
       padding: 25px 15px 40px;
     }
+
     .subscription-container {
       width: 100%;
       max-width: 850px;
       margin: 0 auto;
     }
-    /* =========================
-       Header
-    ========================= */
+
+
+    /* ==================================================
+       الهيدر
+    ================================================== */
+
     .subscription-header {
       text-align: center;
       margin-bottom: 25px;
     }
+
     .subscription-logo {
       width: 65px;
       height: 65px;
+
       margin: 0 auto 15px;
+
       border-radius: 18px;
-      background: #7139b7;
+
+      background:
+        linear-gradient(
+          135deg,
+          #7139b7,
+          #8b5cf6
+        );
+
       color: #fff;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       font-size: 27px;
-      font-weight: bold;
-      box-shadow: 0 10px 25px rgba(113, 57, 183, 0.20);
+      font-weight: 900;
+
+      box-shadow:
+        0 10px 25px
+        rgba(113, 57, 183, 0.20);
     }
+
     .subscription-header h1 {
       margin: 0 0 8px;
+
       color: #7139b7;
+
       font-size: 28px;
+      font-weight: 900;
     }
+
     .subscription-header p {
       margin: 0;
+
       color: #777;
-      font-size: 15px;
+
+      font-size: 14px;
+      line-height: 1.8;
     }
-    /* =========================
-       Steps
-    ========================= */
+
+
+    /* ==================================================
+       خطوات الاشتراك
+    ================================================== */
+
     .steps {
+      width: 100%;
+
       display: flex;
+      align-items: flex-start;
       justify-content: center;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 25px;
+
+      margin: 0 auto 27px;
+
       direction: rtl;
     }
+
     .step {
+      position: relative;
+
+      min-width: 82px;
+
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 7px;
-      color: #aaa;
-      font-size: 13px;
+
+      gap: 8px;
+
+      color: #a7a1ad;
+
+      font-size: 12px;
+      font-weight: 800;
+
       white-space: nowrap;
+
+      transition:
+        color 0.25s ease;
     }
+
     .step-number {
-      width: 28px;
-      height: 28px;
+      position: relative;
+      z-index: 2;
+
+      width: 36px;
+      height: 36px;
+
       border-radius: 50%;
-      background: #e7e0ef;
-      color: #777;
+
+      background: #e9e4ee;
+
+      color: #817a88;
+
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
+
+      font-size: 13px;
+      font-weight: 900;
+
+      border: 4px solid #f7f5fb;
+
+      box-shadow:
+        0 0 0 1px #e2dce8;
+
+      transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
     }
+
     .step.active {
       color: #7139b7;
-      font-weight: bold;
     }
+
     .step.active .step-number {
-      background: #7139b7;
+      background:
+        linear-gradient(
+          135deg,
+          #7139b7,
+          #8b5cf6
+        );
+
       color: #fff;
+
+      box-shadow:
+        0 0 0 4px rgba(113, 57, 183, 0.10),
+        0 8px 18px
+        rgba(113, 57, 183, 0.24);
+
+      transform:
+        translateY(-1px);
     }
+
+    .step.completed {
+      color: #7139b7;
+    }
+
+    .step.completed .step-number {
+      background: #eee7f7;
+
+      color: #7139b7;
+
+      box-shadow:
+        0 0 0 1px #d9c9e9;
+    }
+
     .step-line {
-      width: 35px;
-      height: 2px;
-      background: #e4deea;
+      flex: 1;
+
+      max-width: 110px;
+
+      height: 3px;
+
+      margin-top: 17px;
+
+      border-radius: 10px;
+
+      background: #e4dfe9;
+
+      transition:
+        background 0.25s ease;
     }
-    /* =========================
-       Main Card
-    ========================= */
+
+    .step-line.completed {
+      background:
+        linear-gradient(
+          90deg,
+          #7139b7,
+          #b18bdd
+        );
+    }
+
+
+    /* ==================================================
+       الكارد الرئيسي
+    ================================================== */
+
     .subscription-card {
       background: #fff;
-      border-radius: 22px;
-      padding: 25px;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+
+      border-radius: 24px;
+
+      padding: 27px;
+
+      box-shadow:
+        0 15px 45px
+        rgba(50, 30, 80, 0.07);
+
+      border:
+        1px solid
+        rgba(113, 57, 183, 0.06);
     }
+
+    .subscription-step-content {
+      animation:
+        stepContentIn 0.25s ease;
+    }
+
+    @keyframes stepContentIn {
+
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+    }
+
+
+    /* ==================================================
+       العناوين
+    ================================================== */
+
     .section-title {
       margin: 0 0 7px;
+
       font-size: 21px;
+
       color: #222;
+
+      font-weight: 900;
     }
+
     .section-description {
       margin: 0 0 22px;
+
       color: #777;
+
       line-height: 1.8;
+
       font-size: 14px;
     }
-    /* =========================
-       Plans
-    ========================= */
+
+
+    /* ==================================================
+       الخطط
+    ================================================== */
+
     .plans {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
       gap: 16px;
     }
+
     .plan-card {
       position: relative;
+
       background: #fff;
-      border: 2px solid #eee;
-      border-radius: 18px;
+
+      border:
+        2px solid #eee;
+
+      border-radius: 19px;
+
       padding: 23px 18px;
+
       text-align: center;
+
       cursor: pointer;
-      transition: 0.2s ease;
+
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
     }
+
     .plan-card:hover {
       border-color: #cbb4e2;
-      transform: translateY(-2px);
+
+      transform:
+        translateY(-2px);
     }
+
     .plan-card.selected {
       border-color: #7139b7;
+
       background: #fbf9fe;
-      box-shadow: 0 8px 25px rgba(113, 57, 183, 0.12);
+
+      box-shadow:
+        0 9px 28px
+        rgba(113, 57, 183, 0.12);
     }
+
     .plan-check {
       position: absolute;
+
       top: 12px;
       left: 12px;
-      width: 25px;
-      height: 25px;
+
+      width: 27px;
+      height: 27px;
+
       border-radius: 50%;
+
       background: #eee;
+
       color: transparent;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       font-size: 14px;
-      font-weight: bold;
+      font-weight: 900;
+
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
     }
+
     .plan-card.selected .plan-check {
       background: #7139b7;
+
       color: #fff;
+
+      transform:
+        scale(1.05);
     }
+
     .plan-badge {
-      display: inline-block;
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
       background: #f0e8fa;
+
       color: #7139b7;
+
       padding: 6px 13px;
+
       border-radius: 20px;
+
       font-size: 12px;
-      font-weight: bold;
+      font-weight: 900;
+
       margin-bottom: 12px;
     }
+
     .plan-card h3 {
       margin: 0 0 10px;
-      font-size: 19px;
+
+      font-size: 18px;
+
       color: #333;
+
+      font-weight: 900;
     }
+
     .plan-price {
       font-size: 28px;
-      font-weight: bold;
+
+      font-weight: 900;
+
       color: #7139b7;
+
       margin: 10px 0 5px;
     }
+
     .plan-duration {
       color: #777;
+
       font-size: 13px;
+
+      line-height: 1.7;
     }
+
     .plan-saving {
       margin-top: 13px;
+
       color: #16834b;
+
       font-size: 12px;
-      font-weight: bold;
+
+      font-weight: 900;
     }
-    /* =========================
-       Payment Box
-    ========================= */
-    .payment-section {
-      margin-top: 25px;
-    }
-    .payment-box {
-      background: #faf8fd;
-      border: 1px solid #eee5f6;
-      border-radius: 17px;
-      padding: 20px;
-    }
-    .payment-box-title {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin-bottom: 15px;
-      font-weight: bold;
-      color: #333;
-    }
-    .payment-icon {
-      width: 35px;
-      height: 35px;
-      border-radius: 10px;
-      background: #7139b7;
+
+
+    /* ==================================================
+       أزرار الخطوات
+    ================================================== */
+
+    .step-primary-btn {
+      width: 100%;
+
+      border: none;
+
+      border-radius: 14px;
+
+      padding: 15px;
+
+      margin-top: 22px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #7139b7,
+          #8b5cf6
+        );
+
       color: #fff;
+
+      font-family: inherit;
+
+      font-size: 15px;
+
+      font-weight: 900;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 9px 22px
+        rgba(113, 57, 183, 0.20);
+
+      transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+    .step-primary-btn:hover:not(:disabled) {
+      transform:
+        translateY(-1px);
+    }
+
+    .step-primary-btn:disabled {
+      opacity: 0.5;
+
+      cursor: not-allowed;
+
+      box-shadow: none;
+    }
+
+    .step-secondary-btn {
+      width: 100%;
+
+      border:
+        1px solid #e5ddec;
+
+      border-radius: 14px;
+
+      padding: 13px;
+
+      margin-top: 9px;
+
+      background: #fff;
+
+      color: #6d6475;
+
+      font-family: inherit;
+
+      font-size: 13px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .step-secondary-btn:hover {
+      background: #faf8fc;
+
+      border-color: #d8cce4;
+    }
+
+
+    /* ==================================================
+       ملخص الاشتراك
+    ================================================== */
+
+    .subscription-summary-box {
+      position: relative;
+
+      overflow: hidden;
+
+      padding: 18px;
+
+      margin-bottom: 24px;
+
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #fbf9fe 0%,
+          #f6effb 100%
+        );
+
+      border:
+        1px solid #e8dcef;
+
+      box-shadow:
+        0 10px 28px
+        rgba(113, 57, 183, 0.07);
+    }
+
+    .subscription-summary-box::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      right: 0;
+
+      width: 5px;
+      height: 100%;
+
+      background:
+        linear-gradient(
+          180deg,
+          #7139b7,
+          #a56ddd
+        );
+    }
+
+    .subscription-summary-header {
+      display: flex;
+
+      align-items: center;
+
+      gap: 11px;
+
+      margin-bottom: 15px;
+    }
+
+    .subscription-summary-header-icon {
+      width: 40px;
+      height: 40px;
+
+      flex-shrink: 0;
+
+      border-radius: 12px;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #7139b7,
+          #8b5cf6
+        );
+
+      color: #fff;
+
+      box-shadow:
+        0 7px 16px
+        rgba(113, 57, 183, 0.18);
     }
-    .payment-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      padding: 11px 0;
-      border-bottom: 1px solid #eee;
+
+    .subscription-summary-header-icon svg {
+      width: 21px;
+      height: 21px;
+
+      fill: none;
+
+      stroke: currentColor;
+
+      stroke-width: 2;
+
+      stroke-linecap: round;
+
+      stroke-linejoin: round;
     }
-    .payment-row:last-child {
-      border-bottom: none;
+
+    .subscription-summary-header-text {
+      min-width: 0;
     }
-    .payment-label {
-      color: #777;
-      font-size: 13px;
+
+    .subscription-summary-header-text strong {
+      display: block;
+
+      color: #30273a;
+
+      font-size: 14px;
+
+      font-weight: 900;
     }
-    .payment-value {
-      color: #333;
-      font-weight: bold;
-      text-align: left;
+
+    .subscription-summary-header-text span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: #91869c;
+
+      font-size: 10.5px;
     }
-    .payment-number {
-      direction: ltr;
-      font-size: 17px;
-      color: #7139b7;
+
+    .subscription-summary-items {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 9px;
     }
-    /* =========================
-       Copy Button
-    ========================= */
-    .copy-btn {
-      border: none;
-      background: #eee7f5;
-      color: #7139b7;
-      padding: 7px 11px;
+
+    .summary-card-item {
+      position: relative;
+
+      min-height: 82px;
+
+      padding: 12px 10px;
+
+      border-radius: 14px;
+
+      background:
+        rgba(255,255,255,0.86);
+
+      border:
+        1px solid rgba(232,220,239,0.95);
+
+      box-shadow:
+        0 4px 12px
+        rgba(70, 40, 100, 0.025);
+    }
+
+    .summary-card-icon {
+      width: 27px;
+      height: 27px;
+
+      margin-bottom: 7px;
+
       border-radius: 8px;
-      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #f0e8f8;
+
+      color: #7139b7;
+    }
+
+    .summary-card-icon svg {
+      width: 15px;
+      height: 15px;
+
+      fill: none;
+
+      stroke: currentColor;
+
+      stroke-width: 2;
+
+      stroke-linecap: round;
+
+      stroke-linejoin: round;
+    }
+
+    .summary-card-label {
+      display: block;
+
+      color: #918899;
+
+      font-size: 9.5px;
+
+      font-weight: 700;
+
+      margin-bottom: 3px;
+    }
+
+    .summary-card-value {
+      display: block;
+
+      color: #30273a;
+
       font-size: 12px;
-      font-weight: bold;
+
+      font-weight: 900;
+
+      line-height: 1.5;
     }
-    /* =========================
-       Form
-    ========================= */
+
+    .summary-card-value.price {
+      color: #7139b7;
+
+      font-size: 15px;
+    }
+
+
+    /* ==================================================
+       عنوان الدفع
+    ================================================== */
+
+    .payment-method-title-wrap {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 12px;
+
+      margin-bottom: 12px;
+    }
+
+    .payment-method-title {
+      margin: 0;
+
+      color: #2d2634;
+
+      font-size: 15px;
+
+      font-weight: 900;
+    }
+
+    .payment-method-title-hint {
+      color: #9a91a3;
+
+      font-size: 10px;
+
+      font-weight: 700;
+    }
+
+
+    /* ==================================================
+       طرق الدفع
+    ================================================== */
+
+    .payment-methods {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
+      gap: 12px;
+
+      margin-bottom: 17px;
+    }
+
+    .payment-method {
+      position: relative;
+
+      min-height: 142px;
+
+      padding: 15px;
+
+      overflow: hidden;
+
+      border:
+        1.5px solid #e4ddea;
+
+      border-radius: 18px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #fff,
+          #fcfaff
+        );
+
+      cursor: pointer;
+
+      text-align: right;
+
+      font-family: inherit;
+
+      box-shadow:
+        0 4px 15px
+        rgba(70, 40, 100, 0.035);
+
+      transition:
+        border-color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .payment-method::after {
+      content: "";
+
+      position: absolute;
+
+      left: -25px;
+      bottom: -35px;
+
+      width: 90px;
+      height: 90px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(113, 57, 183, 0.035);
+
+      pointer-events: none;
+    }
+
+    .payment-method:hover {
+      border-color: #c9afe0;
+
+      background:
+        linear-gradient(
+          145deg,
+          #fff,
+          #faf6ff
+        );
+
+      box-shadow:
+        0 8px 22px
+        rgba(113, 57, 183, 0.08);
+
+      transform:
+        translateY(-2px);
+    }
+
+    .payment-method.selected {
+      border:
+        2px solid #7139b7;
+
+      background:
+        linear-gradient(
+          145deg,
+          #fff,
+          #f8f1ff
+        );
+
+      box-shadow:
+        0 11px 30px
+        rgba(113, 57, 183, 0.15);
+
+      transform:
+        translateY(-2px);
+    }
+
+    .payment-method-check {
+      position: absolute;
+
+      top: 10px;
+      left: 10px;
+
+      z-index: 3;
+
+      width: 25px;
+      height: 25px;
+
+      border-radius: 50%;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      background: #eeeaf1;
+
+      color: transparent;
+
+      font-size: 12px;
+
+      font-weight: 900;
+
+      border:
+        1px solid #e3dce8;
+
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .payment-method.selected
+    .payment-method-check {
+      background:
+        linear-gradient(
+          135deg,
+          #7139b7,
+          #8b5cf6
+        );
+
+      border-color: #7139b7;
+
+      color: #fff;
+
+      transform:
+        scale(1.08);
+
+      box-shadow:
+        0 4px 10px
+        rgba(113, 57, 183, 0.20);
+    }
+
+
+    /* ==================================================
+       أيقونات الدفع
+    ================================================== */
+
+    .payment-method-icon {
+      position: relative;
+
+      width: 50px;
+      height: 50px;
+
+      margin-bottom: 10px;
+
+      border-radius: 14px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      overflow: hidden;
+
+      background: #f2eafa;
+
+      color: #7139b7;
+
+      font-size: 0;
+
+      font-weight: 900;
+
+      box-shadow:
+        inset 0 0 0 1px
+        rgba(113, 57, 183, 0.07);
+    }
+
+    .payment-method-icon svg {
+      width: 33px;
+      height: 33px;
+
+      display: block;
+    }
+
+    .zaincash-logo-image {
+      width: 43px;
+      height: 43px;
+
+      object-fit: contain;
+
+      display: block;
+
+      border-radius: 10px;
+    }
+
+    .payment-method[data-method="zain_cash"]
+    .payment-method-icon {
+      background: #ffffff;
+
+      border:
+        1px solid #eee7f4;
+    }
+
+    .payment-method[data-method="mastercard"]
+    .payment-method-icon {
+      background:
+        linear-gradient(
+          135deg,
+          #fff8f0,
+          #fff0e7
+        );
+
+      color: #e85b22;
+    }
+
+    .payment-method-name {
+      display: block;
+
+      color: #2f2836;
+
+      font-size: 13px;
+
+      font-weight: 900;
+
+      line-height: 1.4;
+    }
+
+    .payment-method-description {
+      display: block;
+
+      margin-top: 3px;
+
+      color: #928a9b;
+
+      font-size: 10px;
+
+      font-weight: 600;
+
+      line-height: 1.5;
+    }
+
+    .payment-method-selected-text {
+      display: none;
+
+      margin-top: 9px;
+
+      padding-top: 8px;
+
+      border-top:
+        1px solid #e7d9f1;
+
+      color: #7139b7;
+
+      font-size: 10px;
+
+      font-weight: 900;
+
+      line-height: 1.5;
+    }
+
+    .payment-method.selected
+    .payment-method-selected-text {
+      display: block;
+    }
+
+
+    /* ==================================================
+       طريقة الدفع المحددة
+    ================================================== */
+
+    .selected-payment-banner {
+      display: none;
+
+      align-items: center;
+
+      gap: 9px;
+
+      margin:
+        0 0 15px;
+
+      padding:
+        11px 13px;
+
+      border-radius: 13px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #f5edfb,
+          #fbf8fe
+        );
+
+      border:
+        1px solid #e6d8ef;
+
+      color: #7139b7;
+
+      animation:
+        stepContentIn 0.2s ease;
+    }
+
+    .selected-payment-banner.show {
+      display: flex;
+    }
+
+    .selected-payment-banner-icon {
+      width: 30px;
+      height: 30px;
+
+      flex-shrink: 0;
+
+      border-radius: 9px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #7139b7;
+
+      color: #fff;
+    }
+
+    .selected-payment-banner-icon svg {
+      width: 16px;
+      height: 16px;
+
+      fill: none;
+
+      stroke: currentColor;
+
+      stroke-width: 2;
+
+      stroke-linecap: round;
+
+      stroke-linejoin: round;
+    }
+
+    .selected-payment-banner-text {
+      min-width: 0;
+    }
+
+    .selected-payment-banner-text small {
+      display: block;
+
+      color: #988ba3;
+
+      font-size: 9px;
+
+      margin-bottom: 2px;
+    }
+
+    .selected-payment-banner-text strong {
+      display: block;
+
+      color: #7139b7;
+
+      font-size: 12px;
+
+      font-weight: 900;
+    }
+
+
+    /* ==================================================
+       تفاصيل الدفع
+    ================================================== */
+
+    .payment-details {
+      display: none;
+
+      position: relative;
+
+      padding: 17px;
+
+      border-radius: 18px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #fbf9fe,
+          #f7f1fc
+        );
+
+      border:
+        1px solid #eadff2;
+
+      margin-bottom: 17px;
+
+      animation:
+        stepContentIn 0.2s ease;
+    }
+
+    .payment-details.show {
+      display: block;
+    }
+
+    .payment-details-title {
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      margin: 0 0 13px;
+
+      color: #30283a;
+
+      font-size: 13px;
+
+      font-weight: 900;
+    }
+
+    .payment-details-title::before {
+      content: "";
+
+      width: 8px;
+      height: 8px;
+
+      flex-shrink: 0;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #7139b7,
+          #8b5cf6
+        );
+
+      box-shadow:
+        0 0 0 4px
+        rgba(113, 57, 183, 0.08);
+    }
+
+    .payment-account {
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      padding: 12px 13px;
+
+      border-radius: 14px;
+
+      background: #fff;
+
+      border:
+        1px solid #e8e0ee;
+
+      box-shadow:
+        0 5px 15px
+        rgba(70, 40, 100, 0.035);
+    }
+
+    .payment-account-main {
+      min-width: 0;
+    }
+
+    .payment-account-label {
+      display: block;
+
+      margin-bottom: 4px;
+
+      color: #978c9e;
+
+      font-size: 9px;
+
+      font-weight: 700;
+    }
+
+    .payment-account-number {
+      direction: ltr;
+
+      text-align: left;
+
+      color: #7139b7;
+
+      font-size: 21px;
+
+      font-weight: 900;
+
+      letter-spacing: 0.7px;
+
+      white-space: nowrap;
+    }
+
+    .payment-instruction {
+      margin: 10px 2px 0;
+
+      color: #817889;
+
+      font-size: 11px;
+
+      line-height: 1.9;
+    }
+
+
+    /* ==================================================
+       زر النسخ
+    ================================================== */
+
+    .icon-copy-btn {
+      width: 40px;
+      height: 40px;
+
+      flex-shrink: 0;
+
+      border: none;
+
+      border-radius: 12px;
+
+      background: #eee7f5;
+
+      color: #7139b7;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+
+      transition:
+        background 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .icon-copy-btn:hover {
+      background: #e5d9f1;
+
+      box-shadow:
+        0 4px 10px
+        rgba(113, 57, 183, 0.10);
+    }
+
+    .icon-copy-btn:active {
+      transform:
+        scale(0.94);
+    }
+
+    .icon-copy-btn svg {
+      width: 18px;
+      height: 18px;
+
+      fill: none;
+
+      stroke: currentColor;
+
+      stroke-width: 2;
+
+      stroke-linecap: round;
+
+      stroke-linejoin: round;
+    }
+
+
+    /* ==================================================
+       STEP 3 - التفعيل
+    ================================================== */
+
+    .activation-hero {
+      position: relative;
+
+      overflow: hidden;
+
+      margin-bottom: 18px;
+
+      padding: 18px;
+
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #7139b7 0%,
+          #8b5cf6 100%
+        );
+
+      color: #fff;
+
+      box-shadow:
+        0 12px 30px
+        rgba(113, 57, 183, 0.20);
+    }
+
+    .activation-hero::before {
+      content: "";
+
+      position: absolute;
+
+      width: 150px;
+      height: 150px;
+
+      border-radius: 50%;
+
+      left: -65px;
+      bottom: -90px;
+
+      background:
+        rgba(255,255,255,0.08);
+    }
+
+    .activation-hero::after {
+      content: "";
+
+      position: absolute;
+
+      width: 90px;
+      height: 90px;
+
+      border-radius: 50%;
+
+      right: -30px;
+      top: -35px;
+
+      background:
+        rgba(255,255,255,0.08);
+    }
+
+    .activation-hero-content {
+      position: relative;
+      z-index: 2;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+    }
+
+    .activation-hero-icon {
+      width: 46px;
+      height: 46px;
+
+      flex-shrink: 0;
+
+      border-radius: 14px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      background:
+        rgba(255,255,255,0.16);
+
+      border:
+        1px solid
+        rgba(255,255,255,0.20);
+    }
+
+    .activation-hero-icon svg {
+      width: 23px;
+      height: 23px;
+
+      fill: none;
+
+      stroke: currentColor;
+
+      stroke-width: 2;
+
+      stroke-linecap: round;
+
+      stroke-linejoin: round;
+    }
+
+    .activation-hero-text {
+      min-width: 0;
+    }
+
+    .activation-hero-text strong {
+      display: block;
+
+      font-size: 15px;
+
+      font-weight: 900;
+    }
+
+    .activation-hero-text span {
+      display: block;
+
+      margin-top: 4px;
+
+      color: rgba(255,255,255,0.82);
+
+      font-size: 10.5px;
+
+      line-height: 1.7;
+    }
+
+
+    /* ==================================================
+       ملخص التفعيل
+    ================================================== */
+
+    .activation-summary {
+      position: relative;
+
+      margin-bottom: 18px;
+
+      padding: 16px;
+
+      border-radius: 18px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #fbf9fe,
+          #f7f1fc
+        );
+
+      border:
+        1px solid #e9dff1;
+
+      box-shadow:
+        0 7px 20px
+        rgba(70, 40, 100, 0.035);
+    }
+
+    .activation-summary-header {
+      display: flex;
+
+      align-items: center;
+
+      gap: 9px;
+
+      margin-bottom: 13px;
+    }
+
+    .activation-summary-header-icon {
+      width: 32px;
+      height: 32px;
+
+      border-radius: 10px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #eee4f7;
+
+      color: #7139b7;
+    }
+
+    .activation-summary-header-icon svg {
+      width: 17px;
+      height: 17px;
+
+      fill: none;
+
+      stroke: currentColor;
+
+      stroke-width: 2;
+
+      stroke-linecap: round;
+
+      stroke-linejoin: round;
+    }
+
+    .activation-summary-title {
+      margin: 0;
+
+      color: #30283a;
+
+      font-size: 13px;
+
+      font-weight: 900;
+    }
+
+    .activation-summary-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
+      gap: 9px;
+    }
+
+    .activation-summary-item {
+      position: relative;
+
+      padding: 11px;
+
+      border-radius: 12px;
+
+      background: #fff;
+
+      border:
+        1px solid #eee8f3;
+
+      min-height: 65px;
+    }
+
+    .activation-summary-item-icon {
+      position: absolute;
+
+      top: 10px;
+      left: 10px;
+
+      width: 25px;
+      height: 25px;
+
+      border-radius: 8px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      background: #f3ebf9;
+
+      color: #7139b7;
+    }
+
+    .activation-summary-item-icon svg {
+      width: 13px;
+      height: 13px;
+
+      fill: none;
+
+      stroke: currentColor;
+
+      stroke-width: 2;
+
+      stroke-linecap: round;
+
+      stroke-linejoin: round;
+    }
+
+    .activation-summary-item small {
+      display: block;
+
+      color: #918899;
+
+      font-size: 9px;
+
+      margin-bottom: 5px;
+    }
+
+    .activation-summary-item strong {
+      display: block;
+
+      color: #333;
+
+      font-size: 12px;
+
+      padding-left: 30px;
+
+      line-height: 1.5;
+    }
+
+    .activation-summary-item.price strong {
+      color: #7139b7;
+
+      font-size: 14px;
+    }
+
+
+    /* ==================================================
+       رقم العملية
+    ================================================== */
+
+    .reference-card {
+      position: relative;
+
+      overflow: hidden;
+
+      margin-bottom: 17px;
+
+      padding: 17px;
+
+      border-radius: 18px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #fff,
+          #faf7fd
+        );
+
+      border:
+        1px solid #e7dcef;
+
+      box-shadow:
+        0 8px 24px
+        rgba(70, 40, 100, 0.05);
+    }
+
+    .reference-card::before {
+      content: "";
+
+      position: absolute;
+
+      right: 0;
+      top: 0;
+
+      width: 4px;
+      height: 100%;
+
+      background:
+        linear-gradient(
+          180deg,
+          #7139b7,
+          #a56ddd
+        );
+    }
+
+    .reference-header {
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      margin-bottom: 12px;
+    }
+
+    .reference-icon {
+      width: 38px;
+      height: 38px;
+
+      flex-shrink: 0;
+
+      border-radius: 11px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #7139b7,
+          #8b5cf6
+        );
+
+      color: #fff;
+
+      box-shadow:
+        0 6px 14px
+        rgba(113, 57, 183, 0.16);
+    }
+
+    .reference-icon svg {
+      width: 19px;
+      height: 19px;
+
+      fill: none;
+
+      stroke: currentColor;
+
+      stroke-width: 2;
+
+      stroke-linecap: round;
+
+      stroke-linejoin: round;
+    }
+
+    .reference-header-text {
+      min-width: 0;
+    }
+
+    .reference-header-text strong {
+      display: block;
+
+      color: #30283a;
+
+      font-size: 13px;
+
+      font-weight: 900;
+    }
+
+    .reference-header-text span {
+      display: block;
+
+      margin-top: 2px;
+
+      color: #918899;
+
+      font-size: 10px;
+    }
+
+    .reference-input-wrap {
+      position: relative;
+    }
+
+    .reference-input-wrap::before {
+      content: "#";
+
+      position: absolute;
+
+      right: 14px;
+      top: 50%;
+
+      transform:
+        translateY(-50%);
+
+      color: #b0a5b8;
+
+      font-size: 15px;
+
+      font-weight: 900;
+
+      pointer-events: none;
+    }
+
+    .reference-input {
+      width: 100%;
+
+      border:
+        1px solid #e0d6e8;
+
+      border-radius: 13px;
+
+      padding:
+        14px 35px 14px 14px;
+
+      background: #fff;
+
+      color: #7139b7;
+
+      font-family: inherit;
+
+      font-size: 16px;
+
+      font-weight: 900;
+
+      outline: none;
+
+      direction: ltr;
+
+      text-align: left;
+
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .reference-input::placeholder {
+      color: #b7aebb;
+
+      font-weight: 600;
+
+      font-size: 12px;
+    }
+
+    .reference-input:focus {
+      border-color: #7139b7;
+
+      background: #fff;
+
+      box-shadow:
+        0 0 0 4px
+        rgba(113, 57, 183, 0.08);
+    }
+
+    .reference-hint {
+      margin:
+        8px 2px 0;
+
+      color: #8b8193;
+
+      font-size: 10px;
+
+      line-height: 1.8;
+    }
+
+
+    /* ==================================================
+       النماذج
+    ================================================== */
+
     .form-group {
-      margin-top: 20px;
+      margin-bottom: 15px;
     }
+
     .form-label {
       display: block;
-      margin-bottom: 8px;
+
+      margin-bottom: 7px;
+
       color: #333;
-      font-size: 14px;
-      font-weight: bold;
+
+      font-size: 13px;
+
+      font-weight: 900;
     }
+
     .form-input,
     .form-textarea {
       width: 100%;
-      border: 1px solid #ddd;
+
+      border:
+        1px solid #ddd;
+
       border-radius: 12px;
+
       padding: 13px 14px;
-      font-family: inherit;
-      font-size: 15px;
-      outline: none;
-      transition: 0.2s;
+
       background: #fff;
+
+      color: #222;
+
+      font-family: inherit;
+
+      font-size: 14px;
+
+      outline: none;
+
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
     }
+
     .form-input:focus,
     .form-textarea:focus {
       border-color: #7139b7;
-      box-shadow: 0 0 0 3px rgba(113, 57, 183, 0.08);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(113, 57, 183, 0.08);
     }
+
     .form-textarea {
       min-height: 90px;
+
       resize: vertical;
     }
+
     .input-hint {
       margin-top: 6px;
+
       color: #888;
-      font-size: 12px;
+
+      font-size: 10.5px;
+
       line-height: 1.7;
     }
-    /* =========================
-       Summary
-    ========================= */
-    .summary {
-      margin-top: 20px;
-      padding: 18px;
-      background: #7139b7;
-      color: #fff;
-      border-radius: 15px;
-    }
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
-    .summary-row:last-child {
-      margin-bottom: 0;
-    }
-    .summary-total {
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255,255,255,0.25);
-      font-size: 18px;
-      font-weight: bold;
-    }
-    /* =========================
-       Submit
-    ========================= */
-    .primary-btn {
-      width: 100%;
-      border: none;
-      border-radius: 13px;
-      padding: 15px;
-      margin-top: 20px;
-      background: #7139b7;
-      color: #fff;
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .primary-btn:hover:not(:disabled) {
-      opacity: 0.92;
-      transform: translateY(-1px);
-    }
-    .primary-btn:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
-    /* =========================
-       Message
-    ========================= */
+
+
+    /* ==================================================
+       الرسائل العامة
+    ================================================== */
+
     .message {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 10px;
-      text-align: center;
-      line-height: 1.8;
-      font-size: 14px;
       display: none;
+
+      margin-top: 15px;
+
+      padding: 12px;
+
+      border-radius: 11px;
+
+      text-align: center;
+
+      line-height: 1.8;
+
+      font-size: 12px;
     }
+
     .message.show {
       display: block;
     }
+
     .message.success {
       background: #edf9f2;
+
       color: #16834b;
     }
+
     .message.error {
       background: #fff0f0;
+
       color: #c62828;
     }
+
     .message.warning {
       background: #fff8e8;
+
       color: #956c00;
     }
-    /* =========================
-       Privacy
-    ========================= */
-    .privacy-note {
-      margin-top: 18px;
-      padding: 13px 15px;
-      background: #f8f8f8;
-      border-radius: 11px;
-      color: #777;
+
+
+    /* ==================================================
+       حالة الطلب
+    ================================================== */
+
+    .request-status {
+      display: none;
+
+      position: relative;
+
+      overflow: hidden;
+
+      text-align: center;
+
+      padding: 30px 22px 25px;
+
+      border-radius: 22px;
+
+      animation:
+        stepContentIn 0.35s ease;
+    }
+
+    .request-status.show {
+      display: block;
+    }
+
+    .request-status.pending {
+      background:
+        linear-gradient(
+          145deg,
+          #fffdf7,
+          #fff8e7
+        );
+
+      border:
+        1px solid #f1dfae;
+    }
+
+    .request-status.rejected {
+      background:
+        linear-gradient(
+          145deg,
+          #fffafa,
+          #fff1f1
+        );
+
+      border:
+        1px solid #f0cfcf;
+    }
+
+    .request-status.success {
+      background:
+        linear-gradient(
+          145deg,
+          #f9fffb,
+          #edf9f2
+        );
+
+      border:
+        1px solid #cce9d8;
+    }
+
+    .request-status-icon {
+      width: 72px;
+      height: 72px;
+
+      margin: 0 auto 18px;
+
+      border-radius: 22px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      box-shadow:
+        0 10px 25px
+        rgba(0,0,0,0.07);
+    }
+
+    .request-status-icon svg {
+      width: 34px;
+      height: 34px;
+
+      fill: none;
+
+      stroke: currentColor;
+
+      stroke-width: 2;
+
+      stroke-linecap: round;
+
+      stroke-linejoin: round;
+    }
+
+    .request-status.pending
+    .request-status-icon {
+      background:
+        #fff0bd;
+
+      color:
+        #c28b00;
+    }
+
+    .request-status.rejected
+    .request-status-icon {
+      background:
+        #ffe0e0;
+
+      color:
+        #d34b4b;
+    }
+
+    .request-status.success
+    .request-status-icon {
+      background:
+        #dff5e7;
+
+      color:
+        #16834b;
+    }
+
+    .request-status-title {
+      margin: 0 0 9px;
+
+      color: #30283a;
+
+      font-size: 21px;
+
+      font-weight: 900;
+    }
+
+    .request-status-description {
+      max-width: 570px;
+
+      margin: 0 auto;
+
+      color: #756d7e;
+
+      font-size: 13px;
+
+      line-height: 2;
+    }
+
+    .request-status-highlight {
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 7px;
+
+      margin-top: 17px;
+
+      padding: 8px 13px;
+
+      border-radius: 30px;
+
+      font-size: 11px;
+
+      font-weight: 900;
+    }
+
+    .request-status.pending
+    .request-status-highlight {
+      background: #fff1c7;
+
+      color: #9b7000;
+    }
+
+    .request-status.rejected
+    .request-status-highlight {
+      background: #ffe3e3;
+
+      color: #b83d3d;
+    }
+
+    .request-status.success
+    .request-status-highlight {
+      background: #ddf4e6;
+
+      color: #16834b;
+    }
+
+    .request-status-highlight .dot {
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: currentColor;
+    }
+
+    .pending-pulse {
+      animation:
+        pendingPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pendingPulse {
+
+      0%,
+      100% {
+        box-shadow:
+          0 10px 25px
+          rgba(194,139,0,0.10);
+      }
+
+      50% {
+        box-shadow:
+          0 10px 32px
+          rgba(194,139,0,0.28);
+      }
+
+    }
+
+
+    /* ==================================================
+       سبب الرفض
+    ================================================== */
+
+    .rejection-reason {
+      display: none;
+
+      margin:
+        20px auto 0;
+
+      max-width: 590px;
+
+      padding: 15px;
+
+      text-align: right;
+
+      border-radius: 15px;
+
+      background:
+        rgba(255,255,255,0.78);
+
+      border:
+        1px solid #efd5d5;
+    }
+
+    .rejection-reason.show {
+      display: block;
+    }
+
+    .rejection-reason-header {
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      margin-bottom: 7px;
+
+      color: #b83d3d;
+
       font-size: 12px;
+
+      font-weight: 900;
+    }
+
+    .rejection-reason-header svg {
+      width: 17px;
+      height: 17px;
+
+      fill: none;
+
+      stroke: currentColor;
+
+      stroke-width: 2;
+
+      stroke-linecap: round;
+
+      stroke-linejoin: round;
+    }
+
+    .rejection-reason-text {
+      color: #695f65;
+
+      font-size: 12px;
+
+      line-height: 1.9;
+
+      white-space: pre-wrap;
+    }
+
+    .request-status-action {
+      max-width: 500px;
+
+      margin:
+        21px auto 0;
+    }
+
+
+    /* ==================================================
+       معلومات الطلب
+    ================================================== */
+
+    .request-meta {
+      display: none;
+
+      margin:
+        18px auto 0;
+
+      max-width: 570px;
+
+      padding: 11px;
+
+      border-radius: 13px;
+
+      background:
+        rgba(255,255,255,0.65);
+
+      border:
+        1px solid rgba(0,0,0,0.05);
+
+      color: #8b8190;
+
+      font-size: 10px;
+
       line-height: 1.8;
     }
-    /* =========================
-       Logout
-    ========================= */
+
+    .request-meta.show {
+      display: block;
+    }
+
+
+    /* ==================================================
+       الخصوصية
+    ================================================== */
+
+    .privacy-note {
+      margin-top: 20px;
+
+      padding: 13px 15px;
+
+      background: #f8f8f8;
+
+      border-radius: 11px;
+
+      color: #777;
+
+      font-size: 11px;
+
+      line-height: 1.8;
+
+      text-align: center;
+    }
+
+
+    /* ==================================================
+       تسجيل الخروج
+    ================================================== */
+
     .logout-btn {
       display: block;
+
       width: 100%;
-      margin-top: 15px;
-      padding: 12px;
+
+      margin-top: 13px;
+
+      padding: 11px;
+
       border: none;
+
       background: transparent;
+
       color: #777;
+
       font-family: inherit;
+
       cursor: pointer;
-      font-size: 14px;
+
+      font-size: 13px;
     }
+
     .logout-btn:hover {
       color: #c62828;
     }
-    /* =========================
-       Mobile
-    ========================= */
+
+
+    /* ==================================================
+       موبايل
+    ================================================== */
+
     @media (max-width: 700px) {
+
       .subscription-page {
-        padding: 18px 12px 30px;
+        padding:
+          17px 11px 30px;
       }
+
       .subscription-card {
         padding: 18px;
-        border-radius: 18px;
+
+        border-radius: 19px;
       }
-      .plans {
-        grid-template-columns: 1fr;
+
+      .subscription-header {
+        margin-bottom: 22px;
       }
-      .steps {
-        gap: 5px;
-      }
-      .step {
-        font-size: 11px;
-      }
-      .step-number {
-        width: 25px;
-        height: 25px;
-      }
-      .step-line {
-        width: 20px;
-      }
+
       .subscription-header h1 {
         font-size: 24px;
       }
+
+      .subscription-header p {
+        font-size: 13px;
+      }
+
+      .plans {
+        grid-template-columns: 1fr;
+      }
+
+      .steps {
+        margin-bottom: 24px;
+      }
+
+      .step {
+        min-width: 66px;
+
+        gap: 7px;
+
+        font-size: 10px;
+      }
+
+      .step-number {
+        width: 31px;
+        height: 31px;
+
+        font-size: 11px;
+      }
+
+      .step-line {
+        max-width: 55px;
+
+        margin-top: 15px;
+      }
+
       .plan-price {
         font-size: 25px;
       }
-      .payment-row {
-        align-items: flex-start;
+
+      .subscription-summary-items {
+        grid-template-columns:
+          1fr 1fr 1fr;
+
+        gap: 7px;
       }
+
+      .summary-card-item {
+        min-height: 80px;
+
+        padding: 10px 8px;
+      }
+
+      .summary-card-value {
+        font-size: 10.5px;
+      }
+
+      .summary-card-value.price {
+        font-size: 13px;
+      }
+
+      .payment-methods {
+        gap: 10px;
+      }
+
+      .payment-method {
+        min-height: 138px;
+
+        padding: 13px;
+      }
+
+      .payment-method-icon {
+        width: 45px;
+        height: 45px;
+      }
+
+      .payment-method-icon svg {
+        width: 29px;
+        height: 29px;
+      }
+
+      .zaincash-logo-image {
+        width: 39px;
+        height: 39px;
+      }
+
+      .payment-account-number {
+        font-size: 18px;
+      }
+
+      .activation-summary-grid {
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+      .reference-input {
+        font-size: 15px;
+      }
+
+      .request-status {
+        padding:
+          26px 16px 22px;
+      }
+
+      .request-status-icon {
+        width: 65px;
+        height: 65px;
+
+        border-radius: 19px;
+      }
+
+      .request-status-icon svg {
+        width: 30px;
+        height: 30px;
+      }
+
+      .request-status-title {
+        font-size: 19px;
+      }
+
+      .request-status-description {
+        font-size: 12px;
+      }
+
     }
+
+
+    @media (max-width: 390px) {
+
+      .subscription-card {
+        padding: 15px;
+      }
+
+      .step {
+        min-width: 57px;
+
+        font-size: 9px;
+      }
+
+      .step-number {
+        width: 29px;
+        height: 29px;
+      }
+
+      .step-line {
+        max-width: 28px;
+      }
+
+      .subscription-summary-items {
+        grid-template-columns:
+          1fr;
+      }
+
+      .summary-card-item {
+        min-height: 64px;
+      }
+
+      .payment-methods {
+        grid-template-columns:
+          1fr;
+      }
+
+      .activation-summary-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+      .payment-method {
+        min-height: 110px;
+      }
+
+      .payment-method-icon {
+        width: 42px;
+        height: 42px;
+      }
+
+      .payment-account-number {
+        font-size: 16px;
+
+        letter-spacing: 0.3px;
+      }
+
+    }
+
   </style>
+
 </head>
+
+
 <body>
+
   <main class="subscription-page">
+
     <div class="subscription-container">
-      <!-- =========================
+
+
+      <!-- ==================================================
            Header
-      ========================= -->
+      ================================================== -->
+
       <header class="subscription-header">
+
         <div class="subscription-logo">
           Z
         </div>
+
         <h1>
           اشتراك Zain Sales
         </h1>
+
         <p>
           فعّل اشتراكك واستفد من جميع أدوات النظام
         </p>
+
       </header>
-      <!-- =========================
-           Steps
-      ========================= -->
-      <div class="steps">
-        <div class="step active">
-          <span class="step-number">1</span>
-          <span>اختيار الاشتراك</span>
+
+
+      <!-- ==================================================
+           خطوات الاشتراك
+      ================================================== -->
+
+      <div
+        class="steps"
+        id="subscriptionSteps"
+        aria-label="مراحل الاشتراك"
+      >
+
+        <div
+          class="step active"
+          id="step1"
+          data-step="1"
+        >
+
+          <span class="step-number">
+            1
+          </span>
+
+          <span class="step-label">
+            اختيار الاشتراك
+          </span>
+
         </div>
-        <div class="step-line"></div>
-        <div class="step">
-          <span class="step-number">2</span>
-          <span>الدفع</span>
+
+
+        <div
+          class="step-line"
+          id="stepLine1"
+        ></div>
+
+
+        <div
+          class="step"
+          id="step2"
+          data-step="2"
+        >
+
+          <span class="step-number">
+            2
+          </span>
+
+          <span class="step-label">
+            معلومات الدفع
+          </span>
+
         </div>
-        <div class="step-line"></div>
-        <div class="step">
-          <span class="step-number">3</span>
-          <span>التفعيل</span>
+
+
+        <div
+          class="step-line"
+          id="stepLine2"
+        ></div>
+
+
+        <div
+          class="step"
+          id="step3"
+          data-step="3"
+        >
+
+          <span class="step-number">
+            3
+          </span>
+
+          <span class="step-label">
+            التفعيل
+          </span>
+
         </div>
+
       </div>
-      <!-- =========================
-           Main Card
-      ========================= -->
+
+
+      <!-- ==================================================
+           CARD
+      ================================================== -->
+
       <section class="subscription-card">
-        <h2 class="section-title">
-          اختر اشتراكك
-        </h2>
-        <p class="section-description">
-          اختر الخطة المناسبة لك، ثم أكمل عملية الدفع
-          وأرسل رقم العملية حتى تتم مراجعة طلبك.
-        </p>
-        <!-- =========================
-             Plans
-        ========================= -->
-        <section class="plans">
-          <!-- Monthly -->
+
+
+        <!-- ==================================================
+             حالة الطلب السابقة
+        ================================================== -->
+
+        <div
+          id="requestStatus"
+          class="request-status"
+        >
+
           <div
-            class="plan-card"
-            data-plan="monthly"
-            data-price="15000">
-            <div class="plan-check">
-              ✓
-            </div>
-            <span class="plan-badge">
-              شهري
-            </span>
-            <h3>
-              الاشتراك الشهري
-            </h3>
-            <div class="plan-price">
-              15,000 د.ع
-            </div>
-            <div class="plan-duration">
-              صالح لمدة 30 يوم
-            </div>
+            id="requestStatusIcon"
+            class="request-status-icon"
+          >
+
+            <svg
+              id="pendingStatusIcon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+              ></circle>
+
+              <path
+                d="M12 7v5l3 2"
+              ></path>
+
+            </svg>
+
+
+            <svg
+              id="rejectedStatusIcon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              style="display:none;"
+            >
+
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+              ></circle>
+
+              <path
+                d="M9 9l6 6"
+              ></path>
+
+              <path
+                d="M15 9l-6 6"
+              ></path>
+
+            </svg>
+
+
+            <svg
+              id="successStatusIcon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              style="display:none;"
+            >
+
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+              ></circle>
+
+              <path
+                d="M8 12.5l2.5 2.5L16.5 9"
+              ></path>
+
+            </svg>
+
           </div>
-          <!-- Yearly -->
+
+
+          <h2
+            id="requestStatusTitle"
+            class="request-status-title"
+          >
+            -
+          </h2>
+
+
+          <p
+            id="requestStatusDescription"
+            class="request-status-description"
+          >
+            -
+          </p>
+
+
           <div
-            class="plan-card"
-            data-plan="yearly"
-            data-price="150000">
-            <div class="plan-check">
-              ✓
-            </div>
-            <span class="plan-badge">
-              سنوي
+            id="requestStatusHighlight"
+            class="request-status-highlight"
+          >
+
+            <span class="dot"></span>
+
+            <span id="requestStatusHighlightText">
+              -
             </span>
-            <h3>
-              الاشتراك السنوي
-            </h3>
-            <div class="plan-price">
-              150,000 د.ع
-            </div>
-            <div class="plan-duration">
-              صالح لمدة سنة
-            </div>
-            <div class="plan-saving">
-              توفير 30,000 د.ع
-            </div>
+
           </div>
-        </section>
-        <!-- =========================
-             Payment Section
-        ========================= -->
-        <section class="payment-section">
-          <div class="payment-box">
-            <div class="payment-box-title">
-              <div class="payment-icon">
-                $
+
+
+          <!-- ==================================================
+               سبب الرفض
+          ================================================== -->
+
+          <div
+            id="rejectionReason"
+            class="rejection-reason"
+          >
+
+            <div class="rejection-reason-header">
+
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+
+                <path
+                  d="M12 3l9 18H3L12 3z"
+                ></path>
+
+                <path
+                  d="M12 9v4"
+                ></path>
+
+                <path
+                  d="M12 17h.01"
+                ></path>
+
+              </svg>
+
+              سبب رفض الطلب
+
+            </div>
+
+
+            <div
+              id="rejectionReasonText"
+              class="rejection-reason-text"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <!-- ==================================================
+               معلومات الطلب
+          ================================================== -->
+
+          <div
+            id="requestMeta"
+            class="request-meta"
+          >
+            حالة الطلب يتم تحديثها تلقائياً.
+          </div>
+
+
+          <!-- ==================================================
+               زر إعادة التقديم
+          ================================================== -->
+
+          <div
+            id="requestStatusAction"
+            class="request-status-action"
+          >
+
+            <button
+              type="button"
+              id="newSubscriptionRequestBtn"
+              class="step-primary-btn"
+            >
+              تقديم طلب جديد
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             STEP 1
+        ================================================== -->
+
+        <div
+          id="subscriptionStep1"
+          class="subscription-step-content"
+        >
+
+          <h2 class="section-title">
+            اختر اشتراكك
+          </h2>
+
+          <p class="section-description">
+            اختر الخطة المناسبة لك للمتابعة إلى معلومات الدفع.
+          </p>
+
+
+          <section class="plans">
+
+
+            <!-- الشهري -->
+
+            <div
+              class="plan-card"
+              data-plan="monthly"
+              data-price="15000"
+            >
+
+              <div class="plan-check">
+                ✓
               </div>
-              <span>
-                معلومات الدفع
+
+              <span class="plan-badge">
+                شهري
               </span>
+
+              <h3>
+                الاشتراك الشهري
+              </h3>
+
+              <div class="plan-price">
+                15,000 د.ع
+              </div>
+
+              <div class="plan-duration">
+                لمدة 30 يوم
+              </div>
+
             </div>
-            <div class="payment-row">
-              <span class="payment-label">
-                طريقة الدفع
+
+
+            <!-- السنوي -->
+
+            <div
+              class="plan-card"
+              data-plan="yearly"
+              data-price="150000"
+            >
+
+              <div class="plan-check">
+                ✓
+              </div>
+
+              <span class="plan-badge">
+                سنوي
               </span>
-              <span class="payment-value">
-                Zain Cash
-              </span>
+
+              <h3>
+                الاشتراك السنوي
+              </h3>
+
+              <div class="plan-price">
+                150,000 د.ع
+              </div>
+
+              <div class="plan-duration">
+                لمدة عام كامل
+              </div>
+
+              <div class="plan-saving">
+                وفر 30,000 د.ع
+              </div>
+
             </div>
-            <div class="payment-row">
-              <span class="payment-label">
-                رقم التحويل
+
+
+          </section>
+
+
+          <button
+            type="button"
+            id="nextToPaymentBtn"
+            class="step-primary-btn"
+            style="display:none;"
+          >
+            اشتراك
+          </button>
+
+
+        </div>
+
+
+        <!-- ==================================================
+             STEP 2
+        ================================================== -->
+
+        <div
+          id="subscriptionStep2"
+          class="subscription-step-content"
+          style="display:none;"
+        >
+
+          <h2 class="section-title">
+            معلومات الدفع
+          </h2>
+
+          <p class="section-description">
+            راجع تفاصيل اشتراكك واختر طريقة الدفع المناسبة لك.
+          </p>
+
+
+          <div class="subscription-summary-box">
+
+            <div class="subscription-summary-header">
+
+              <div class="subscription-summary-header-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+
+                  <rect
+                    x="3"
+                    y="4"
+                    width="18"
+                    height="16"
+                    rx="3"
+                  ></rect>
+
+                  <path
+                    d="M3 9h18"
+                  ></path>
+
+                  <path
+                    d="M7 14h4"
+                  ></path>
+
+                </svg>
+
+              </div>
+
+
+              <div class="subscription-summary-header-text">
+
+                <strong>
+                  تفاصيل الاشتراك
+                </strong>
+
+                <span>
+                  راجع معلومات خطتك قبل إتمام الدفع
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="subscription-summary-items">
+
+
+              <div class="summary-card-item">
+
+                <div class="summary-card-icon">
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+
+                    <path
+                      d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9z"
+                    ></path>
+
+                    <path
+                      d="M15 3v6h6"
+                    ></path>
+
+                  </svg>
+
+                </div>
+
+                <span class="summary-card-label">
+                  الخطة
+                </span>
+
+                <span
+                  class="summary-card-value"
+                  id="paymentPlanName"
+                >
+                  -
+                </span>
+
+              </div>
+
+
+              <div class="summary-card-item">
+
+                <div class="summary-card-icon">
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="9"
+                    ></circle>
+
+                    <path
+                      d="M12 7v5l3 2"
+                    ></path>
+
+                  </svg>
+
+                </div>
+
+                <span class="summary-card-label">
+                  مدة الاشتراك
+                </span>
+
+                <span
+                  class="summary-card-value"
+                  id="paymentPlanDuration"
+                >
+                  -
+                </span>
+
+              </div>
+
+
+              <div class="summary-card-item">
+
+                <div class="summary-card-icon">
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+
+                    <path
+                      d="M3 7h18v10H3z"
+                    ></path>
+
+                    <path
+                      d="M3 10h18"
+                    ></path>
+
+                    <path
+                      d="M7 14h4"
+                    ></path>
+
+                  </svg>
+
+                </div>
+
+                <span class="summary-card-label">
+                  المبلغ المطلوب
+                </span>
+
+                <span
+                  class="summary-card-value price"
+                  id="paymentPlanPrice"
+                >
+                  0 د.ع
+                </span>
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+          <div class="payment-method-title-wrap">
+
+            <p class="payment-method-title">
+              اختر طريقة الدفع
+            </p>
+
+            <span class="payment-method-title-hint">
+              اختر واحدة للمتابعة
+            </span>
+
+          </div>
+
+
+          <div class="payment-methods">
+
+
+            <button
+              type="button"
+              class="payment-method"
+              data-method="zain_cash"
+            >
+
+              <span class="payment-method-check">
+                ✓
               </span>
-              <span
-                class="payment-value payment-number"
-                id="paymentNumber">
-                07714064135
+
+
+              <span class="payment-method-icon">
+
+                <img
+                  class="zaincash-logo-image"
+                  src="assets/icons/zaincash-logo.png"
+                  alt="ZainCash"
+                >
+
               </span>
+
+
+              <span class="payment-method-name">
+                ZainCash
+              </span>
+
+              <span class="payment-method-description">
+                تحويل إلكتروني سريع وآمن
+              </span>
+
+              <span class="payment-method-selected-text">
+                ✓ التفعيل من خلال ZainCash
+              </span>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="payment-method"
+              data-method="mastercard"
+            >
+
+              <span class="payment-method-check">
+                ✓
+              </span>
+
+
+              <span class="payment-method-icon">
+
+                <svg
+                  viewBox="0 0 48 48"
+                  aria-hidden="true"
+                >
+
+                  <circle
+                    cx="19"
+                    cy="24"
+                    r="12"
+                    fill="#eb5424"
+                  ></circle>
+
+                  <circle
+                    cx="29"
+                    cy="24"
+                    r="12"
+                    fill="#f2a900"
+                  ></circle>
+
+                  <path
+                    d="M24 14.7a12 12 0 0 0 0 18.6"
+                    fill="none"
+                    stroke="#d94b2b"
+                    stroke-width="3"
+                  ></path>
+
+                </svg>
+
+              </span>
+
+
+              <span class="payment-method-name">
+                MasterCard
+              </span>
+
+              <span class="payment-method-description">
+                الدفع باستخدام البطاقة
+              </span>
+
+              <span class="payment-method-selected-text">
+                ✓ التفعيل من خلال MasterCard
+              </span>
+
+            </button>
+
+
+          </div>
+
+
+          <div
+            id="selectedPaymentBanner"
+            class="selected-payment-banner"
+          >
+
+            <div class="selected-payment-banner-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+
+                <path
+                  d="M5 12.5l4 4L19 6.5"
+                ></path>
+
+              </svg>
+
+            </div>
+
+
+            <div class="selected-payment-banner-text">
+
+              <small>
+                طريقة الدفع المحددة
+              </small>
+
+              <strong id="selectedPaymentBannerText">
+                -
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="paymentDetails"
+            class="payment-details"
+          >
+
+            <h3
+              id="paymentDetailsTitle"
+              class="payment-details-title"
+            >
+              معلومات الدفع
+            </h3>
+
+
+            <div class="payment-account">
+
+              <div class="payment-account-main">
+
+                <span class="payment-account-label">
+                  الرقم المطلوب التحويل إليه
+                </span>
+
+                <span
+                  id="paymentAccountNumber"
+                  class="payment-account-number"
+                >
+                  -
+                </span>
+
+              </div>
+
+
               <button
                 type="button"
-                class="copy-btn"
-                id="copyPaymentNumberBtn">
-                نسخ
+                id="copyPaymentNumberBtn"
+                class="icon-copy-btn"
+                aria-label="نسخ رقم الدفع"
+                title="نسخ رقم الدفع"
+              >
+
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+
+                  <rect
+                    x="9"
+                    y="9"
+                    width="11"
+                    height="11"
+                    rx="2"
+                  ></rect>
+
+                  <path
+                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                  ></path>
+
+                </svg>
+
               </button>
+
             </div>
-            <div class="payment-row">
-              <span class="payment-label">
-                المبلغ المطلوب
-              </span>
-              <span
-                class="payment-value"
-                id="paymentAmount">
-                اختر الاشتراك
-              </span>
-            </div>
+
+
+            <p
+              id="paymentInstruction"
+              class="payment-instruction"
+            >
+              -
+            </p>
+
           </div>
-          <!-- =========================
-               Transaction Number
-          ========================= -->
+
+
+          <button
+            type="button"
+            id="paymentDoneBtn"
+            class="step-primary-btn"
+            disabled
+          >
+            اختر طريقة الدفع أولاً
+          </button>
+
+
+          <button
+            type="button"
+            id="backToPlanBtn"
+            class="step-secondary-btn"
+          >
+            العودة إلى اختيار الاشتراك
+          </button>
+
+
+        </div>
+
+
+        <!-- ==================================================
+             STEP 3
+        ================================================== -->
+
+        <div
+          id="subscriptionStep3"
+          class="subscription-step-content"
+          style="display:none;"
+        >
+
+          <h2 class="section-title">
+            تفعيل الاشتراك
+          </h2>
+
+          <p class="section-description">
+            أدخل رقم العملية بعد إتمام الدفع لإرسال طلبك للمراجعة.
+          </p>
+
+
+          <div class="activation-hero">
+
+            <div class="activation-hero-content">
+
+              <div class="activation-hero-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+
+                  <path
+                    d="M12 3l7 3v5c0 4.5-3 7.8-7 10-4-2.2-7-5.5-7-10V6l7-3z"
+                  ></path>
+
+                  <path
+                    d="M8.5 12l2.2 2.2 4.8-5"
+                  ></path>
+
+                </svg>
+
+              </div>
+
+
+              <div class="activation-hero-text">
+
+                <strong>
+                  أنت على وشك تفعيل اشتراكك
+                </strong>
+
+                <span>
+                  بعد إرسال الطلب، سيتم مراجعته من الإدارة وتفعيل الاشتراك بعد التأكد من عملية الدفع.
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="activation-summary">
+
+            <div class="activation-summary-header">
+
+              <div class="activation-summary-header-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+
+                  <rect
+                    x="3"
+                    y="4"
+                    width="18"
+                    height="16"
+                    rx="3"
+                  ></rect>
+
+                  <path
+                    d="M3 9h18"
+                  ></path>
+
+                </svg>
+
+              </div>
+
+              <h3 class="activation-summary-title">
+                ملخص الاشتراك
+              </h3>
+
+            </div>
+
+
+            <div class="activation-summary-grid">
+
+
+              <div class="activation-summary-item">
+
+                <div class="activation-summary-item-icon">
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+
+                    <path
+                      d="M4 5a2 2 0 0 1 2-2h8l6 6v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"
+                    ></path>
+
+                    <path
+                      d="M14 3v6h6"
+                    ></path>
+
+                  </svg>
+
+                </div>
+
+                <small>
+                  الخطة
+                </small>
+
+                <strong id="activationPlan">
+                  -
+                </strong>
+
+              </div>
+
+
+              <div class="activation-summary-item">
+
+                <div class="activation-summary-item-icon">
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="9"
+                    ></circle>
+
+                    <path
+                      d="M12 7v5l3 2"
+                    ></path>
+
+                  </svg>
+
+                </div>
+
+                <small>
+                  المدة
+                </small>
+
+                <strong id="activationDuration">
+                  -
+                </strong>
+
+              </div>
+
+
+              <div class="activation-summary-item">
+
+                <div class="activation-summary-item-icon">
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+
+                    <rect
+                      x="3"
+                      y="5"
+                      width="18"
+                      height="14"
+                      rx="2"
+                    ></rect>
+
+                    <path
+                      d="M3 10h18"
+                    ></path>
+
+                  </svg>
+
+                </div>
+
+                <small>
+                  طريقة الدفع
+                </small>
+
+                <strong id="activationPaymentMethod">
+                  -
+                </strong>
+
+              </div>
+
+
+              <div
+                class="activation-summary-item price"
+              >
+
+                <div class="activation-summary-item-icon">
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+
+                    <path
+                      d="M3 7h18v10H3z"
+                    ></path>
+
+                    <path
+                      d="M3 10h18"
+                    ></path>
+
+                    <path
+                      d="M7 14h4"
+                    ></path>
+
+                  </svg>
+
+                </div>
+
+                <small>
+                  المبلغ
+                </small>
+
+                <strong id="activationPrice">
+                  -
+                </strong>
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+          <div class="reference-card">
+
+            <div class="reference-header">
+
+              <div class="reference-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+
+                  <path
+                    d="M6 3h9l4 4v14H6z"
+                  ></path>
+
+                  <path
+                    d="M14 3v5h5"
+                  ></path>
+
+                  <path
+                    d="M9 13h6"
+                  ></path>
+
+                  <path
+                    d="M9 17h6"
+                  ></path>
+
+                </svg>
+
+              </div>
+
+
+              <div class="reference-header-text">
+
+                <strong>
+                  رقم العملية / رقم التحويل
+                </strong>
+
+                <span>
+                  أدخل الرقم الظاهر بعد إتمام عملية الدفع
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="reference-input-wrap">
+
+              <input
+                id="paymentReference"
+                class="reference-input"
+                type="text"
+                inputmode="numeric"
+                autocomplete="off"
+                maxlength="50"
+                placeholder="اكتب رقم العملية هنا"
+              >
+
+            </div>
+
+
+            <div class="reference-hint">
+              تأكد من كتابة رقم العملية بشكل صحيح حتى تتمكن الإدارة من مطابقة عملية الدفع.
+            </div>
+
+          </div>
+
+
           <div class="form-group">
+
             <label
               class="form-label"
-              for="paymentReference">
-              رقم العملية / رقم التحويل
-            </label>
-            <input
-              id="paymentReference"
-              class="form-input"
-              type="text"
-              inputmode="numeric"
-              autocomplete="off"
-              maxlength="50"
-              placeholder="اكتب رقم العملية بعد التحويل">
-            <div class="input-hint">
-              اكتب رقم العملية الظاهر لك بعد إتمام التحويل.
-              لا ترسل أي معلومات شخصية إضافية.
-            </div>
-          </div>
-          <!-- =========================
-               Notes
-          ========================= -->
-          <div class="form-group">
-            <label
-              class="form-label"
-              for="customerNotes">
+              for="customerNotes"
+            >
+
               ملاحظة
-              <span style="color:#999;font-weight:normal;">
+
+              <span
+                style="
+                  color:#999;
+                  font-weight:normal;
+                "
+              >
                 (اختياري)
               </span>
+
             </label>
+
+
             <textarea
               id="customerNotes"
               class="form-textarea"
               maxlength="300"
-              placeholder="مثلاً: تم التحويل اليوم الساعة 10 صباحاً">
-            </textarea>
+              placeholder="مثلاً: تم التحويل اليوم الساعة 10 صباحاً"
+            ></textarea>
+
           </div>
-          <!-- =========================
-               Summary
-          ========================= -->
-          <div
-            class="summary"
-            id="subscriptionSummary">
-            <div class="summary-row">
-              <span>
-                الخطة
-              </span>
-              <span id="summaryPlan">
-                لم يتم الاختيار
-              </span>
-            </div>
-            <div class="summary-row">
-              <span>
-                مدة الاشتراك
-              </span>
-              <span id="summaryDuration">
-                -
-              </span>
-            </div>
-            <div
-              class="summary-row summary-total">
-              <span>
-                المبلغ الإجمالي
-              </span>
-              <span id="summaryPrice">
-                0 د.ع
-              </span>
-            </div>
-          </div>
-          <!-- =========================
-               Submit
-          ========================= -->
+
+
           <button
-            id="submitSubscriptionBtn"
-            class="primary-btn"
             type="button"
-            disabled>
-            اختر الاشتراك أولاً
+            id="submitSubscriptionBtn"
+            class="step-primary-btn"
+          >
+            إرسال طلب التفعيل
           </button>
-          <!-- =========================
-               Message
-          ========================= -->
-          <div
-            id="subscriptionMessage"
-            class="message">
-          </div>
-          <!-- =========================
-               Privacy
-          ========================= -->
-          <div class="privacy-note">
-            🔒 <strong>خصوصيتك مهمة</strong>
-            <br>
-            لا نطلب منك رفع صورة الوصل أو أي مستند شخصي.
-            نستخدم رقم العملية فقط لمراجعة طلب الاشتراك.
-          </div>
-          <!-- =========================
-               Logout
-          ========================= -->
+
+
           <button
-            id="logoutBtn"
-            class="logout-btn"
-            type="button">
-            تسجيل الخروج
+            type="button"
+            id="backToPaymentBtn"
+            class="step-secondary-btn"
+          >
+            العودة إلى معلومات الدفع
           </button>
-        </section>
+
+
+        </div>
+
+
+        <!-- ==================================================
+             الرسالة العامة
+        ================================================== -->
+
+        <div
+          id="subscriptionMessage"
+          class="message"
+          role="alert"
+          aria-live="polite"
+        ></div>
+
+
+        <!-- ==================================================
+             الخصوصية
+        ================================================== -->
+
+        <div class="privacy-note">
+
+          🔒 <strong>خصوصيتك مهمة</strong>
+
+          <br>
+
+          لا نطلب منك رفع صورة الوصل أو أي مستند شخصي.
+          نستخدم رقم العملية فقط لمراجعة طلب الاشتراك.
+
+        </div>
+
+
+        <!-- ==================================================
+             تسجيل الخروج
+        ================================================== -->
+
+        <button
+          id="logoutBtn"
+          class="logout-btn"
+          type="button"
+        >
+          تسجيل الخروج
+        </button>
+
+
       </section>
+
     </div>
+
   </main>
-  <!-- =========================
-       Supabase
-  ========================= -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Config -->
+
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
   <script src="js/config.js"></script>
-  <!-- Auth -->
+
   <script src="js/auth.js"></script>
-  <!-- Subscription -->
+
   <script src="js/subscription.js"></script>
+
+
 </body>
+
 </html>
