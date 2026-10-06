@@ -16,57 +16,79 @@ let isCapturingPhoto = false;
 
 
 // =====================================================
+// إعدادات الصورة
+// =====================================================
+
+const AVATAR_MAX_SIZE =
+  5 * 1024 * 1024;
+
+const AVATAR_ALLOWED_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp"
+];
+
+const AVATAR_BUCKET =
+  "avatars";
+
+
+// =====================================================
 // عند تحميل الصفحة
 // =====================================================
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
 
-  const signupForm =
-    document.getElementById("signupForm");
+    const signupForm =
+      document.getElementById(
+        "signupForm"
+      );
 
-  if (!signupForm) {
-    return;
+    if (!signupForm) {
+      return;
+    }
+
+
+    // ---------------------------------------------------
+    // نموذج إنشاء الحساب
+    // ---------------------------------------------------
+
+    signupForm.addEventListener(
+      "submit",
+      handleSignup
+    );
+
+
+    // ---------------------------------------------------
+    // إعداد الصورة
+    // ---------------------------------------------------
+
+    setupAvatar();
+
+
+    // ---------------------------------------------------
+    // إعداد كلمة المرور
+    // ---------------------------------------------------
+
+    setupPassword();
+
+
+    // ---------------------------------------------------
+    // إعداد تأكيد كلمة المرور
+    // ---------------------------------------------------
+
+    setupConfirmPassword();
+
+
+    // ---------------------------------------------------
+    // إعداد الشروط والخصوصية
+    // ---------------------------------------------------
+
+    setupTermsAndPrivacy();
+
   }
-
-
-  // ---------------------------------------------------
-  // نموذج إنشاء الحساب
-  // ---------------------------------------------------
-
-  signupForm.addEventListener(
-    "submit",
-    handleSignup
-  );
-
-
-  // ---------------------------------------------------
-  // إعداد الصورة
-  // ---------------------------------------------------
-
-  setupAvatar();
-
-
-  // ---------------------------------------------------
-  // إعداد كلمة المرور
-  // ---------------------------------------------------
-
-  setupPassword();
-
-
-  // ---------------------------------------------------
-  // إعداد تأكيد كلمة المرور
-  // ---------------------------------------------------
-
-  setupConfirmPassword();
-
-
-  // ---------------------------------------------------
-  // إعداد الشروط والخصوصية
-  // ---------------------------------------------------
-
-  setupTermsAndPrivacy();
-
-});
+);
 
 
 // =====================================================
@@ -76,23 +98,34 @@ document.addEventListener("DOMContentLoaded", () => {
 function setupAvatar() {
 
   const galleryBtn =
-    document.getElementById("galleryBtn");
+    document.getElementById(
+      "galleryBtn"
+    );
 
   const cameraBtn =
-    document.getElementById("cameraBtn");
+    document.getElementById(
+      "cameraBtn"
+    );
 
   const removeAvatarBtn =
-    document.getElementById("removeAvatarBtn");
+    document.getElementById(
+      "removeAvatarBtn"
+    );
 
   const galleryInput =
-    document.getElementById("galleryInput");
+    document.getElementById(
+      "galleryInput"
+    );
 
 
   // ---------------------------------------------------
   // فتح الاستديو
   // ---------------------------------------------------
 
-  if (galleryBtn && galleryInput) {
+  if (
+    galleryBtn &&
+    galleryInput
+  ) {
 
     galleryBtn.addEventListener(
       "click",
@@ -168,30 +201,29 @@ function setupAvatar() {
 function setupCameraEvents() {
 
   const modal =
-    document.getElementById("cameraModal");
+    document.getElementById(
+      "cameraModal"
+    );
 
   const closeButton =
-    document.getElementById("closeCameraBtn");
+    document.getElementById(
+      "closeCameraBtn"
+    );
 
   const captureButton =
-    document.getElementById("captureCameraBtn");
+    document.getElementById(
+      "captureCameraBtn"
+    );
 
-
-  // ---------------------------------------------------
-  // إذا النافذة غير موجودة
-  // ---------------------------------------------------
 
   if (!modal) {
     return;
   }
 
 
-  // ---------------------------------------------------
-  // منع تكرار الأحداث
-  // ---------------------------------------------------
-
   if (
-    modal.dataset.cameraEventsBound === "true"
+    modal.dataset.cameraEventsBound ===
+    "true"
   ) {
 
     return;
@@ -199,11 +231,12 @@ function setupCameraEvents() {
   }
 
 
-  modal.dataset.cameraEventsBound = "true";
+  modal.dataset.cameraEventsBound =
+    "true";
 
 
   // ---------------------------------------------------
-  // زر إغلاق الكاميرا
+  // إغلاق الكاميرا
   // ---------------------------------------------------
 
   if (closeButton) {
@@ -224,7 +257,7 @@ function setupCameraEvents() {
 
 
   // ---------------------------------------------------
-  // زر التقاط الصورة
+  // التقاط الصورة
   // ---------------------------------------------------
 
   if (captureButton) {
@@ -245,7 +278,7 @@ function setupCameraEvents() {
 
 
   // ---------------------------------------------------
-  // الضغط على الخلفية لإغلاق الكاميرا
+  // الضغط على الخلفية
   // ---------------------------------------------------
 
   modal.addEventListener(
@@ -272,10 +305,6 @@ function setupCameraEvents() {
 
 async function openCamera() {
 
-  // ---------------------------------------------------
-  // التأكد من دعم الكاميرا
-  // ---------------------------------------------------
-
   if (
     !navigator.mediaDevices ||
     !navigator.mediaDevices.getUserMedia
@@ -290,10 +319,6 @@ async function openCamera() {
 
   }
 
-
-  // ---------------------------------------------------
-  // إنشاء / العثور على Modal
-  // ---------------------------------------------------
 
   const modal =
     createCameraModal();
@@ -311,20 +336,14 @@ async function openCamera() {
   }
 
 
-  // ---------------------------------------------------
-  // التأكد من ربط الأحداث
-  // ---------------------------------------------------
-
   setupCameraEvents();
 
 
-  // ---------------------------------------------------
-  // إذا الكاميرا مفتوحة مسبقًا
-  // ---------------------------------------------------
-
   if (cameraStream) {
 
-    modal.classList.add("show");
+    modal.classList.add(
+      "show"
+    );
 
     return;
 
@@ -332,7 +351,9 @@ async function openCamera() {
 
 
   const cameraVideo =
-    document.getElementById("cameraVideo");
+    document.getElementById(
+      "cameraVideo"
+    );
 
 
   if (!cameraVideo) {
@@ -353,24 +374,18 @@ async function openCamera() {
     );
 
 
-  // ---------------------------------------------------
-  // تعطيل الالتقاط أثناء تشغيل الكاميرا
-  // ---------------------------------------------------
-
   if (captureButton) {
 
-    captureButton.disabled = true;
+    captureButton.disabled =
+      true;
 
-    captureButton.style.opacity = "0.6";
+    captureButton.style.opacity =
+      "0.6";
 
   }
 
 
   try {
-
-    // -------------------------------------------------
-    // تشغيل الكاميرا الأمامية
-    // -------------------------------------------------
 
     cameraStream =
       await navigator.mediaDevices.getUserMedia({
@@ -396,18 +411,17 @@ async function openCamera() {
       });
 
 
-    // -------------------------------------------------
-    // ربط الكاميرا بالفيديو
-    // -------------------------------------------------
-
     cameraVideo.srcObject =
       cameraStream;
 
-    cameraVideo.muted = true;
+    cameraVideo.muted =
+      true;
 
-    cameraVideo.autoplay = true;
+    cameraVideo.autoplay =
+      true;
 
-    cameraVideo.playsInline = true;
+    cameraVideo.playsInline =
+      true;
 
 
     cameraVideo.setAttribute(
@@ -421,16 +435,10 @@ async function openCamera() {
     );
 
 
-    // -------------------------------------------------
-    // إظهار النافذة
-    // -------------------------------------------------
+    modal.classList.add(
+      "show"
+    );
 
-    modal.classList.add("show");
-
-
-    // -------------------------------------------------
-    // انتظار جاهزية الفيديو
-    // -------------------------------------------------
 
     await new Promise(
       (resolve) => {
@@ -459,10 +467,6 @@ async function openCamera() {
     );
 
 
-    // -------------------------------------------------
-    // تشغيل الفيديو
-    // -------------------------------------------------
-
     try {
 
       await cameraVideo.play();
@@ -477,15 +481,13 @@ async function openCamera() {
     }
 
 
-    // -------------------------------------------------
-    // تفعيل زر الالتقاط
-    // -------------------------------------------------
-
     if (captureButton) {
 
-      captureButton.disabled = false;
+      captureButton.disabled =
+        false;
 
-      captureButton.style.opacity = "1";
+      captureButton.style.opacity =
+        "1";
 
     }
 
@@ -499,10 +501,6 @@ async function openCamera() {
 
     closeCamera();
 
-
-    // -------------------------------------------------
-    // رفض صلاحية الكاميرا
-    // -------------------------------------------------
 
     if (
       error.name === "NotAllowedError" ||
@@ -519,10 +517,6 @@ async function openCamera() {
     }
 
 
-    // -------------------------------------------------
-    // لا توجد كاميرا
-    // -------------------------------------------------
-
     if (
       error.name === "NotFoundError" ||
       error.name === "DevicesNotFoundError"
@@ -538,10 +532,6 @@ async function openCamera() {
     }
 
 
-    // -------------------------------------------------
-    // الكاميرا مستخدمة
-    // -------------------------------------------------
-
     if (
       error.name === "NotReadableError"
     ) {
@@ -555,10 +545,6 @@ async function openCamera() {
 
     }
 
-
-    // -------------------------------------------------
-    // مشكلة HTTPS
-    // -------------------------------------------------
 
     if (
       error.name === "SecurityError"
@@ -606,7 +592,9 @@ function createCameraModal() {
 
 
   modal =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
 
   modal.id =
@@ -721,7 +709,6 @@ async function captureCameraPhoto() {
       "cameraVideo"
     );
 
-
   const captureButton =
     document.getElementById(
       "captureCameraBtn"
@@ -757,12 +744,14 @@ async function captureCameraPhoto() {
   }
 
 
-  isCapturingPhoto = true;
+  isCapturingPhoto =
+    true;
 
 
   if (captureButton) {
 
-    captureButton.disabled = true;
+    captureButton.disabled =
+      true;
 
     captureButton.dataset.originalText =
       captureButton.innerHTML;
@@ -785,7 +774,9 @@ async function captureCameraPhoto() {
   try {
 
     const canvas =
-      document.createElement("canvas");
+      document.createElement(
+        "canvas"
+      );
 
 
     const size =
@@ -795,14 +786,20 @@ async function captureCameraPhoto() {
       );
 
 
-    canvas.width = size;
-    canvas.height = size;
+    canvas.width =
+      size;
+
+    canvas.height =
+      size;
 
 
     const context =
-      canvas.getContext("2d", {
-        alpha: false
-      });
+      canvas.getContext(
+        "2d",
+        {
+          alpha: false
+        }
+      );
 
 
     if (!context) {
@@ -814,20 +811,24 @@ async function captureCameraPhoto() {
     }
 
 
-    context.imageSmoothingEnabled = true;
+    context.imageSmoothingEnabled =
+      true;
 
-    context.imageSmoothingQuality = "high";
+    context.imageSmoothingQuality =
+      "high";
 
 
     const sourceX =
       (
-        video.videoWidth - size
+        video.videoWidth -
+        size
       ) / 2;
 
 
     const sourceY =
       (
-        video.videoHeight - size
+        video.videoHeight -
+        size
       ) / 2;
 
 
@@ -891,29 +892,29 @@ async function captureCameraPhoto() {
         `avatar-${Date.now()}.jpg`,
 
         {
-          type: "image/jpeg",
-          lastModified: Date.now()
+          type:
+            "image/jpeg",
+
+          lastModified:
+            Date.now()
+
         }
 
       );
 
 
-    if (
-      file.size > 5 * 1024 * 1024
-    ) {
-
-      throw new Error(
-        "حجم الصورة كبير جدًا. الحد الأقصى 5 ميجابايت."
-      );
-
-    }
+    validateAvatarFile(
+      file
+    );
 
 
     selectedAvatarFile =
       file;
 
 
-    previewAvatar(file);
+    previewAvatar(
+      file
+    );
 
 
     closeCamera();
@@ -934,7 +935,8 @@ async function captureCameraPhoto() {
 
     if (captureButton) {
 
-      captureButton.disabled = false;
+      captureButton.disabled =
+        false;
 
       captureButton.innerHTML =
         captureButton.dataset.originalText ||
@@ -959,7 +961,8 @@ async function captureCameraPhoto() {
 
   } finally {
 
-    isCapturingPhoto = false;
+    isCapturingPhoto =
+      false;
 
   }
 
@@ -996,7 +999,8 @@ function closeCamera() {
       );
 
 
-    cameraStream = null;
+    cameraStream =
+      null;
 
   }
 
@@ -1022,7 +1026,8 @@ function closeCamera() {
 
     }
 
-    video.srcObject = null;
+    video.srcObject =
+      null;
 
   }
 
@@ -1035,9 +1040,11 @@ function closeCamera() {
 
   if (captureButton) {
 
-    captureButton.disabled = false;
+    captureButton.disabled =
+      false;
 
-    captureButton.style.opacity = "1";
+    captureButton.style.opacity =
+      "1";
 
     captureButton.innerHTML = `
 
@@ -1054,7 +1061,8 @@ function closeCamera() {
   }
 
 
-  isCapturingPhoto = false;
+  isCapturingPhoto =
+    false;
 
 
   const modal =
@@ -1065,7 +1073,9 @@ function closeCamera() {
 
   if (modal) {
 
-    modal.classList.remove("show");
+    modal.classList.remove(
+      "show"
+    );
 
   }
 
@@ -1085,61 +1095,26 @@ function handleAvatarSelection(
 
 
   if (!file) {
-
     return;
-
   }
 
 
-  const allowedTypes = [
+  try {
 
-    "image/jpeg",
+    validateAvatarFile(
+      file
+    );
 
-    "image/png",
-
-    "image/webp"
-
-  ];
-
-
-  if (
-    !allowedTypes.includes(
-      file.type
-    )
-  ) {
+  } catch (error) {
 
     showMessage(
-      "صيغة الصورة غير مدعومة. استخدم JPG أو PNG أو WEBP.",
+      error.message,
       "error"
     );
 
 
     event.target.value =
       "";
-
-
-    return;
-
-  }
-
-
-  const maxSize =
-    5 * 1024 * 1024;
-
-
-  if (
-    file.size > maxSize
-  ) {
-
-    showMessage(
-      "حجم الصورة كبير جدًا. الحد الأقصى 5 ميجابايت.",
-      "error"
-    );
-
-
-    event.target.value =
-      "";
-
 
     return;
 
@@ -1164,6 +1139,49 @@ function handleAvatarSelection(
 
 
 // =====================================================
+// التحقق من ملف الصورة
+// =====================================================
+
+function validateAvatarFile(
+  file
+) {
+
+  if (!file) {
+
+    throw new Error(
+      "يرجى تحديد صورة شخصية."
+    );
+
+  }
+
+
+  if (
+    !AVATAR_ALLOWED_TYPES.includes(
+      file.type
+    )
+  ) {
+
+    throw new Error(
+      "صيغة الصورة غير مدعومة. استخدم JPG أو PNG أو WEBP."
+    );
+
+  }
+
+
+  if (
+    file.size > AVATAR_MAX_SIZE
+  ) {
+
+    throw new Error(
+      "حجم الصورة كبير جدًا. الحد الأقصى 5 ميجابايت."
+    );
+
+  }
+
+}
+
+
+// =====================================================
 // معاينة الصورة
 // =====================================================
 
@@ -1176,18 +1194,15 @@ function previewAvatar(
       "avatarPreview"
     );
 
-
   const avatarImage =
     document.getElementById(
       "avatarImage"
     );
 
-
   const avatarPlaceholder =
     document.getElementById(
       "avatarPlaceholder"
     );
-
 
   const removeAvatarBtn =
     document.getElementById(
@@ -1214,7 +1229,6 @@ function previewAvatar(
 
       avatarImage.src =
         reader.result;
-
 
       avatarImage.hidden =
         false;
@@ -1280,30 +1294,25 @@ function removeAvatar() {
       "avatarImage"
     );
 
-
   const avatarPlaceholder =
     document.getElementById(
       "avatarPlaceholder"
     );
-
 
   const removeAvatarBtn =
     document.getElementById(
       "removeAvatarBtn"
     );
 
-
   const galleryInput =
     document.getElementById(
       "galleryInput"
     );
 
-
   const cameraInput =
     document.getElementById(
       "cameraInput"
     );
-
 
   const avatarPreview =
     document.getElementById(
@@ -1386,7 +1395,6 @@ function setupPassword() {
       "password"
     );
 
-
   const togglePassword =
     document.getElementById(
       "togglePassword"
@@ -1394,9 +1402,7 @@ function setupPassword() {
 
 
   if (!passwordInput) {
-
     return;
-
   }
 
 
@@ -1406,9 +1412,7 @@ function setupPassword() {
   );
 
 
-  if (
-    togglePassword
-  ) {
+  if (togglePassword) {
 
     togglePassword.addEventListener(
       "click",
@@ -1437,14 +1441,13 @@ function togglePasswordVisibility(
 ) {
 
   if (!input) {
-
     return;
-
   }
 
 
   const isPassword =
-    input.type === "password";
+    input.type ===
+    "password";
 
 
   input.type =
@@ -1484,36 +1487,30 @@ function updatePasswordStrength() {
       "password"
     );
 
-
   const strengthBar =
     document.getElementById(
       "strengthBar"
     );
-
 
   const strengthLabel =
     document.getElementById(
       "strengthLabel"
     );
 
-
   const ruleLength =
     document.getElementById(
       "ruleLength"
     );
-
 
   const ruleNumber =
     document.getElementById(
       "ruleNumber"
     );
 
-
   const ruleUpper =
     document.getElementById(
       "ruleUpper"
     );
-
 
   const ruleSpecial =
     document.getElementById(
@@ -1522,9 +1519,7 @@ function updatePasswordStrength() {
 
 
   if (!passwordInput) {
-
     return;
-
   }
 
 
@@ -1532,25 +1527,18 @@ function updatePasswordStrength() {
     passwordInput.value;
 
 
-  // ===================================================
-  // فحص شروط كلمة المرور
-  // ===================================================
-
   const hasLength =
     password.length >= 6;
-
 
   const hasNumber =
     /[0-9]/.test(
       password
     );
 
-
   const hasUppercase =
     /[A-Z]/.test(
       password
     );
-
 
   const hasSpecial =
     /[^A-Za-z0-9]/.test(
@@ -1558,27 +1546,20 @@ function updatePasswordStrength() {
     );
 
 
-  // ===================================================
-  // تحديث شروط كلمة المرور
-  // ===================================================
-
   updateRule(
     ruleLength,
     hasLength
   );
-
 
   updateRule(
     ruleNumber,
     hasNumber
   );
 
-
   updateRule(
     ruleUpper,
     hasUppercase
   );
-
 
   updateRule(
     ruleSpecial,
@@ -1586,45 +1567,26 @@ function updatePasswordStrength() {
   );
 
 
-  // ===================================================
-  // حساب القوة
-  // ===================================================
-
   let score =
     0;
 
 
   if (hasLength) {
-
     score++;
-
   }
-
 
   if (hasNumber) {
-
     score++;
-
   }
-
 
   if (hasUppercase) {
-
     score++;
-
   }
-
 
   if (hasSpecial) {
-
     score++;
-
   }
 
-
-  // ===================================================
-  // تحديث الشريط
-  // ===================================================
 
   if (strengthBar) {
 
@@ -1638,7 +1600,6 @@ function updatePasswordStrength() {
       `${percentage}%`;
 
 
-    // إزالة اللون السابق
     strengthBar.classList.remove(
       "strength-weak",
       "strength-medium",
@@ -1647,42 +1608,28 @@ function updatePasswordStrength() {
     );
 
 
-    // تحديد اللون حسب القوة
     if (!password) {
 
-      // بدون لون
       strengthBar.style.background =
         "#ddd";
 
-    }
+    } else if (score <= 1) {
 
-    else if (score <= 1) {
-
-      // أحمر
       strengthBar.style.background =
         "#d32f2f";
 
-    }
+    } else if (score === 2) {
 
-    else if (score === 2) {
-
-      // أصفر
       strengthBar.style.background =
         "#f0b400";
 
-    }
+    } else if (score === 3) {
 
-    else if (score === 3) {
-
-      // أخضر فاتح
       strengthBar.style.background =
         "#62a83d";
 
-    }
+    } else {
 
-    else if (score === 4) {
-
-      // أخضر قوي
       strengthBar.style.background =
         "#27853b";
 
@@ -1690,10 +1637,6 @@ function updatePasswordStrength() {
 
   }
 
-
-  // ===================================================
-  // تحديث نص القوة
-  // ===================================================
 
   if (strengthLabel) {
 
@@ -1705,9 +1648,7 @@ function updatePasswordStrength() {
       strengthLabel.style.color =
         "#999";
 
-    }
-
-    else if (score <= 1) {
+    } else if (score <= 1) {
 
       strengthLabel.textContent =
         "ضعيفة";
@@ -1715,9 +1656,7 @@ function updatePasswordStrength() {
       strengthLabel.style.color =
         "#d32f2f";
 
-    }
-
-    else if (score === 2) {
+    } else if (score === 2) {
 
       strengthLabel.textContent =
         "متوسطة";
@@ -1725,9 +1664,7 @@ function updatePasswordStrength() {
       strengthLabel.style.color =
         "#c58a00";
 
-    }
-
-    else if (score === 3) {
+    } else if (score === 3) {
 
       strengthLabel.textContent =
         "جيدة";
@@ -1735,9 +1672,7 @@ function updatePasswordStrength() {
       strengthLabel.style.color =
         "#4f9132";
 
-    }
-
-    else if (score === 4) {
+    } else {
 
       strengthLabel.textContent =
         "قوية";
@@ -1750,13 +1685,10 @@ function updatePasswordStrength() {
   }
 
 
-  // ===================================================
-  // تحديث تطابق كلمة المرور
-  // ===================================================
-
   updateConfirmPassword();
 
 }
+
 
 // =====================================================
 // تحديث قاعدة من قواعد كلمة المرور
@@ -1768,9 +1700,7 @@ function updateRule(
 ) {
 
   if (!element) {
-
     return;
-
   }
 
 
@@ -1780,10 +1710,10 @@ function updateRule(
   );
 
 
-const icon =
-  element.querySelector(
-    ".password-rule-icon"
-  );
+  const icon =
+    element.querySelector(
+      ".password-rule-icon"
+    );
 
 
   if (icon) {
@@ -1808,7 +1738,6 @@ function setupConfirmPassword() {
     document.getElementById(
       "confirmPassword"
     );
-
 
   const toggleConfirmPassword =
     document.getElementById(
@@ -1861,12 +1790,10 @@ function updateConfirmPassword() {
       "password"
     );
 
-
   const confirmPasswordInput =
     document.getElementById(
       "confirmPassword"
     );
-
 
   const confirmStatus =
     document.getElementById(
@@ -1888,7 +1815,6 @@ function updateConfirmPassword() {
   const password =
     passwordInput.value;
 
-
   const confirmPassword =
     confirmPasswordInput.value;
 
@@ -1898,10 +1824,8 @@ function updateConfirmPassword() {
     confirmStatus.textContent =
       "";
 
-
     confirmStatus.className =
       "confirm-status";
-
 
     return;
 
@@ -1910,16 +1834,15 @@ function updateConfirmPassword() {
 
   if (
     password &&
-    password === confirmPassword
+    password ===
+    confirmPassword
   ) {
 
     confirmStatus.textContent =
       "✓ كلمتا المرور متطابقتان";
 
-
     confirmStatus.className =
       "confirm-status valid";
-
 
     return;
 
@@ -1928,7 +1851,6 @@ function updateConfirmPassword() {
 
   confirmStatus.textContent =
     "✕ كلمتا المرور غير متطابقتين";
-
 
   confirmStatus.className =
     "confirm-status invalid";
@@ -1947,18 +1869,15 @@ function setupTermsAndPrivacy() {
       "termsLink"
     );
 
-
   const privacyLink =
     document.getElementById(
       "privacyLink"
     );
 
-
   const termsClose =
     document.getElementById(
       "termsClose"
     );
-
 
   const privacyClose =
     document.getElementById(
@@ -1966,9 +1885,7 @@ function setupTermsAndPrivacy() {
     );
 
 
-  if (
-    termsLink
-  ) {
+  if (termsLink) {
 
     termsLink.addEventListener(
       "click",
@@ -1986,9 +1903,7 @@ function setupTermsAndPrivacy() {
   }
 
 
-  if (
-    privacyLink
-  ) {
+  if (privacyLink) {
 
     privacyLink.addEventListener(
       "click",
@@ -2006,9 +1921,7 @@ function setupTermsAndPrivacy() {
   }
 
 
-  if (
-    termsClose
-  ) {
+  if (termsClose) {
 
     termsClose.addEventListener(
       "click",
@@ -2024,9 +1937,7 @@ function setupTermsAndPrivacy() {
   }
 
 
-  if (
-    privacyClose
-  ) {
+  if (privacyClose) {
 
     privacyClose.addEventListener(
       "click",
@@ -2046,7 +1957,6 @@ function setupTermsAndPrivacy() {
     "termsModal"
   );
 
-
   setupModalBackdrop(
     "privacyModal"
   );
@@ -2057,7 +1967,8 @@ function setupTermsAndPrivacy() {
     (event) => {
 
       if (
-        event.key !== "Escape"
+        event.key !==
+        "Escape"
       ) {
 
         return;
@@ -2089,7 +2000,6 @@ function setupTermsAndPrivacy() {
         "termsModal"
       );
 
-
       closeModal(
         "privacyModal"
       );
@@ -2115,9 +2025,7 @@ function openModal(
 
 
   if (!modal) {
-
     return;
-
   }
 
 
@@ -2154,9 +2062,7 @@ function closeModal(
 
 
   if (!modal) {
-
     return;
-
   }
 
 
@@ -2203,9 +2109,7 @@ function setupModalBackdrop(
 
 
   if (!modal) {
-
     return;
-
   }
 
 
@@ -2249,48 +2153,40 @@ async function handleSignup(
       "fullName"
     );
 
-
   const emailInput =
     document.getElementById(
       "email"
     );
-
 
   const phoneInput =
     document.getElementById(
       "phone"
     );
 
-
   const governorateInput =
     document.getElementById(
       "governorate"
     );
-
 
   const regionInput =
     document.getElementById(
       "region"
     );
 
-
   const passwordInput =
     document.getElementById(
       "password"
     );
-
 
   const confirmPasswordInput =
     document.getElementById(
       "confirmPassword"
     );
 
-
   const termsAccepted =
     document.getElementById(
       "termsAccepted"
     );
-
 
   const signupBtn =
     document.getElementById(
@@ -2305,28 +2201,22 @@ async function handleSignup(
   const fullName =
     fullNameInput.value.trim();
 
-
   const email =
     emailInput.value
       .trim()
       .toLowerCase();
 
-
   const phone =
     phoneInput.value.trim();
-
 
   const governorate =
     governorateInput.value.trim();
 
-
   const region =
     regionInput.value.trim();
 
-
   const password =
     passwordInput.value;
-
 
   const confirmPassword =
     confirmPasswordInput.value;
@@ -2348,6 +2238,24 @@ async function handleSignup(
   }
 
 
+  try {
+
+    validateAvatarFile(
+      selectedAvatarFile
+    );
+
+  } catch (error) {
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+
   // ===================================================
   // الاسم
   // ===================================================
@@ -2358,7 +2266,6 @@ async function handleSignup(
       "يرجى كتابة اسم المندوب.",
       "error"
     );
-
 
     fullNameInput.focus();
 
@@ -2376,7 +2283,6 @@ async function handleSignup(
       "error"
     );
 
-
     fullNameInput.focus();
 
     return;
@@ -2392,7 +2298,6 @@ async function handleSignup(
       "اسم المندوب طويل جدًا.",
       "error"
     );
-
 
     fullNameInput.focus();
 
@@ -2412,7 +2317,6 @@ async function handleSignup(
       "error"
     );
 
-
     emailInput.focus();
 
     return;
@@ -2428,7 +2332,6 @@ async function handleSignup(
       "يرجى إدخال بريد إلكتروني صحيح.",
       "error"
     );
-
 
     emailInput.focus();
 
@@ -2448,7 +2351,6 @@ async function handleSignup(
       "error"
     );
 
-
     phoneInput.focus();
 
     return;
@@ -2466,7 +2368,6 @@ async function handleSignup(
       "رقم الهاتف يجب أن يكون 11 رقمًا ويبدأ بـ 07.",
       "error"
     );
-
 
     phoneInput.focus();
 
@@ -2486,7 +2387,6 @@ async function handleSignup(
       "error"
     );
 
-
     governorateInput.focus();
 
     return;
@@ -2505,7 +2405,6 @@ async function handleSignup(
       "error"
     );
 
-
     regionInput.focus();
 
     return;
@@ -2521,7 +2420,6 @@ async function handleSignup(
       "اسم المنطقة طويل جدًا.",
       "error"
     );
-
 
     regionInput.focus();
 
@@ -2541,7 +2439,6 @@ async function handleSignup(
       "error"
     );
 
-
     passwordInput.focus();
 
     return;
@@ -2557,7 +2454,6 @@ async function handleSignup(
       "كلمة المرور يجب أن تكون 6 أحرف أو أكثر.",
       "error"
     );
-
 
     passwordInput.focus();
 
@@ -2577,7 +2473,6 @@ async function handleSignup(
       "error"
     );
 
-
     passwordInput.focus();
 
     return;
@@ -2595,7 +2490,6 @@ async function handleSignup(
       "يجب أن تحتوي كلمة المرور على حرف إنجليزي كبير واحد على الأقل.",
       "error"
     );
-
 
     passwordInput.focus();
 
@@ -2615,7 +2509,6 @@ async function handleSignup(
       "error"
     );
 
-
     passwordInput.focus();
 
     return;
@@ -2634,7 +2527,6 @@ async function handleSignup(
       "error"
     );
 
-
     confirmPasswordInput.focus();
 
     return;
@@ -2643,14 +2535,14 @@ async function handleSignup(
 
 
   if (
-    password !== confirmPassword
+    password !==
+    confirmPassword
   ) {
 
     showMessage(
       "كلمتا المرور غير متطابقتين.",
       "error"
     );
-
 
     confirmPasswordInput.focus();
 
@@ -2660,7 +2552,7 @@ async function handleSignup(
 
 
   // ===================================================
-  // الموافقة على الشروط
+  // الشروط
   // ===================================================
 
   if (
@@ -2675,9 +2567,7 @@ async function handleSignup(
 
 
     if (termsAccepted) {
-
       termsAccepted.focus();
-
     }
 
 
@@ -2687,14 +2577,13 @@ async function handleSignup(
 
 
   // ===================================================
-  // تعطيل زر إنشاء الحساب
+  // تعطيل الزر
   // ===================================================
 
   if (signupBtn) {
 
     signupBtn.disabled =
       true;
-
 
     signupBtn.textContent =
       "جاري إنشاء الحساب...";
@@ -2714,9 +2603,11 @@ async function handleSignup(
     } =
       await supabaseClient.auth.signUp({
 
-        email: email,
+        email:
+          email,
 
-        password: password,
+        password:
+          password,
 
         options: {
 
@@ -2762,10 +2653,6 @@ async function handleSignup(
     }
 
 
-    // =================================================
-    // التأكد من المستخدم
-    // =================================================
-
     if (
       !data ||
       !data.user
@@ -2785,7 +2672,7 @@ async function handleSignup(
 
 
     // =================================================
-    // فحص البريد المكرر
+    // البريد مستخدم
     // =================================================
 
     if (
@@ -2806,7 +2693,6 @@ async function handleSignup(
         signupBtn.disabled =
           false;
 
-
         signupBtn.textContent =
           "إنشاء الحساب";
 
@@ -2819,10 +2705,14 @@ async function handleSignup(
 
 
     // =================================================
-    // إذا تم تسجيل الدخول مباشرة
+    // إذا عندنا Session مباشرة
     // =================================================
 
     if (data.session) {
+
+      // -------------------------------------------------
+      // حفظ بيانات المندوب
+      // -------------------------------------------------
 
       const {
         error: profileError
@@ -2847,10 +2737,6 @@ async function handleSignup(
         });
 
 
-      // -----------------------------------------------
-      // فشل حفظ البيانات
-      // -----------------------------------------------
-
       if (profileError) {
 
         console.error(
@@ -2859,46 +2745,104 @@ async function handleSignup(
         );
 
 
-        showMessage(
-          "تم إنشاء الحساب، لكن تعذر حفظ بيانات المندوب. حاول تسجيل الدخول مرة أخرى.",
-          "error"
+        throw new Error(
+          "تم إنشاء الحساب، لكن تعذر حفظ بيانات المندوب."
         );
-
-
-        if (signupBtn) {
-
-          signupBtn.disabled =
-            false;
-
-
-          signupBtn.textContent =
-            "إنشاء الحساب";
-
-        }
-
-
-        return;
 
       }
 
 
-      // -----------------------------------------------
-      // نجاح
-      // -----------------------------------------------
+      // -------------------------------------------------
+      // رفع الصورة
+      // -------------------------------------------------
+
+      setSignupButtonLoading(
+        signupBtn,
+        "جاري رفع الصورة..."
+      );
+
+
+      const avatarResult =
+        await uploadAvatar(
+          data.user.id,
+          selectedAvatarFile
+        );
+
+
+      if (
+        !avatarResult ||
+        avatarResult.error
+      ) {
+
+        console.error(
+          "Avatar upload error:",
+          avatarResult?.error
+        );
+
+
+        throw new Error(
+          getAvatarUploadErrorMessage(
+            avatarResult?.error
+          )
+        );
+
+      }
+
+
+      // -------------------------------------------------
+      // حفظ avatar_url
+      // -------------------------------------------------
+
+      const {
+        error: avatarProfileError
+      } =
+        await supabaseClient
+          .from("profiles")
+          .update({
+            avatar_url:
+              avatarResult.publicUrl
+          })
+          .eq(
+            "id",
+            data.user.id
+          );
+
+
+      if (avatarProfileError) {
+
+        console.error(
+          "Avatar profile update error:",
+          avatarProfileError
+        );
+
+
+        throw new Error(
+          "تم رفع الصورة، لكن تعذر حفظ رابط الصورة."
+        );
+
+      }
+
+
+      // -------------------------------------------------
+      // نجاح كامل
+      // -------------------------------------------------
 
       showMessage(
-        "تم إنشاء الحساب بنجاح. جاري تحويلك...",
+        "تم إنشاء الحساب وحفظ صورة المندوب بنجاح. جاري تحويلك...",
         "success"
       );
 
 
-      setTimeout(() => {
+      setTimeout(
+        () => {
 
-        window.location.replace(
-          "subscription.html"
-        );
+          window.location.replace(
+            "subscription.html"
+          );
 
-      }, 1000);
+        },
+        1000
+      );
 
 
       return;
@@ -2907,24 +2851,61 @@ async function handleSignup(
 
 
     // =================================================
-    // تأكيد الإيميل مطلوب
+    // تأكيد البريد مطلوب
     // =================================================
 
-    // نخزن الإيميل مؤقتاً حتى تستخدمه صفحة OTP
+    /*
+      هنا لا توجد Session بعد.
+
+      لذلك نخزن الصورة مؤقتاً حتى يتم تأكيد
+      البريد الإلكتروني وإنشاء Session.
+
+      سيتم استخدام هذه البيانات لاحقاً في
+      صفحة verify-email لإكمال رفع الصورة.
+    */
+
+    try {
+
+      await savePendingAvatar(
+        selectedAvatarFile
+      );
+
+    } catch (avatarStorageError) {
+
+      console.error(
+        "Pending avatar save error:",
+        avatarStorageError
+      );
+
+      throw new Error(
+        "تم إنشاء الحساب، لكن تعذر حفظ الصورة مؤقتًا. حاول التسجيل مرة أخرى."
+      );
+
+    }
+
+
+    // -------------------------------------------------
+    // تخزين بيانات التسجيل
+    // -------------------------------------------------
+
     sessionStorage.setItem(
       "zainSalesSignupEmail",
       email
     );
 
+    sessionStorage.setItem(
+      "zainSalesSignupUserId",
+      data.user.id
+    );
+
 
     // -------------------------------------------------
-    // تحويل المستخدم إلى صفحة إدخال الرمز
+    // تحويل إلى تأكيد الإيميل
     // -------------------------------------------------
 
     window.location.replace(
       "verify-email.html"
     );
-
 
   } catch (error) {
 
@@ -2946,11 +2927,795 @@ async function handleSignup(
       signupBtn.disabled =
         false;
 
-
       signupBtn.textContent =
         "إنشاء الحساب";
 
     }
+
+  }
+
+}
+
+
+// =====================================================
+// رفع صورة المندوب إلى Supabase Storage
+// =====================================================
+
+async function uploadAvatar(
+  userId,
+  file
+) {
+
+  if (!userId) {
+
+    return {
+      error:
+        new Error(
+          "معرف المستخدم غير موجود."
+        )
+    };
+
+  }
+
+
+  if (!file) {
+
+    return {
+      error:
+        new Error(
+          "ملف الصورة غير موجود."
+        )
+    };
+
+  }
+
+
+  try {
+
+    validateAvatarFile(
+      file
+    );
+
+
+    // -------------------------------------------------
+    // استخراج الامتداد
+    // -------------------------------------------------
+
+    const extension =
+      getAvatarExtension(
+        file
+      );
+
+
+    // -------------------------------------------------
+    // اسم فريد للصورة
+    // -------------------------------------------------
+
+    const fileName =
+      `${crypto.randomUUID()}.${extension}`;
+
+
+    // -------------------------------------------------
+    // مسار الصورة
+    // -------------------------------------------------
+
+    const filePath =
+      `${userId}/${fileName}`;
+
+
+    console.log(
+      "Uploading avatar:",
+      filePath
+    );
+
+
+    // -------------------------------------------------
+    // رفع الصورة
+    // -------------------------------------------------
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .storage
+        .from(
+          AVATAR_BUCKET
+        )
+        .upload(
+          filePath,
+          file,
+          {
+
+            cacheControl:
+              "3600",
+
+            upsert:
+              false,
+
+            contentType:
+              file.type
+
+          }
+        );
+
+
+    if (error) {
+
+      console.error(
+        "Supabase Storage upload error:",
+        error
+      );
+
+
+      return {
+        data:
+          null,
+
+        publicUrl:
+          null,
+
+        error
+      };
+
+    }
+
+
+    console.log(
+      "Avatar uploaded:",
+      data
+    );
+
+
+    // -------------------------------------------------
+    // إنشاء الرابط العام
+    // -------------------------------------------------
+
+    const {
+      data: publicData
+    } =
+      supabaseClient
+        .storage
+        .from(
+          AVATAR_BUCKET
+        )
+        .getPublicUrl(
+          filePath
+        );
+
+
+    const publicUrl =
+      publicData?.publicUrl ||
+      null;
+
+
+    if (!publicUrl) {
+
+      return {
+        data,
+        publicUrl:
+          null,
+
+        error:
+          new Error(
+            "تعذر إنشاء رابط الصورة."
+          )
+      };
+
+    }
+
+
+    return {
+
+      data,
+
+      publicUrl,
+
+      filePath,
+
+      error:
+        null
+
+    };
+
+  } catch (error) {
+
+    console.error(
+      "Upload avatar error:",
+      error
+    );
+
+
+    return {
+
+      data:
+        null,
+
+      publicUrl:
+        null,
+
+      error
+
+    };
+
+  }
+
+}
+
+
+// =====================================================
+// تحديد امتداد الصورة
+// =====================================================
+
+function getAvatarExtension(
+  file
+) {
+
+  if (
+    file.type ===
+    "image/png"
+  ) {
+
+    return "png";
+
+  }
+
+
+  if (
+    file.type ===
+    "image/webp"
+  ) {
+
+    return "webp";
+
+  }
+
+
+  return "jpg";
+
+}
+
+
+// =====================================================
+// حفظ الصورة مؤقتاً في IndexedDB
+// =====================================================
+
+async function savePendingAvatar(
+  file
+) {
+
+  if (!file) {
+
+    throw new Error(
+      "الصورة غير موجودة."
+    );
+
+  }
+
+
+  const buffer =
+    await file.arrayBuffer();
+
+
+  const pendingAvatar = {
+
+    id:
+      "pending-avatar",
+
+    name:
+      file.name,
+
+    type:
+      file.type,
+
+    lastModified:
+      file.lastModified,
+
+    buffer
+
+  };
+
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+      const request =
+        indexedDB.open(
+          "zainSalesSignupDB",
+          1
+        );
+
+
+      request.onupgradeneeded =
+        function () {
+
+          const db =
+            request.result;
+
+
+          if (
+            !db.objectStoreNames.contains(
+              "avatars"
+            )
+          ) {
+
+            db.createObjectStore(
+              "avatars",
+              {
+                keyPath:
+                  "id"
+              }
+            );
+
+          }
+
+        };
+
+
+      request.onsuccess =
+        function () {
+
+          const db =
+            request.result;
+
+
+          const transaction =
+            db.transaction(
+              "avatars",
+              "readwrite"
+            );
+
+
+          const store =
+            transaction.objectStore(
+              "avatars"
+            );
+
+
+          store.put(
+            pendingAvatar
+          );
+
+
+          transaction.oncomplete =
+            function () {
+
+              db.close();
+
+              resolve(true);
+
+            };
+
+
+          transaction.onerror =
+            function () {
+
+              db.close();
+
+              reject(
+                transaction.error ||
+                new Error(
+                  "تعذر حفظ الصورة مؤقتًا."
+                )
+              );
+
+            };
+
+        };
+
+
+      request.onerror =
+        function () {
+
+          reject(
+            request.error ||
+            new Error(
+              "تعذر فتح التخزين المحلي."
+            )
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+// =====================================================
+// قراءة الصورة المؤقتة
+// =====================================================
+
+async function getPendingAvatar() {
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+      const request =
+        indexedDB.open(
+          "zainSalesSignupDB",
+          1
+        );
+
+
+      request.onupgradeneeded =
+        function () {
+
+          const db =
+            request.result;
+
+
+          if (
+            !db.objectStoreNames.contains(
+              "avatars"
+            )
+          ) {
+
+            db.createObjectStore(
+              "avatars",
+              {
+                keyPath:
+                  "id"
+              }
+            );
+
+          }
+
+        };
+
+
+      request.onsuccess =
+        function () {
+
+          const db =
+            request.result;
+
+
+          const transaction =
+            db.transaction(
+              "avatars",
+              "readonly"
+            );
+
+
+          const store =
+            transaction.objectStore(
+              "avatars"
+            );
+
+
+          const getRequest =
+            store.get(
+              "pending-avatar"
+            );
+
+
+          getRequest.onsuccess =
+            function () {
+
+              const data =
+                getRequest.result;
+
+
+              db.close();
+
+
+              if (!data) {
+
+                resolve(
+                  null
+                );
+
+                return;
+
+              }
+
+
+              const file =
+                new File(
+
+                  [
+                    data.buffer
+                  ],
+
+                  data.name,
+
+                  {
+
+                    type:
+                      data.type,
+
+                    lastModified:
+                      data.lastModified
+
+                  }
+
+                );
+
+
+              resolve(
+                file
+              );
+
+            };
+
+
+          getRequest.onerror =
+            function () {
+
+              db.close();
+
+              reject(
+                getRequest.error
+              );
+
+            };
+
+        };
+
+
+      request.onerror =
+        function () {
+
+          reject(
+            request.error
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+// =====================================================
+// حذف الصورة المؤقتة
+// =====================================================
+
+async function removePendingAvatar() {
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+      const request =
+        indexedDB.open(
+          "zainSalesSignupDB",
+          1
+        );
+
+
+      request.onupgradeneeded =
+        function () {
+
+          const db =
+            request.result;
+
+
+          if (
+            !db.objectStoreNames.contains(
+              "avatars"
+            )
+          ) {
+
+            db.createObjectStore(
+              "avatars",
+              {
+                keyPath:
+                  "id"
+              }
+            );
+
+          }
+
+        };
+
+
+      request.onsuccess =
+        function () {
+
+          const db =
+            request.result;
+
+
+          const transaction =
+            db.transaction(
+              "avatars",
+              "readwrite"
+            );
+
+
+          const store =
+            transaction.objectStore(
+              "avatars"
+            );
+
+
+          store.delete(
+            "pending-avatar"
+          );
+
+
+          transaction.oncomplete =
+            function () {
+
+              db.close();
+
+              resolve(true);
+
+            };
+
+
+          transaction.onerror =
+            function () {
+
+              db.close();
+
+              reject(
+                transaction.error
+              );
+
+            };
+
+        };
+
+
+      request.onerror =
+        function () {
+
+          reject(
+            request.error
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+// =====================================================
+// دالة عامة لإكمال رفع الصورة بعد تسجيل الدخول
+// =====================================================
+
+async function completePendingAvatarUpload(
+  userId
+) {
+
+  if (!userId) {
+
+    throw new Error(
+      "معرف المستخدم غير موجود."
+    );
+
+  }
+
+
+  try {
+
+    const pendingFile =
+      await getPendingAvatar();
+
+
+    if (!pendingFile) {
+
+      console.log(
+        "No pending avatar found."
+      );
+
+      return {
+        success:
+          false,
+
+        reason:
+          "no_pending_avatar"
+
+      };
+
+    }
+
+
+    validateAvatarFile(
+      pendingFile
+    );
+
+
+    const avatarResult =
+      await uploadAvatar(
+        userId,
+        pendingFile
+      );
+
+
+    if (
+      !avatarResult ||
+      avatarResult.error
+    ) {
+
+      throw (
+        avatarResult?.error ||
+        new Error(
+          "تعذر رفع الصورة."
+        )
+      );
+
+    }
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("profiles")
+        .update({
+
+          avatar_url:
+            avatarResult.publicUrl
+
+        })
+        .eq(
+          "id",
+          userId
+        );
+
+
+    if (error) {
+
+      console.error(
+        "Save avatar URL error:",
+        error
+      );
+
+
+      throw error;
+
+    }
+
+
+    await removePendingAvatar();
+
+
+    console.log(
+      "Pending avatar uploaded successfully."
+    );
+
+
+    return {
+
+      success:
+        true,
+
+      publicUrl:
+        avatarResult.publicUrl
+
+    };
+
+  } catch (error) {
+
+    console.error(
+      "Complete pending avatar upload error:",
+      error
+    );
+
+
+    return {
+
+      success:
+        false,
+
+      error
+
+    };
 
   }
 
@@ -2998,9 +3763,106 @@ async function saveProfile(
 
 
   return {
+
     data,
+
     error
+
   };
+
+}
+
+
+// =====================================================
+// تغيير حالة زر التسجيل
+// =====================================================
+
+function setSignupButtonLoading(
+  button,
+  text
+) {
+
+  if (!button) {
+    return;
+  }
+
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    text;
+
+}
+
+
+// =====================================================
+// رسالة خطأ رفع الصورة
+// =====================================================
+
+function getAvatarUploadErrorMessage(
+  error
+) {
+
+  const message =
+    String(
+      error?.message ||
+      ""
+    ).toLowerCase();
+
+
+  if (
+    message.includes(
+      "bucket"
+    )
+  ) {
+
+    return (
+      "تعذر الوصول إلى مساحة تخزين الصور. تأكد أن bucket باسم avatars موجود."
+    );
+
+  }
+
+
+  if (
+    message.includes(
+      "row-level security"
+    ) ||
+    message.includes(
+      "not authorized"
+    ) ||
+    message.includes(
+      "unauthorized"
+    ) ||
+    message.includes(
+      "permission"
+    )
+  ) {
+
+    return (
+      "ليس لدى الحساب صلاحية رفع الصورة. نحتاج ضبط صلاحيات Storage الخاصة بالصور."
+    );
+
+  }
+
+
+  if (
+    message.includes(
+      "duplicate"
+    )
+  ) {
+
+    return (
+      "تعذر حفظ الصورة بسبب تكرار اسم الملف. حاول مرة أخرى."
+    );
+
+  }
+
+
+  return (
+    error?.message ||
+    "تعذر رفع صورة المندوب. حاول مرة أخرى."
+  );
 
 }
 
@@ -3023,10 +3885,6 @@ function getSignupErrorMessage(
   const message =
     originalMessage.toLowerCase();
 
-
-  // ---------------------------------------------------
-  // البريد مستخدم
-  // ---------------------------------------------------
 
   if (
 
@@ -3054,10 +3912,6 @@ function getSignupErrorMessage(
 
   }
 
-
-  // ---------------------------------------------------
-  // كلمة المرور
-  // ---------------------------------------------------
 
   if (
 
@@ -3088,10 +3942,6 @@ function getSignupErrorMessage(
   }
 
 
-  // ---------------------------------------------------
-  // بريد غير صحيح
-  // ---------------------------------------------------
-
   if (
     message.includes(
       "invalid email"
@@ -3104,10 +3954,6 @@ function getSignupErrorMessage(
 
   }
 
-
-  // ---------------------------------------------------
-  // Rate Limit
-  // ---------------------------------------------------
 
   if (
 
@@ -3128,10 +3974,6 @@ function getSignupErrorMessage(
   }
 
 
-  // ---------------------------------------------------
-  // مزود البريد
-  // ---------------------------------------------------
-
   if (
     message.includes(
       "email provider"
@@ -3144,10 +3986,6 @@ function getSignupErrorMessage(
 
   }
 
-
-  // ---------------------------------------------------
-  // Duplicate
-  // ---------------------------------------------------
 
   if (
     message.includes(
@@ -3162,10 +4000,6 @@ function getSignupErrorMessage(
   }
 
 
-  // ---------------------------------------------------
-  // خطأ عام
-  // ---------------------------------------------------
-
   return (
     originalMessage ||
     "تعذر إنشاء الحساب. حاول مرة أخرى."
@@ -3173,10 +4007,6 @@ function getSignupErrorMessage(
 
 }
 
-
-// =====================================================
-// عرض الرسائل للمستخدم
-// =====================================================
 
 // =====================================================
 // عرض الرسائل للمستخدم
@@ -3194,9 +4024,7 @@ function showMessage(
 
 
   if (!element) {
-
     return;
-
   }
 
 
@@ -3208,21 +4036,20 @@ function showMessage(
     `message show ${type}`;
 
 
-  // ---------------------------------------------------
-  // لا نحرك الصفحة تلقائيًا
-  // ---------------------------------------------------
-
   window.clearTimeout(
     showMessage.timer
   );
 
 
   showMessage.timer =
-    window.setTimeout(() => {
+    window.setTimeout(
+      () => {
 
-      element.className =
-        "message";
+        element.className =
+          "message";
 
-    }, 7000);
+      },
+      7000
+    );
 
 }

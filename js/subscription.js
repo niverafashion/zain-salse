@@ -373,28 +373,47 @@ function setupNavigation() {
 
   if (nextButton) {
 
-    nextButton.addEventListener(
-      "click",
-      () => {
+nextButton.addEventListener(
+  "click",
+  async () => {
 
-        if (!selectedPlan) {
+    if (!selectedPlan) {
 
-          showMessage(
-            "اختر خطة الاشتراك أولاً.",
-            "warning"
-          );
+      showMessage(
+        "اختر خطة الاشتراك أولاً.",
+        "warning"
+      );
 
-          return;
+      return;
 
-        }
+    }
 
+    // -------------------------------------------------
+    // التجربة المجانية
+    // لا نذهب إلى خطوة الدفع
+    // -------------------------------------------------
 
-        preparePaymentStep();
+    if (
+      selectedPlan.code ===
+      "free_trial"
+    ) {
 
-        goToStep(2);
+      await activateFreeTrial();
 
-      }
-    );
+      return;
+
+    }
+
+    // -------------------------------------------------
+    // الخطط المدفوعة
+    // -------------------------------------------------
+
+    preparePaymentStep();
+
+    goToStep(2);
+
+  }
+);
 
   }
 
@@ -480,7 +499,262 @@ function setupNavigation() {
 
 }
 
+// =====================================================
+// تفعيل التجربة المجانية
+// =====================================================
 
+async function activateFreeTrial() {
+
+  if (isSubmitting) {
+    return;
+  }
+
+
+  if (!currentUser) {
+
+    showMessage(
+      "انتهت جلسة تسجيل الدخول. يرجى تسجيل الدخول مرة أخرى.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !selectedPlan ||
+    selectedPlan.code !== "free_trial"
+  ) {
+
+    showMessage(
+      "لم يتم اختيار التجربة المجانية.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  isSubmitting = true;
+
+
+  const button =
+    document.getElementById(
+      "nextToPaymentBtn"
+    );
+
+
+  const originalText =
+    button
+      ? button.textContent
+      : "اشتراك";
+
+
+  if (button) {
+
+    button.disabled = true;
+
+    button.textContent =
+      "جاري تفعيل التجربة...";
+
+  }
+
+
+  hideMessage();
+
+
+  try {
+
+    // -------------------------------------------------
+    // إعادة التحقق من الخطة من قاعدة البيانات
+    // -------------------------------------------------
+
+    const {
+      data: freshPlan,
+      error: planError
+    } = await supabaseClient
+      .from("subscription_plans")
+      .select(`
+        id,
+        code,
+        name,
+        price,
+        duration_days
+      `)
+      .eq(
+        "code",
+        "free_trial"
+      )
+      .eq(
+        "is_active",
+        true
+      )
+      .maybeSingle();
+
+
+    if (planError) {
+
+      console.error(
+        "Free trial plan check error:",
+        planError
+      );
+
+      throw new Error(
+        "تعذر التحقق من التجربة المجانية."
+      );
+
+    }
+
+
+    if (!freshPlan) {
+
+      throw new Error(
+        "التجربة المجانية غير متاحة حالياً."
+      );
+
+    }
+
+
+    // -------------------------------------------------
+    // التأكد أن السعر صفر
+    // -------------------------------------------------
+
+    if (
+      Number(freshPlan.price) !== 0
+    ) {
+
+      throw new Error(
+        "إعدادات التجربة المجانية غير صحيحة."
+      );
+
+    }
+
+
+    // -------------------------------------------------
+    // التفعيل الحقيقي من Supabase RPC
+    // -------------------------------------------------
+
+    const {
+      data,
+      error
+    } = await supabaseClient.rpc(
+      "activate_free_trial"
+    );
+
+
+    if (error) {
+
+      console.error(
+        "Activate free trial RPC error:",
+        error
+      );
+
+      throw new Error(
+        getFreeTrialErrorMessage(
+          error
+        )
+      );
+
+    }
+
+
+    // -------------------------------------------------
+    // تم التفعيل بنجاح
+    // -------------------------------------------------
+
+    stopStatusPolling();
+
+    showFreeTrialSuccess(
+      data,
+      freshPlan
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Activate free trial error:",
+      error
+    );
+
+
+    showMessage(
+      error.message ||
+      "حدث خطأ أثناء تفعيل التجربة المجانية.",
+      "error"
+    );
+
+
+    if (button) {
+
+      button.disabled = false;
+
+      button.textContent =
+        originalText;
+
+    }
+
+
+  } finally {
+
+    isSubmitting = false;
+
+  }
+
+}
+// =====================================================
+// رسائل أخطاء التجربة المجانية
+// =====================================================
+
+function getFreeTrialErrorMessage(
+  error
+) {
+
+  const message =
+    String(
+      error?.message || ""
+    ).toLowerCase();
+
+
+  if (
+    message.includes(
+      "already"
+    ) ||
+    message.includes(
+      "trial"
+    ) &&
+    message.includes(
+      "used"
+    )
+  ) {
+
+    return "لقد استخدمت التجربة المجانية مسبقاً.";
+
+  }
+
+
+  if (
+    message.includes(
+      "not authorized"
+    ) ||
+    message.includes(
+      "unauthorized"
+    )
+  ) {
+
+    return "لا يمكن تفعيل التجربة المجانية لهذا الحساب.";
+
+  }
+
+
+  return (
+    error?.message ||
+    "تعذر تفعيل التجربة المجانية حالياً."
+  );
+
+}
 // =====================================================
 // الانتقال إلى خطوة
 // =====================================================
@@ -2618,7 +2892,200 @@ function showSubmittedRequestStatus(
 
 }
 
+// =====================================================
+// نجاح تفعيل التجربة المجانية
+// =====================================================
 
+function showFreeTrialSuccess(
+  subscription,
+  plan
+) {
+
+  hideAllSubscriptionSteps();
+
+  hideMessage();
+
+
+  const status =
+    document.getElementById(
+      "requestStatus"
+    );
+
+
+  if (!status) {
+    return;
+  }
+
+
+  status.classList.remove(
+    "pending",
+    "rejected"
+  );
+
+
+  status.classList.add(
+    "success",
+    "show"
+  );
+
+
+  const title =
+    document.getElementById(
+      "requestStatusTitle"
+    );
+
+
+  const description =
+    document.getElementById(
+      "requestStatusDescription"
+    );
+
+
+  const highlightText =
+    document.getElementById(
+      "requestStatusHighlightText"
+    );
+
+
+  const rejectionReason =
+    document.getElementById(
+      "rejectionReason"
+    );
+
+
+  const requestMeta =
+    document.getElementById(
+      "requestMeta"
+    );
+
+
+  const statusAction =
+    document.getElementById(
+      "requestStatusAction"
+    );
+
+
+  // ---------------------------------------------------
+  // العنوان
+  // ---------------------------------------------------
+
+  if (title) {
+
+    title.textContent =
+      "تم تفعيل اشتراكك المجاني بنجاح";
+
+  }
+
+
+  // ---------------------------------------------------
+  // الوصف
+  // ---------------------------------------------------
+
+  if (description) {
+
+    description.textContent =
+      "مبروك! تم تفعيل التجربة المجانية لحسابك. يمكنك الآن استخدام جميع مزايا Zain Sales خلال فترة التجربة.";
+
+  }
+
+
+  // ---------------------------------------------------
+  // الرسالة المميزة
+  // ---------------------------------------------------
+
+  if (highlightText) {
+
+    highlightText.textContent =
+      "التجربة المجانية مفعّلة لمدة 30 يوم";
+
+  }
+
+
+  // ---------------------------------------------------
+  // إخفاء سبب الرفض
+  // ---------------------------------------------------
+
+  if (rejectionReason) {
+
+    rejectionReason.classList.remove(
+      "show"
+    );
+
+  }
+
+
+  // ---------------------------------------------------
+  // معلومات الاشتراك
+  // ---------------------------------------------------
+
+  if (requestMeta) {
+
+    requestMeta.classList.add(
+      "show"
+    );
+
+
+    const expiresAt =
+      subscription?.expires_at;
+
+
+    const expiryText =
+      formatDateTime(
+        expiresAt
+      );
+
+
+    requestMeta.textContent =
+      expiryText
+        ? `التجربة المجانية فعّالة حتى ${expiryText}.`
+        : "التجربة المجانية فعّالة لمدة 30 يوم.";
+
+  }
+
+
+  // ---------------------------------------------------
+  // زر الدخول
+  // ---------------------------------------------------
+
+  if (statusAction) {
+
+    statusAction.style.display =
+      "block";
+
+
+    const button =
+      document.getElementById(
+        "newSubscriptionRequestBtn"
+      );
+
+
+    if (button) {
+
+      button.textContent =
+        "الدخول إلى Zain Sales";
+
+      button.onclick = () => {
+
+        window.location.replace(
+          "dashboard.html"
+        );
+
+      };
+
+    }
+
+  }
+
+
+  // ---------------------------------------------------
+  // أيقونة النجاح
+  // ---------------------------------------------------
+
+  updateRequestStatusIcon(
+    "success"
+  );
+
+}
 // =====================================================
 // عرض حالة الرفض
 // =====================================================

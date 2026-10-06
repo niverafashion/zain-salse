@@ -5,49 +5,314 @@
 
 
 // =====================================================
-// الإعدادات
+// الإعدادات العامة
 // =====================================================
 
 const ADMIN_POLL_INTERVAL = 10000;
-
-
-// =====================================================
-// الحالة العامة
-// =====================================================
 
 let currentUser = null;
 
 let allRequests = [];
 
-let currentFilter = "all";
+let currentFilter = "pending";
 
-let currentSearch = "";
+let searchTerm = "";
 
-let isLoading = false;
+let adminPollTimer = null;
 
-let isProcessing = false;
+let isLoadingRequests = false;
 
-let pollTimer = null;
+let isProcessingRequest = false;
 
 
 // =====================================================
-// عناصر الصفحة
+// الأيقونات
+// =====================================================
+
+const ICONS = {
+
+  plan: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="3.5" y="5" width="17" height="14" rx="2"/>
+      <path d="M7 9h10"/>
+      <path d="M7 13h5"/>
+      <path d="M7 16h3"/>
+    </svg>
+  `,
+
+  money: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="8.5"/>
+      <path d="M12 7.5v9"/>
+      <path d="M15 9.5c-.5-1-1.4-1.5-2.8-1.5-1.5 0-2.5.8-2.5 1.8 0 1.2 1.2 1.6 2.6 1.9 1.5.3 2.7.7 2.7 2 0 1.1-1 2-2.7 2-1.4 0-2.4-.5-3-1.5"/>
+    </svg>
+  `,
+
+  calendar: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="3.5" y="5" width="17" height="15" rx="2"/>
+      <path d="M7.5 3.5v3"/>
+      <path d="M16.5 3.5v3"/>
+      <path d="M3.5 9.5h17"/>
+      <path d="M8 13h.01"/>
+      <path d="M12 13h.01"/>
+      <path d="M16 13h.01"/>
+      <path d="M8 16.5h.01"/>
+      <path d="M12 16.5h.01"/>
+    </svg>
+  `,
+
+  clock: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="8.5"/>
+      <path d="M12 7v5l3 2"/>
+    </svg>
+  `,
+
+  card: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="3" y="5" width="18" height="14" rx="2"/>
+      <path d="M3 10h18"/>
+      <path d="M7 15h3"/>
+    </svg>
+  `,
+
+  reference: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M8 7h8"/>
+      <path d="M8 11h8"/>
+      <path d="M8 15h5"/>
+      <path d="M5 3.5h14A1.5 1.5 0 0 1 20.5 5v14a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19V5A1.5 1.5 0 0 1 5 3.5z"/>
+    </svg>
+  `,
+
+  note: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M5 4h14v16H5z"/>
+      <path d="M8 8h8"/>
+      <path d="M8 12h8"/>
+      <path d="M8 16h5"/>
+    </svg>
+  `,
+
+  phone: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M7 4.5l2.2-.5 1.5 4-1.7 1.4a14 14 0 0 0 5.6 5.6l1.4-1.7 4 1.5-.5 2.2a2 2 0 0 1-2.2 1.5C10.3 17.5 6.5 13.7 5.5 6.7A2 2 0 0 1 7 4.5z"/>
+    </svg>
+  `,
+
+  location: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M20 10.5c0 5.2-8 10-8 10s-8-4.8-8-10a8 8 0 1 1 16 0z"/>
+      <circle cx="12" cy="10.5" r="2.5"/>
+    </svg>
+  `,
+
+  check: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M5 12.5l4.2 4.2L19 7"/>
+    </svg>
+  `,
+
+  close: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.9"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M6 6l12 12"/>
+      <path d="M18 6L6 18"/>
+    </svg>
+  `,
+
+  shield: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 3l7 3.5v5.2c0 4.1-2.8 7.4-7 8.3-4.2-.9-7-4.2-7-8.3V6.5L12 3z"/>
+      <path d="M9.5 11.8l1.7 1.7 3.5-3.5"/>
+    </svg>
+  `,
+
+  logout: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M10 5H6.5A2.5 2.5 0 0 0 4 7.5v9A2.5 2.5 0 0 0 6.5 19H10"/>
+      <path d="M14 8l4 4-4 4"/>
+      <path d="M18 12H9"/>
+    </svg>
+  `,
+
+  refresh: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M20 11a8 8 0 0 0-14.7-4.2L4 9"/>
+      <path d="M4 4v5h5"/>
+      <path d="M4 13a8 8 0 0 0 14.7 4.2L20 15"/>
+      <path d="M20 20v-5h-5"/>
+    </svg>
+  `,
+
+  empty: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.7"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="4" y="4" width="16" height="16" rx="2"/>
+      <path d="M8 9h8"/>
+      <path d="M8 13h5"/>
+      <path d="M8 16h3"/>
+    </svg>
+  `,
+
+  user: `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="8" r="3.2"/>
+      <path d="M5.5 19c.8-3.3 3-5 6.5-5s5.7 1.7 6.5 5"/>
+    </svg>
+  `
+
+};
+
+
+// =====================================================
+// DOM
 // =====================================================
 
 const adminMessage =
   document.getElementById("adminMessage");
 
-const pendingCount =
-  document.getElementById("pendingCount");
+const totalRequestsElement =
+  document.getElementById("totalRequests");
 
-const totalCount =
-  document.getElementById("totalCount");
+const pendingRequestsElement =
+  document.getElementById("pendingRequests");
 
-const pendingAmount =
-  document.getElementById("pendingAmount");
+const approvedRequestsElement =
+  document.getElementById("approvedRequests");
 
 const requestSearch =
   document.getElementById("requestSearch");
+
+const requestFilters =
+  document.getElementById("requestFilters");
 
 const requestsContainer =
   document.getElementById("requestsContainer");
@@ -55,24 +320,8 @@ const requestsContainer =
 const logoutBtn =
   document.getElementById("logoutBtn");
 
-
-const filterButtons =
-  document.querySelectorAll(
-    "[data-filter]"
-  );
-
-
-const filterAllCount =
-  document.getElementById("filterAllCount");
-
-const filterPendingCount =
-  document.getElementById("filterPendingCount");
-
-const filterApprovedCount =
-  document.getElementById("filterApprovedCount");
-
-const filterRejectedCount =
-  document.getElementById("filterRejectedCount");
+const adminAccountEmail =
+  document.getElementById("adminAccountEmail");
 
 
 // =====================================================
@@ -86,89 +335,69 @@ document.addEventListener(
 
 
 // =====================================================
-// التهيئة الرئيسية
+// تهيئة لوحة الإدارة
 // =====================================================
 
 async function initializeAdmin() {
 
   try {
 
-    if (
-      typeof supabaseClient === "undefined"
-    ) {
-      showMessage(
-        "تعذر الاتصال بقاعدة البيانات.",
-        "error"
+    if (!supabaseClient) {
+
+      throw new Error(
+        "تعذر الاتصال بقاعدة البيانات."
       );
 
+    }
+
+
+    // -----------------------------------------------
+    // التأكد من تسجيل الدخول
+    // -----------------------------------------------
+
+    currentUser =
+      await requireAuth();
+
+
+    if (!currentUser) {
       return;
     }
 
 
-    if (
-      typeof requireAuth === "function"
-    ) {
-      const authResult =
-        await requireAuth();
+    // -----------------------------------------------
+    // عرض بريد المسؤول
+    // -----------------------------------------------
 
-      if (!authResult) {
-        return;
-      }
+    if (adminAccountEmail) {
+
+      adminAccountEmail.textContent =
+        currentUser.email || "حساب المسؤول";
+
     }
 
 
-    const {
-      data: {
-        user
-      },
-      error: userError
-    } =
-      await supabaseClient.auth.getUser();
-
-
-    if (userError) {
-      throw userError;
-    }
-
-
-    if (!user) {
-
-      window.location.href =
-        "index.html";
-
-      return;
-    }
-
-
-    currentUser = user;
-
-
-    // ---------------------------------------------
-    // التحقق من صلاحية الأدمن
-    // ---------------------------------------------
+    // -----------------------------------------------
+    // التحقق من صلاحية الإدارة
+    // -----------------------------------------------
 
     const {
       data: isAdmin,
       error: adminError
     } =
-      await supabaseClient.rpc(
-        "is_admin"
-      );
+      await supabaseClient.rpc("is_admin");
 
 
     if (adminError) {
 
       console.error(
-        "is_admin error:",
+        "Admin permission error:",
         adminError
       );
 
-      showMessage(
-        "تعذر التحقق من صلاحيات الحساب.",
-        "error"
+      throw new Error(
+        "تعذر التحقق من صلاحية المسؤول."
       );
 
-      return;
     }
 
 
@@ -183,37 +412,42 @@ async function initializeAdmin() {
       setTimeout(() => {
 
         window.location.href =
-          "index.html";
+          "dashboard.html";
 
       }, 1800);
 
-
       return;
+
     }
 
 
-    // ---------------------------------------------
+    // -----------------------------------------------
     // الأحداث
-    // ---------------------------------------------
+    // -----------------------------------------------
 
-    setupEvents();
+    setupSearch();
+
+    setupFilters();
+
+    setupLogout();
 
 
-    // ---------------------------------------------
+    // -----------------------------------------------
     // تحميل الطلبات
-    // ---------------------------------------------
+    // -----------------------------------------------
 
     await loadRequests();
 
 
-    // ---------------------------------------------
-    // بدء التحديث التلقائي
-    // ---------------------------------------------
+    // -----------------------------------------------
+    // التحديث التلقائي
+    // -----------------------------------------------
 
-    startPolling();
+    startAdminPolling();
 
+  }
 
-  } catch (error) {
+  catch (error) {
 
     console.error(
       "Admin initialization error:",
@@ -222,111 +456,198 @@ async function initializeAdmin() {
 
 
     showMessage(
-      getFriendlyError(error),
+      getFriendlyAdminError(error),
       "error"
     );
+
+
+    if (requestsContainer) {
+
+      requestsContainer.innerHTML = `
+        <div class="empty-state">
+
+          <div class="empty-state-icon">
+            ${ICONS.shield}
+          </div>
+
+          <h3>
+            تعذر تحميل لوحة الإدارة
+          </h3>
+
+          <p>
+            ${escapeHtml(
+              getFriendlyAdminError(error)
+            )}
+          </p>
+
+        </div>
+      `;
+
+    }
+
   }
+
 }
 
 
 // =====================================================
-// إعداد الأحداث
+// البحث المباشر
 // =====================================================
 
-function setupEvents() {
+function setupSearch() {
+
+  if (!requestSearch) {
+    return;
+  }
 
 
-  // ---------------------------------------------
-  // تسجيل الخروج
-  // ---------------------------------------------
+  requestSearch.addEventListener(
+    "input",
+    () => {
 
-  if (logoutBtn) {
+      searchTerm =
+        requestSearch.value
+          .trim()
+          .toLowerCase();
 
-    logoutBtn.addEventListener(
+
+      renderRequests();
+
+    }
+  );
+
+}
+
+
+// =====================================================
+// الفلاتر
+// =====================================================
+
+function setupFilters() {
+
+  if (!requestFilters) {
+    return;
+  }
+
+
+  const buttons =
+    requestFilters.querySelectorAll(
+      ".filter-btn"
+    );
+
+
+  buttons.forEach(button => {
+
+    button.addEventListener(
       "click",
-      async () => {
+      () => {
 
-        if (
-          typeof logout === "function"
-        ) {
+        const filter =
+          button.dataset.filter;
 
-          await logout();
 
+        if (!filter) {
           return;
         }
 
 
-        await supabaseClient.auth.signOut();
-
-        window.location.href =
-          "index.html";
-      }
-    );
-  }
+        currentFilter = filter;
 
 
-  // ---------------------------------------------
-  // البحث
-  // ---------------------------------------------
+        buttons.forEach(item => {
 
-  if (requestSearch) {
-
-    requestSearch.addEventListener(
-      "input",
-      event => {
-
-        currentSearch =
-          String(
-            event.target.value || ""
-          )
-            .trim()
-            .toLowerCase();
+          const isActive =
+            item.dataset.filter === filter;
 
 
-        renderRequests();
-      }
-    );
-  }
-
-
-  // ---------------------------------------------
-  // الفلاتر
-  // ---------------------------------------------
-
-  filterButtons.forEach(
-    button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          const filter =
-            button.dataset.filter ||
-            "all";
-
-
-          currentFilter =
-            filter;
-
-
-          filterButtons.forEach(
-            item => {
-
-              item.classList.toggle(
-                "active",
-                item === button
-              );
-
-            }
+          item.classList.toggle(
+            "active",
+            isActive
           );
 
 
-          renderRequests();
-        }
-      );
+          item.setAttribute(
+            "aria-selected",
+            String(isActive)
+          );
+
+        });
+
+
+        renderRequests();
+
+      }
+    );
+
+  });
+
+}
+
+
+// =====================================================
+// تسجيل الخروج
+// =====================================================
+
+function setupLogout() {
+
+  if (!logoutBtn) {
+    return;
+  }
+
+
+  logoutBtn.addEventListener(
+    "click",
+    async () => {
+
+      if (isProcessingRequest) {
+        return;
+      }
+
+
+      const originalHtml =
+        logoutBtn.innerHTML;
+
+
+      logoutBtn.disabled = true;
+
+      logoutBtn.innerHTML = `
+        جاري تسجيل الخروج...
+      `;
+
+
+      stopAdminPolling();
+
+
+      try {
+
+        await logout();
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Logout error:",
+          error
+        );
+
+
+        logoutBtn.disabled = false;
+
+        logoutBtn.innerHTML =
+          originalHtml;
+
+
+        showMessage(
+          "تعذر تسجيل الخروج حالياً.",
+          "error"
+        );
+
+      }
 
     }
   );
+
 }
 
 
@@ -335,212 +656,61 @@ function setupEvents() {
 // =====================================================
 
 async function loadRequests(
-  options = {}
+  silent = false
 ) {
 
-  const silent =
-    options.silent === true;
-
-
-  if (isLoading) {
+  if (isLoadingRequests) {
     return;
   }
 
 
-  isLoading = true;
+  isLoadingRequests = true;
 
 
   if (!silent) {
 
-    showLoading();
+    showLoadingState();
+
   }
 
 
   try {
 
-    // ---------------------------------------------
-    // جلب طلبات الاشتراك
-    // ---------------------------------------------
+    /*
+      مهم:
+
+      نستخدم RPC مخصص للمسؤول بدلاً من قراءة
+      subscription_payment_requests مباشرة.
+
+      هذا يسمح للمسؤول بمشاهدة الطلبات حتى إذا كانت
+      RLS تمنع المستخدم العادي من قراءة طلبات غيره.
+    */
 
     const {
       data,
       error
     } =
-      await supabaseClient
-        .from(
-          "subscription_payment_requests"
-        )
-        .select(`
-          id,
-          user_id,
-          plan_id,
-          amount,
-          payment_method,
-          payment_reference,
-          customer_notes,
-          status,
-          admin_notes,
-          created_at,
-          reviewed_at,
-          subscription_id
-        `)
-        .order(
-          "created_at",
-          {
-            ascending: false
-          }
-        );
+      await supabaseClient.rpc(
+        "get_admin_subscription_requests"
+      );
 
 
     if (error) {
-      throw error;
-    }
 
-
-    const requests =
-      Array.isArray(data)
-        ? data
-        : [];
-
-
-    // ---------------------------------------------
-    // جلب بيانات المستخدمين
-    // ---------------------------------------------
-
-    const userIds = [
-      ...new Set(
-        requests
-          .map(
-            request =>
-              request.user_id
-          )
-          .filter(Boolean)
-      )
-    ];
-
-
-    let profiles = [];
-
-
-    if (userIds.length > 0) {
-
-      const {
-        data: profileData,
-        error: profileError
-      } =
-        await supabaseClient
-          .from("profiles")
-          .select(`
-            id,
-            full_name,
-            phone,
-            governorate,
-            region,
-            avatar_url
-          `)
-          .in(
-            "id",
-            userIds
-          );
-
-
-      if (profileError) {
-
-        console.warn(
-          "Profiles query warning:",
-          profileError
-        );
-
-      } else {
-
-        profiles =
-          Array.isArray(profileData)
-            ? profileData
-            : [];
-      }
-    }
-
-
-    // ---------------------------------------------
-    // جلب الخطط
-    // ---------------------------------------------
-
-    let plans = [];
-
-
-    const {
-      data: planData,
-      error: planError
-    } =
-      await supabaseClient
-        .from("subscription_plans")
-        .select(`
-          id,
-          code,
-          name,
-          price,
-          duration_days,
-          is_active
-        `);
-
-
-    if (planError) {
-
-      console.warn(
-        "Plans query warning:",
-        planError
+      console.error(
+        "Load admin requests error:",
+        error
       );
 
-    } else {
+      throw error;
 
-      plans =
-        Array.isArray(planData)
-          ? planData
-          : [];
     }
 
-
-    // ---------------------------------------------
-    // تحويل البيانات إلى شكل واحد
-    // ---------------------------------------------
 
     allRequests =
-      requests.map(
-        request => {
-
-          const profile =
-            profiles.find(
-              item =>
-                item.id ===
-                request.user_id
-            ) || null;
-
-
-          const plan =
-            plans.find(
-              item =>
-                String(item.id) ===
-                String(request.plan_id)
-            ) || null;
-
-
-          return {
-
-            ...request,
-
-            profile,
-
-            plan,
-
-            // إذا كان الـ RPC مستقبلاً
-            // يرجع user_email سيستخدمه
-            user_email:
-              request.user_email ||
-              request.email ||
-              null
-          };
-        }
-      );
+      Array.isArray(data)
+        ? data.map(normalizeRequest)
+        : [];
 
 
     updateStatistics();
@@ -548,41 +718,129 @@ async function loadRequests(
     renderRequests();
 
 
-    if (!silent) {
+  }
 
-      hideMessage();
-    }
-
-
-  } catch (error) {
+  catch (error) {
 
     console.error(
-      "Load requests error:",
+      "Admin requests error:",
       error
     );
 
 
     if (!silent) {
 
-      showMessage(
-        getFriendlyError(error),
-        "error"
-      );
+      requestsContainer.innerHTML = `
+        <div class="empty-state">
 
+          <div class="empty-state-icon">
+            ${ICONS.refresh}
+          </div>
 
-      showErrorState();
+          <h3>
+            تعذر تحميل الطلبات
+          </h3>
+
+          <p>
+            ${escapeHtml(
+              getFriendlyAdminError(error)
+            )}
+          </p>
+
+        </div>
+      `;
+
     }
 
-
-  } finally {
-
-    isLoading = false;
   }
+
+  finally {
+
+    isLoadingRequests = false;
+
+  }
+
 }
 
 
 // =====================================================
-// تحديث الإحصائيات
+// توحيد بيانات الطلب
+// =====================================================
+
+function normalizeRequest(request) {
+
+  return {
+
+    id:
+      request?.id || "",
+
+    user_id:
+      request?.user_id || "",
+
+    plan_id:
+      request?.plan_id || null,
+
+    amount:
+      Number(request?.amount || 0),
+
+    payment_method:
+      request?.payment_method || "",
+
+    payment_reference:
+      request?.payment_reference || "",
+
+    customer_notes:
+      request?.customer_notes || "",
+
+    status:
+      request?.status || "pending",
+
+    admin_notes:
+      request?.admin_notes || "",
+
+    created_at:
+      request?.created_at || null,
+
+    reviewed_at:
+      request?.reviewed_at || null,
+
+    subscription_id:
+      request?.subscription_id || null,
+
+    user_email:
+      request?.user_email || "",
+
+    full_name:
+      request?.full_name || "",
+
+    phone:
+      request?.phone || "",
+
+    governorate:
+      request?.governorate || "",
+
+    region:
+      request?.region || "",
+
+    avatar_url:
+      request?.avatar_url || "",
+
+    plan_code:
+      request?.plan_code || "",
+
+    plan_name:
+      request?.plan_name || "اشتراك",
+
+    duration_days:
+      Number(request?.duration_days || 0)
+
+  };
+
+}
+
+
+// =====================================================
+// الإحصائيات
 // =====================================================
 
 function updateStatistics() {
@@ -594,98 +852,101 @@ function updateStatistics() {
   const pending =
     allRequests.filter(
       request =>
-        request.status ===
-        "pending"
-    );
+        request.status === "pending"
+    ).length;
 
 
   const approved =
     allRequests.filter(
       request =>
-        request.status ===
-        "approved"
-    );
+        request.status === "approved"
+    ).length;
 
 
-  const rejected =
+  if (totalRequestsElement) {
+
+    totalRequestsElement.textContent =
+      formatNumber(total);
+
+  }
+
+
+  if (pendingRequestsElement) {
+
+    pendingRequestsElement.textContent =
+      formatNumber(pending);
+
+  }
+
+
+  if (approvedRequestsElement) {
+
+    approvedRequestsElement.textContent =
+      formatNumber(approved);
+
+  }
+
+}
+
+
+// =====================================================
+// فلترة الطلبات
+// =====================================================
+
+function getFilteredRequests() {
+
+  let filtered =
     allRequests.filter(
       request =>
-        request.status ===
-        "rejected"
+        request.status === currentFilter
     );
 
 
-  const pendingTotal =
-    pending.reduce(
-      (
-        total,
-        request
-      ) =>
-        total +
-        Number(
-          request.amount || 0
-        ),
-      0
-    );
+  if (!searchTerm) {
 
+    return filtered;
 
-  if (totalCount) {
-
-    totalCount.textContent =
-      formatNumber(total);
   }
 
 
-  if (pendingCount) {
+  filtered =
+    filtered.filter(request => {
 
-    pendingCount.textContent =
-      formatNumber(
-        pending.length
+      const searchableText = [
+
+        request.full_name,
+
+        request.user_email,
+
+        request.phone,
+
+        request.governorate,
+
+        request.region,
+
+        request.payment_reference,
+
+        request.plan_name,
+
+        request.payment_method,
+
+        request.id
+
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+
+      return searchableText.includes(
+        searchTerm
       );
-  }
+
+    });
 
 
-  if (pendingAmount) {
+  return filtered;
 
-    pendingAmount.textContent =
-      formatCurrency(
-        pendingTotal
-      );
-  }
-
-
-  if (filterAllCount) {
-
-    filterAllCount.textContent =
-      formatNumber(total);
-  }
-
-
-  if (filterPendingCount) {
-
-    filterPendingCount.textContent =
-      formatNumber(
-        pending.length
-      );
-  }
-
-
-  if (filterApprovedCount) {
-
-    filterApprovedCount.textContent =
-      formatNumber(
-        approved.length
-      );
-  }
-
-
-  if (filterRejectedCount) {
-
-    filterRejectedCount.textContent =
-      formatNumber(
-        rejected.length
-      );
-  }
 }
 
 
@@ -700,209 +961,71 @@ function renderRequests() {
   }
 
 
-  let filtered =
-    [...allRequests];
+  const filteredRequests =
+    getFilteredRequests();
 
 
-  // ---------------------------------------------
-  // الفلترة حسب الحالة
-  // ---------------------------------------------
+  if (!filteredRequests.length) {
 
-  if (
-    currentFilter !== "all"
-  ) {
-
-    filtered =
-      filtered.filter(
-        request =>
-          request.status ===
-          currentFilter
-      );
-  }
-
-
-  // ---------------------------------------------
-  // البحث
-  // ---------------------------------------------
-
-  if (currentSearch) {
-
-    filtered =
-      filtered.filter(
-        request => {
-
-          const profile =
-            request.profile || {};
-
-
-          const searchableText = [
-
-            profile.full_name,
-
-            profile.phone,
-
-            profile.governorate,
-
-            profile.region,
-
-            request.user_email,
-
-            request.payment_reference,
-
-            request.customer_notes,
-
-            request.admin_notes,
-
-            getPlanName(
-              request
-            ),
-
-            getPaymentMethodName(
-              request.payment_method
-            ),
-
-            request.status
-
-          ]
-            .filter(Boolean)
-            .join(" ")
-            .toLowerCase();
-
-
-          return searchableText.includes(
-            currentSearch
-          );
-        }
-      );
-  }
-
-
-  // ---------------------------------------------
-  // لا توجد نتائج
-  // ---------------------------------------------
-
-  if (filtered.length === 0) {
-
-    if (
-      allRequests.length === 0
-    ) {
-
-      renderEmptyState();
-
-    } else {
-
-      renderFilterEmptyState();
-    }
-
+    renderEmptyState();
 
     return;
+
   }
 
 
-  // ---------------------------------------------
-  // رسم البطاقات
-  // ---------------------------------------------
+  requestsContainer.innerHTML = `
 
-  requestsContainer.innerHTML =
-    filtered
-      .map(
-        request =>
-          renderRequestCard(
-            request
-          )
-      )
-      .join("");
+    <div class="requests-list">
+
+      ${filteredRequests
+        .map(request =>
+          renderRequestCard(request)
+        )
+        .join("")}
+
+    </div>
+
+  `;
 
 
-  bindRequestActions();
+  attachRequestActions();
+
 }
 
 
 // =====================================================
-// إنشاء بطاقة الطلب
+// كارت الطلب
 // =====================================================
 
-function renderRequestCard(
-  request
-) {
-
-  const profile =
-    request.profile || {};
-
+function renderRequestCard(request) {
 
   const status =
-    request.status || "pending";
-
-
-  const planName =
-    getPlanName(request);
-
-
-  const paymentMethod =
-    getPaymentMethodName(
-      request.payment_method
-    );
-
-
-  const userName =
-    profile.full_name ||
-    "مستخدم بدون اسم";
-
-
-  const email =
-    request.user_email ||
-    request.email ||
-    "—";
-
-
-  const phone =
-    profile.phone ||
-    "—";
-
-
-  const governorate =
-    profile.governorate ||
-    "—";
-
-
-  const region =
-    profile.region ||
-    "—";
-
-
-  const avatarUrl =
-    profile.avatar_url ||
-    "";
-
-
-  const avatarHtml =
-    avatarUrl
-      ? `
-        <img
-          class="request-avatar"
-          src="${escapeAttribute(
-            avatarUrl
-          )}"
-          alt="${escapeAttribute(
-            userName
-          )}"
-          loading="lazy"
-        >
-      `
-      : `
-        <div
-          class="request-avatar request-avatar-placeholder"
-          aria-hidden="true"
-        >
-          ${escapeHtml(
-            getInitials(userName)
-          )}
-        </div>
-      `;
+    normalizeStatus(request.status);
 
 
   const statusText =
-    getStatusName(status);
+    getStatusText(status);
+
+
+  const avatar =
+    getAvatarMarkup(request);
+
+
+  const amount =
+    formatCurrency(request.amount);
+
+
+  const duration =
+    request.duration_days > 0
+      ? `${formatNumber(request.duration_days)} يوم`
+      : "—";
+
+
+  const paymentMethod =
+    getPaymentMethodText(
+      request.payment_method
+    );
 
 
   const createdAt =
@@ -911,389 +1034,516 @@ function renderRequestCard(
     );
 
 
-  const reviewedAt =
-    request.reviewed_at
-      ? formatDateTime(
-          request.reviewed_at
-        )
-      : "";
+  const phone =
+    request.phone || "—";
 
 
-  const amount =
-    formatCurrency(
-      request.amount
-    );
+  const location =
+    getLocationText(request);
 
 
   const reference =
-    request.payment_reference ||
-    "—";
+    request.payment_reference || "—";
 
 
   const notes =
-    request.customer_notes ||
-    "";
+    request.customer_notes || "لا توجد ملاحظات";
 
 
-  const adminNotes =
-    request.admin_notes ||
-    "";
+  const planName =
+    request.plan_name || "—";
 
 
-  const cardClass =
-    [
-      "request-card",
-      status
-    ]
-      .filter(Boolean)
-      .join(" ");
+  const requestNumber =
+    request.id || "—";
+
+
+  const actions =
+    renderRequestActions(request);
 
 
   return `
+
     <article
-      class="${cardClass}"
-      data-request-id="${escapeAttribute(
-        request.id
-      )}"
+      class="request-card ${status}"
+      data-request-id="${escapeAttribute(request.id)}"
     >
 
-      <div class="request-header">
 
-        <div class="request-user">
+      <!-- ===========================================
+           TOP
+      ============================================ -->
 
-          ${avatarHtml}
+      <div class="request-card-top">
 
-          <div class="request-user-text">
 
-            <div class="request-user-name">
+        <div class="request-representative">
+
+          ${avatar}
+
+
+          <div class="request-representative-info">
+
+            <h3 class="request-representative-name">
+
               ${escapeHtml(
-                userName
+                request.full_name ||
+                "مندوب بدون اسم"
               )}
-            </div>
 
-            <div class="request-email">
+            </h3>
+
+
+            <p class="request-representative-email">
+
               ${escapeHtml(
-                email
+                request.user_email ||
+                "لا يوجد بريد إلكتروني"
               )}
-            </div>
+
+            </p>
+
+
+          </div>
+
+        </div>
+
+<div class="request-extra-grid">
+
+  <div class="request-extra">
+
+    <div class="request-extra-value reference">
+      ${escapeHtml(reference)}
+    </div>
+
+  </div>
+
+  <div class="request-status-area">
+
+    <span class="status-badge ${status}">
+      ${escapeHtml(statusText)}
+    </span>
+
+  </div>
+
+</div>
+
+
+
+      <!-- ===========================================
+           INFO GRID
+      ============================================ -->
+
+      <div class="request-info-grid">
+
+
+        <div class="request-info-item">
+
+          <div class="request-info-label">
+
+            ${ICONS.plan}
+
+            <span>
+              الباقة
+            </span>
+
+          </div>
+
+          <div class="request-info-value">
+
+            ${escapeHtml(planName)}
 
           </div>
 
         </div>
 
 
-        <span
-          class="status-badge status-${escapeAttribute(
-            status
-          )}"
-        >
-          ${escapeHtml(
-            statusText
-          )}
-        </span>
+        <div class="request-info-item">
+
+          <div class="request-info-label">
+
+            ${ICONS.money}
+
+            <span>
+              المبلغ
+            </span>
+
+          </div>
+
+          <div class="request-info-value amount">
+
+            ${escapeHtml(amount)}
+
+          </div>
+
+        </div>
+
+
+        <div class="request-info-item">
+
+          <div class="request-info-label">
+
+            ${ICONS.clock}
+
+            <span>
+              مدة الاشتراك
+            </span>
+
+          </div>
+
+          <div class="request-info-value">
+
+            ${escapeHtml(duration)}
+
+          </div>
+
+        </div>
+
+
+        <div class="request-info-item">
+
+          <div class="request-info-label">
+
+            ${ICONS.card}
+
+            <span>
+              طريقة الدفع
+            </span>
+
+          </div>
+
+          <div class="request-info-value">
+
+            ${escapeHtml(paymentMethod)}
+
+          </div>
+
+        </div>
+
+
+        <div class="request-info-item">
+
+          <div class="request-info-label">
+
+            ${ICONS.calendar}
+
+            <span>
+              تاريخ الطلب
+            </span>
+
+          </div>
+
+          <div class="request-info-value">
+
+            ${escapeHtml(createdAt)}
+
+          </div>
+
+        </div>
+
+
+        <div class="request-info-item">
+
+          <div class="request-info-label">
+
+            ${ICONS.phone}
+
+            <span>
+              رقم الهاتف
+            </span>
+
+          </div>
+
+          <div class="request-info-value">
+
+            ${escapeHtml(phone)}
+
+          </div>
+
+        </div>
+
+
+        <div class="request-info-item">
+
+          <div class="request-info-label">
+
+            ${ICONS.location}
+
+            <span>
+              المحافظة / المنطقة
+            </span>
+
+          </div>
+
+          <div class="request-info-value">
+
+            ${escapeHtml(location)}
+
+          </div>
+
+        </div>
+
+
+        <div class="request-info-item">
+
+          <div class="request-info-label">
+
+            ${ICONS.reference}
+
+            <span>
+              حالة الطلب
+            </span>
+
+          </div>
+
+          <div class="request-info-value">
+
+            ${escapeHtml(statusText)}
+
+          </div>
+
+        </div>
+
 
       </div>
 
 
-      <div class="request-info">
+      <!-- ===========================================
+           REFERENCE + NOTES
+      ============================================ -->
 
-        <div class="info-box">
+      
 
-          <span class="info-label">
-            رقم الهاتف
-          </span>
+        <div class="request-extra">
 
-          <strong>
-            ${escapeHtml(
-              phone
-            )}
-          </strong>
+          <div class="request-extra-label">
 
-        </div>
+            ${ICONS.note}
 
+            <span>
+              ملاحظات المندوب
+            </span>
 
-        <div class="info-box">
+          </div>
 
-          <span class="info-label">
-            المحافظة
-          </span>
+          <div class="request-extra-value">
 
-          <strong>
-            ${escapeHtml(
-              governorate
-            )}
-          </strong>
+            ${escapeHtml(notes)}
+
+          </div>
 
         </div>
 
-
-        <div class="info-box">
-
-          <span class="info-label">
-            المنطقة
-          </span>
-
-          <strong>
-            ${escapeHtml(
-              region
-            )}
-          </strong>
-
-        </div>
-
-
-        <div class="info-box">
-
-          <span class="info-label">
-            الخطة
-          </span>
-
-          <strong>
-            ${escapeHtml(
-              planName
-            )}
-          </strong>
-
-        </div>
-
-
-        <div class="info-box">
-
-          <span class="info-label">
-            طريقة الدفع
-          </span>
-
-          <strong>
-            ${escapeHtml(
-              paymentMethod
-            )}
-          </strong>
-
-        </div>
-
-
-        <div class="price-box">
-
-          <span class="info-label">
-            المبلغ
-          </span>
-
-          <strong>
-            ${escapeHtml(
-              amount
-            )}
-          </strong>
-
-        </div>
 
       </div>
 
 
-      <div class="request-extra">
+      <!-- ===========================================
+           ACTIONS
+      ============================================ -->
 
-        <div class="extra-box">
+      ${actions}
 
-          <span class="info-label">
-            تاريخ الطلب
-          </span>
-
-          <strong>
-            ${escapeHtml(
-              createdAt
-            )}
-          </strong>
-
-        </div>
-
-
-        ${
-          reviewedAt
-            ? `
-              <div class="extra-box">
-
-                <span class="info-label">
-                  تاريخ المراجعة
-                </span>
-
-                <strong>
-                  ${escapeHtml(
-                    reviewedAt
-                  )}
-                </strong>
-
-              </div>
-            `
-            : ""
-        }
-
-
-        <div class="extra-box">
-
-          <span class="info-label">
-            رقم العملية
-          </span>
-
-          <strong
-            class="payment-reference"
-          >
-            ${escapeHtml(
-              reference
-            )}
-          </strong>
-
-        </div>
-
-      </div>
-
-
-      ${
-        notes
-          ? `
-            <div class="request-notes">
-
-              <div class="request-notes-title">
-                ملاحظات المستخدم
-              </div>
-
-              <div>
-                ${escapeHtml(
-                  notes
-                )}
-              </div>
-
-            </div>
-          `
-          : ""
-      }
-
-
-      ${
-        adminNotes
-          ? `
-            <div class="request-notes admin-notes">
-
-              <div class="request-notes-title">
-                ملاحظة الإدارة
-              </div>
-
-              <div>
-                ${escapeHtml(
-                  adminNotes
-                )}
-              </div>
-
-            </div>
-          `
-          : ""
-      }
-
-
-      ${
-        status === "pending"
-          ? `
-            <div class="request-actions">
-
-              <button
-                type="button"
-                class="action-btn approve-btn"
-                data-action="approve"
-                data-request-id="${escapeAttribute(
-                  request.id
-                )}"
-              >
-                <span>
-                  ✓
-                </span>
-
-                <span>
-                  موافقة
-                </span>
-
-              </button>
-
-
-              <button
-                type="button"
-                class="action-btn reject-btn"
-                data-action="reject"
-                data-request-id="${escapeAttribute(
-                  request.id
-                )}"
-              >
-                <span>
-                  ×
-                </span>
-
-                <span>
-                  رفض
-                </span>
-
-              </button>
-
-            </div>
-          `
-          : ""
-      }
 
     </article>
+
   `;
+
 }
 
 
 // =====================================================
-// ربط أزرار الطلبات
+// صورة المندوب
 // =====================================================
 
-function bindRequestActions() {
+function getAvatarMarkup(request) {
 
-  const actionButtons =
+  const name =
+    request.full_name ||
+    "م";
+
+
+  const initials =
+    getInitials(name);
+
+
+  if (request.avatar_url) {
+
+    return `
+
+      <img
+        class="request-avatar"
+        src="${escapeAttribute(request.avatar_url)}"
+        alt="${escapeAttribute(name)}"
+        loading="lazy"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+      >
+
+      <span
+        class="request-avatar request-avatar-fallback"
+        style="display:none;"
+        aria-hidden="true"
+      >
+        ${escapeHtml(initials)}
+      </span>
+
+    `;
+
+  }
+
+
+  return `
+
+    <span
+      class="request-avatar request-avatar-fallback"
+      aria-hidden="true"
+    >
+      ${escapeHtml(initials)}
+    </span>
+
+  `;
+
+}
+
+
+// =====================================================
+// أزرار الطلب
+// =====================================================
+
+function renderRequestActions(request) {
+
+  if (request.status === "pending") {
+
+    return `
+
+      <div class="request-actions">
+
+        <button
+          type="button"
+          class="request-action-btn approve-btn"
+          data-action="approve"
+          data-request-id="${escapeAttribute(request.id)}"
+        >
+
+          ${ICONS.check}
+
+          تأكيد الطلب
+
+        </button>
+
+
+        <button
+          type="button"
+          class="request-action-btn reject-btn"
+          data-action="reject"
+          data-request-id="${escapeAttribute(request.id)}"
+        >
+
+          ${ICONS.close}
+
+          رفض الطلب
+
+        </button>
+
+      </div>
+
+    `;
+
+  }
+
+
+  const reviewedDate =
+    request.reviewed_at
+      ? formatDateTime(request.reviewed_at)
+      : "";
+
+
+  return `
+
+    <div class="request-actions">
+
+      <div class="request-reviewed">
+
+        ${request.status === "approved"
+          ? ICONS.check
+          : ICONS.close}
+
+        <span>
+
+          ${request.status === "approved"
+            ? "تمت الموافقة على الطلب"
+            : "تم رفض الطلب"}
+
+          ${reviewedDate
+            ? ` — ${escapeHtml(reviewedDate)}`
+            : ""}
+
+        </span>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+// =====================================================
+// أحداث الأزرار
+// =====================================================
+
+function attachRequestActions() {
+
+  const buttons =
     requestsContainer.querySelectorAll(
-      "[data-action]"
+      "[data-action][data-request-id]"
     );
 
 
-  actionButtons.forEach(
-    button => {
+  buttons.forEach(button => {
 
-      button.addEventListener(
-        "click",
-        async () => {
+    button.addEventListener(
+      "click",
+      async () => {
 
-          const action =
-            button.dataset.action;
-
-
-          const requestId =
-            button.dataset.requestId;
+        const action =
+          button.dataset.action;
 
 
-          if (!requestId) {
-            return;
-          }
+        const requestId =
+          button.dataset.requestId;
 
 
-          if (action === "approve") {
-
-            await approveRequest(
-              requestId
-            );
-
-            return;
-          }
+        if (!requestId) {
+          return;
+        }
 
 
-          if (action === "reject") {
+        if (action === "approve") {
 
-            await rejectRequest(
-              requestId
-            );
-          }
+          await approveRequest(
+            requestId,
+            button
+          );
 
         }
-      );
 
-    }
-  );
+
+        if (action === "reject") {
+
+          await rejectRequest(
+            requestId,
+            button
+          );
+
+        }
+
+      }
+    );
+
+  });
+
 }
 
 
@@ -1302,10 +1552,11 @@ function bindRequestActions() {
 // =====================================================
 
 async function approveRequest(
-  requestId
+  requestId,
+  button
 ) {
 
-  if (isProcessing) {
+  if (isProcessingRequest) {
     return;
   }
 
@@ -1313,8 +1564,7 @@ async function approveRequest(
   const request =
     allRequests.find(
       item =>
-        item.id ===
-        requestId
+        item.id === requestId
     );
 
 
@@ -1326,31 +1576,13 @@ async function approveRequest(
     );
 
     return;
+
   }
-
-
-  if (
-    request.status !==
-    "pending"
-  ) {
-
-    showMessage(
-      "هذا الطلب تمت معالجته مسبقاً.",
-      "warning"
-    );
-
-    return;
-  }
-
-
-  const userName =
-    request.profile?.full_name ||
-    "هذا المستخدم";
 
 
   const confirmed =
     window.confirm(
-      `هل أنت متأكد من الموافقة على طلب اشتراك ${userName}؟`
+      "هل أنت متأكد من تأكيد طلب الاشتراك؟"
     );
 
 
@@ -1359,52 +1591,55 @@ async function approveRequest(
   }
 
 
-  isProcessing = true;
+  isProcessingRequest = true;
 
-  setProcessingState(
-    requestId,
-    "approve"
-  );
+
+  const originalHtml =
+    button.innerHTML;
+
+
+  button.disabled = true;
+
+  button.innerHTML =
+    "جاري التأكيد...";
 
 
   try {
 
     const {
-      data,
       error
     } =
       await supabaseClient.rpc(
         "approve_subscription_request",
         {
-          p_request_id:
-            requestId
+          p_request_id: requestId
         }
       );
 
 
     if (error) {
+
+      console.error(
+        "Approve request error:",
+        error
+      );
+
       throw error;
+
     }
 
 
-    console.log(
-      "Approve result:",
-      data
-    );
-
-
     showMessage(
-      "تمت الموافقة على طلب الاشتراك بنجاح.",
+      "تم تأكيد طلب الاشتراك بنجاح.",
       "success"
     );
 
 
-    await loadRequests({
-      silent: true
-    });
+    await loadRequests(true);
 
+  }
 
-  } catch (error) {
+  catch (error) {
 
     console.error(
       "Approve request error:",
@@ -1413,19 +1648,24 @@ async function approveRequest(
 
 
     showMessage(
-      getFriendlyError(error),
+      getFriendlyAdminError(error),
       "error"
     );
 
 
-  } finally {
+    button.disabled = false;
 
-    isProcessing = false;
+    button.innerHTML =
+      originalHtml;
 
-    clearProcessingState(
-      requestId
-    );
   }
+
+  finally {
+
+    isProcessingRequest = false;
+
+  }
+
 }
 
 
@@ -1434,10 +1674,11 @@ async function approveRequest(
 // =====================================================
 
 async function rejectRequest(
-  requestId
+  requestId,
+  button
 ) {
 
-  if (isProcessing) {
+  if (isProcessingRequest) {
     return;
   }
 
@@ -1445,8 +1686,7 @@ async function rejectRequest(
   const request =
     allRequests.find(
       item =>
-        item.id ===
-        requestId
+        item.id === requestId
     );
 
 
@@ -1458,31 +1698,13 @@ async function rejectRequest(
     );
 
     return;
+
   }
-
-
-  if (
-    request.status !==
-    "pending"
-  ) {
-
-    showMessage(
-      "هذا الطلب تمت معالجته مسبقاً.",
-      "warning"
-    );
-
-    return;
-  }
-
-
-  const userName =
-    request.profile?.full_name ||
-    "المستخدم";
 
 
   const adminNotes =
     window.prompt(
-      `اكتب سبب رفض طلب ${userName}:\n\nيمكنك الضغط على إلغاء للرجوع.`,
+      "اكتب سبب رفض الطلب أو ملاحظات المسؤول:",
       ""
     );
 
@@ -1492,67 +1714,44 @@ async function rejectRequest(
   }
 
 
-  const reason =
-    adminNotes.trim();
+  isProcessingRequest = true;
 
 
-  if (!reason) {
-
-    showMessage(
-      "يجب كتابة سبب رفض الطلب.",
-      "warning"
-    );
-
-    return;
-  }
+  const originalHtml =
+    button.innerHTML;
 
 
-  const confirmed =
-    window.confirm(
-      "هل أنت متأكد من رفض هذا الطلب؟"
-    );
+  button.disabled = true;
 
-
-  if (!confirmed) {
-    return;
-  }
-
-
-  isProcessing = true;
-
-  setProcessingState(
-    requestId,
-    "reject"
-  );
+  button.innerHTML =
+    "جاري الرفض...";
 
 
   try {
 
     const {
-      data,
       error
     } =
       await supabaseClient.rpc(
         "reject_subscription_request",
         {
-          p_request_id:
-            requestId,
-
+          p_request_id: requestId,
           p_admin_notes:
-            reason
+            adminNotes.trim() || null
         }
       );
 
 
     if (error) {
+
+      console.error(
+        "Reject request error:",
+        error
+      );
+
       throw error;
+
     }
-
-
-    console.log(
-      "Reject result:",
-      data
-    );
 
 
     showMessage(
@@ -1561,12 +1760,11 @@ async function rejectRequest(
     );
 
 
-    await loadRequests({
-      silent: true
-    });
+    await loadRequests(true);
 
+  }
 
-  } catch (error) {
+  catch (error) {
 
     console.error(
       "Reject request error:",
@@ -1575,182 +1773,176 @@ async function rejectRequest(
 
 
     showMessage(
-      getFriendlyError(error),
+      getFriendlyAdminError(error),
       "error"
     );
 
 
-  } finally {
+    button.disabled = false;
 
-    isProcessing = false;
+    button.innerHTML =
+      originalHtml;
 
-    clearProcessingState(
-      requestId
-    );
   }
+
+  finally {
+
+    isProcessingRequest = false;
+
+  }
+
 }
 
 
 // =====================================================
-// حالة معالجة الزر
+// Empty State
 // =====================================================
 
-function setProcessingState(
-  requestId,
-  action
-) {
+function renderEmptyState() {
+
+  let title =
+    "لا توجد طلبات";
+
+
+  let description =
+    "لا توجد طلبات ضمن الحالة أو البحث الحالي.";
+
+
+  if (searchTerm) {
+
+    title =
+      "لم يتم العثور على نتائج";
+
+
+    description =
+      "جرّب البحث باسم مختلف أو بريد إلكتروني أو رقم عملية آخر.";
+
+  }
+
+
+  if (
+    !searchTerm &&
+    currentFilter === "pending"
+  ) {
+
+    title =
+      "لا توجد طلبات قيد المراجعة";
+
+
+    description =
+      "عند إرسال مندوب جديد لطلب اشتراك مدفوع سيظهر هنا مباشرة.";
+
+  }
+
+
+  requestsContainer.innerHTML = `
+
+    <div class="empty-state">
+
+      <div class="empty-state-icon">
+
+        ${ICONS.empty}
+
+      </div>
+
+
+      <h3>
+
+        ${escapeHtml(title)}
+
+      </h3>
+
+
+      <p>
+
+        ${escapeHtml(description)}
+
+      </p>
+
+    </div>
+
+  `;
+
+}
+
+
+// =====================================================
+// Loading State
+// =====================================================
+
+function showLoadingState() {
 
   if (!requestsContainer) {
     return;
   }
 
 
-  const card =
-    requestsContainer.querySelector(
-      `[data-request-id="${cssEscape(
-        requestId
-      )}"]`
-    );
+  requestsContainer.innerHTML = `
 
+    <div class="loading-state">
 
-  if (!card) {
-    return;
-  }
+      <span class="loading-spinner"></span>
 
+      جاري تحميل الطلبات...
 
-  const buttons =
-    card.querySelectorAll(
-      "[data-action]"
-    );
+    </div>
 
+  `;
 
-  buttons.forEach(
-    button => {
-
-      button.disabled = true;
-
-      button.dataset.originalText =
-        button.innerText;
-
-    }
-  );
-
-
-  const target =
-    card.querySelector(
-      `[data-action="${cssEscape(
-        action
-      )}"]`
-    );
-
-
-  if (target) {
-
-    target.innerText =
-      action === "approve"
-        ? "جاري الموافقة..."
-        : "جاري الرفض...";
-  }
 }
 
 
 // =====================================================
-// إعادة الأزرار
+// التحديث التلقائي
 // =====================================================
 
-function clearProcessingState(
-  requestId
-) {
+function startAdminPolling() {
 
-  if (!requestsContainer) {
-    return;
-  }
+  stopAdminPolling();
 
 
-  const card =
-    requestsContainer.querySelector(
-      `[data-request-id="${cssEscape(
-        requestId
-      )}"]`
-    );
-
-
-  if (!card) {
-    return;
-  }
-
-
-  const buttons =
-    card.querySelectorAll(
-      "[data-action]"
-    );
-
-
-  buttons.forEach(
-    button => {
-
-      button.disabled = false;
-
-
-      if (
-        button.dataset.originalText
-      ) {
-
-        button.innerText =
-          button.dataset.originalText;
-      }
-
-    }
-  );
-}
-
-
-// =====================================================
-// Polling
-// =====================================================
-
-function startPolling() {
-
-  stopPolling();
-
-
-  pollTimer =
+  adminPollTimer =
     setInterval(
       async () => {
 
         if (
-          document.hidden ||
-          isProcessing ||
-          isLoading
+          document.visibilityState ===
+          "hidden"
         ) {
           return;
         }
 
 
-        await loadRequests({
-          silent: true
-        });
+        if (isProcessingRequest) {
+          return;
+        }
+
+
+        await loadRequests(true);
 
       },
       ADMIN_POLL_INTERVAL
     );
+
 }
 
 
 // =====================================================
-// إيقاف Polling
+// إيقاف التحديث
 // =====================================================
 
-function stopPolling() {
+function stopAdminPolling() {
 
-  if (pollTimer) {
+  if (adminPollTimer) {
 
     clearInterval(
-      pollTimer
+      adminPollTimer
     );
 
-    pollTimer = null;
+    adminPollTimer = null;
+
   }
+
 }
 
 
@@ -1760,256 +1952,58 @@ function stopPolling() {
 
 window.addEventListener(
   "beforeunload",
-  stopPolling
+  stopAdminPolling
 );
 
 
 // =====================================================
-// إظهار رسالة
+// حالة الطلب
 // =====================================================
 
-function showMessage(
-  message,
-  type = "info"
-) {
-
-  if (!adminMessage) {
-    return;
-  }
-
-
-  adminMessage.textContent =
-    message;
-
-
-  adminMessage.className =
-    `admin-message ${type}`;
-
-
-  adminMessage.hidden = false;
-}
-
-
-// =====================================================
-// إخفاء الرسالة
-// =====================================================
-
-function hideMessage() {
-
-  if (!adminMessage) {
-    return;
-  }
-
-
-  adminMessage.hidden = true;
-
-  adminMessage.textContent = "";
-}
-
-
-// =====================================================
-// Loading
-// =====================================================
-
-function showLoading() {
-
-  if (!requestsContainer) {
-    return;
-  }
-
-
-  requestsContainer.innerHTML = `
-    <div class="empty-state">
-
-      <div class="empty-state-icon">
-        ⏳
-      </div>
-
-      <h3>
-        جاري تحميل الطلبات
-      </h3>
-
-      <p>
-        انتظر قليلاً...
-      </p>
-
-    </div>
-  `;
-}
-
-
-// =====================================================
-// Empty state
-// =====================================================
-
-function renderEmptyState() {
-
-  requestsContainer.innerHTML = `
-    <div class="empty-state">
-
-      <div class="empty-state-icon">
-        ✓
-      </div>
-
-      <h3>
-        لا توجد طلبات اشتراك
-      </h3>
-
-      <p>
-        لم يتم العثور على أي طلبات حتى الآن.
-      </p>
-
-    </div>
-  `;
-}
-
-
-// =====================================================
-// Filter empty
-// =====================================================
-
-function renderFilterEmptyState() {
-
-  const filterName =
-    getFilterName(
-      currentFilter
-    );
-
-
-  requestsContainer.innerHTML = `
-    <div class="filter-empty">
-
-      <div class="filter-empty-icon">
-        🔎
-      </div>
-
-      <h3>
-        لا توجد نتائج
-      </h3>
-
-      <p>
-        لا توجد طلبات ضمن فلتر ${escapeHtml(
-          filterName
-        )}${currentSearch
-          ? " أو تطابق البحث الحالي"
-          : ""}.
-      </p>
-
-    </div>
-  `;
-}
-
-
-// =====================================================
-// Error state
-// =====================================================
-
-function showErrorState() {
-
-  if (!requestsContainer) {
-    return;
-  }
-
-
-  requestsContainer.innerHTML = `
-    <div class="empty-state">
-
-      <div class="empty-state-icon">
-        !
-      </div>
-
-      <h3>
-        تعذر تحميل الطلبات
-      </h3>
-
-      <p>
-        حاول تحديث الصفحة مرة أخرى.
-      </p>
-
-    </div>
-  `;
-}
-
-
-// =====================================================
-// اسم الخطة
-// =====================================================
-
-function getPlanName(
-  request
-) {
-
-  if (
-    request &&
-    request.plan &&
-    request.plan.name
-  ) {
-
-    return request.plan.name;
-  }
-
-
-  if (
-    request &&
-    request.plan &&
-    request.plan.code
-  ) {
-
-    return formatPlanCode(
-      request.plan.code
-    );
-  }
-
-
-  if (
-    request &&
-    request.plan_id
-  ) {
-
-    return `اشتراك #${request.plan_id}`;
-  }
-
-
-  return "غير محددة";
-}
-
-
-// =====================================================
-// تنسيق كود الخطة
-// =====================================================
-
-function formatPlanCode(
-  code
-) {
+function normalizeStatus(status) {
 
   const value =
-    String(
-      code || ""
-    )
+    String(status || "")
       .trim()
       .toLowerCase();
 
 
   if (
-    value === "monthly"
+    value === "approved" ||
+    value === "rejected" ||
+    value === "pending"
   ) {
 
-    return "اشتراك شهري";
+    return value;
+
   }
 
 
-  if (
-    value === "yearly" ||
-    value === "annual"
-  ) {
+  return "pending";
 
-    return "اشتراك سنوي";
+}
+
+
+// =====================================================
+// نص الحالة
+// =====================================================
+
+function getStatusText(status) {
+
+  switch (status) {
+
+    case "approved":
+      return "تمت الموافقة";
+
+    case "rejected":
+      return "مرفوض";
+
+    case "pending":
+    default:
+      return "قيد المراجعة";
+
   }
 
-
-  return String(
-    code || "غير محددة"
-  );
 }
 
 
@@ -2017,14 +2011,10 @@ function formatPlanCode(
 // طريقة الدفع
 // =====================================================
 
-function getPaymentMethodName(
-  method
-) {
+function getPaymentMethodText(method) {
 
   const value =
-    String(
-      method || ""
-    )
+    String(method || "")
       .trim()
       .toLowerCase();
 
@@ -2032,129 +2022,107 @@ function getPaymentMethodName(
   switch (value) {
 
     case "zain_cash":
-    case "zaincash":
     case "zain cash":
-
+    case "zaincash":
       return "Zain Cash";
 
 
     case "mastercard":
     case "master_card":
-
+    case "master card":
       return "MasterCard";
 
 
     case "cash":
-
       return "نقدي";
 
 
-    default:
-
-      return method ||
-        "غير محددة";
-  }
-}
-
-
-// =====================================================
-// اسم الحالة
-// =====================================================
-
-function getStatusName(
-  status
-) {
-
-  switch (status) {
-
-    case "pending":
-      return "قيد المراجعة";
-
-
-    case "approved":
-      return "تمت الموافقة";
-
-
-    case "rejected":
-      return "مرفوض";
+    case "bank":
+      return "تحويل مصرفي";
 
 
     default:
-      return "غير معروف";
+      return method || "—";
+
   }
+
 }
 
 
 // =====================================================
-// اسم الفلتر
+// المحافظة / المنطقة
 // =====================================================
 
-function getFilterName(
-  filter
-) {
+function getLocationText(request) {
 
-  switch (filter) {
-
-    case "pending":
-      return "قيد المراجعة";
+  const governorate =
+    request.governorate || "";
 
 
-    case "approved":
-      return "تمت الموافقة";
+  const region =
+    request.region || "";
 
 
-    case "rejected":
-      return "المرفوضة";
+  if (
+    governorate &&
+    region
+  ) {
 
+    return `${governorate} - ${region}`;
 
-    default:
-      return "الكل";
   }
+
+
+  return governorate ||
+    region ||
+    "—";
+
 }
 
 
 // =====================================================
-// تنسيق العملة
+// العملة
 // =====================================================
 
-function formatCurrency(
-  value
-) {
+function formatCurrency(amount) {
 
-  const amount =
-    Number(value || 0);
+  const value =
+    Number(amount || 0);
 
 
-  return new Intl.NumberFormat(
-    "en-IQ"
-  ).format(amount) +
-    " د.ع";
+  return (
+    new Intl.NumberFormat(
+      "en-IQ",
+      {
+        maximumFractionDigits: 0
+      }
+    ).format(value)
+    + " د.ع"
+  );
+
 }
 
 
 // =====================================================
-// تنسيق الأرقام
+// تنسيق الرقم
 // =====================================================
 
-function formatNumber(
-  value
-) {
+function formatNumber(number) {
 
   return new Intl.NumberFormat(
     "en-US"
   ).format(
-    Number(value || 0)
+    Number(number || 0)
   );
+
 }
 
 
 // =====================================================
-// تنسيق التاريخ والوقت
+// التاريخ والوقت
 // =====================================================
 
-function formatDateTime(
-  value
-) {
+function formatDateTime(value) {
 
   if (!value) {
     return "—";
@@ -2172,87 +2140,283 @@ function formatDateTime(
   ) {
 
     return "—";
+
   }
 
 
   return new Intl.DateTimeFormat(
     "ar-IQ",
     {
-      timeZone:
-        "Asia/Baghdad",
+      timeZone: "Asia/Baghdad",
 
-      year:
-        "numeric",
+      year: "numeric",
 
-      month:
-        "2-digit",
+      month: "2-digit",
 
-      day:
-        "2-digit",
+      day: "2-digit",
 
-      hour:
-        "2-digit",
+      hour: "2-digit",
 
-      minute:
-        "2-digit",
-
-      hour12:
-        true
+      minute: "2-digit"
     }
   ).format(date);
+
 }
 
 
 // =====================================================
-// الأحرف الأولى
+// اختصار رقم العملية
 // =====================================================
 
-function getInitials(
-  name
-) {
+function shortRequestId(id) {
 
   const value =
-    String(
-      name || ""
-    ).trim();
+    String(id || "");
+
+
+  if (value.length <= 16) {
+    return value;
+  }
+
+
+  return (
+    value.substring(0, 8)
+    + "..."
+    + value.substring(
+      value.length - 5
+    )
+  );
+
+}
+
+
+// =====================================================
+// الأحرف الأولى للصورة البديلة
+// =====================================================
+
+function getInitials(name) {
+
+  const value =
+    String(name || "")
+      .trim();
 
 
   if (!value) {
-    return "Z";
+    return "م";
   }
 
 
   const parts =
-    value
-      .split(/\s+/)
-      .filter(Boolean);
+    value.split(/\s+/);
 
 
   if (parts.length === 1) {
 
     return parts[0]
-      .slice(0, 2);
+      .substring(0, 2);
+
   }
 
 
   return (
-    parts[0][0] +
-    parts[1][0]
+    parts[0].charAt(0)
+    +
+    parts[1].charAt(0)
   );
+
 }
 
 
 // =====================================================
-// حماية HTML
+// رسالة الإدارة
 // =====================================================
 
-function escapeHtml(
-  value
+function showMessage(
+  message,
+  type = "success"
 ) {
 
-  return String(
-    value ?? ""
-  )
+  if (!adminMessage) {
+    return;
+  }
+
+
+  adminMessage.textContent =
+    message || "";
+
+
+  adminMessage.className =
+    "";
+
+
+  adminMessage.classList.add(
+    "show",
+    type
+  );
+
+
+  clearTimeout(
+    showMessage.timeout
+  );
+
+
+  showMessage.timeout =
+    setTimeout(
+      () => {
+
+        hideMessage();
+
+      },
+      5000
+    );
+
+}
+
+
+// =====================================================
+// إخفاء الرسالة
+// =====================================================
+
+function hideMessage() {
+
+  if (!adminMessage) {
+    return;
+  }
+
+
+  adminMessage.className = "";
+
+  adminMessage.textContent = "";
+
+}
+
+
+// =====================================================
+// أخطاء الإدارة
+// =====================================================
+
+function getFriendlyAdminError(error) {
+
+  const rawMessage =
+    String(
+      error?.message ||
+      error?.details ||
+      ""
+    );
+
+
+  const message =
+    rawMessage.toLowerCase();
+
+
+  if (
+    message.includes(
+      "get_admin_subscription_requests"
+    )
+  ) {
+
+    return (
+      "دالة جلب طلبات الإدارة غير موجودة في قاعدة البيانات."
+    );
+
+  }
+
+
+  if (
+    message.includes(
+      "not authorized"
+    ) ||
+    message.includes(
+      "unauthorized"
+    ) ||
+    message.includes(
+      "permission denied"
+    )
+  ) {
+
+    return (
+      "ليس لديك صلاحية تنفيذ هذا الإجراء."
+    );
+
+  }
+
+
+  if (
+    message.includes(
+      "already approved"
+    )
+  ) {
+
+    return (
+      "هذا الطلب تمت الموافقة عليه مسبقاً."
+    );
+
+  }
+
+
+  if (
+    message.includes(
+      "already rejected"
+    )
+  ) {
+
+    return (
+      "هذا الطلب تم رفضه مسبقاً."
+    );
+
+  }
+
+
+  if (
+    message.includes(
+      "request not found"
+    )
+  ) {
+
+    return (
+      "الطلب غير موجود أو تم حذفه."
+    );
+
+  }
+
+
+  if (
+    message.includes(
+      "subscription"
+    ) &&
+    message.includes(
+      "constraint"
+    )
+  ) {
+
+    return (
+      "حدث خطأ في إعدادات الاشتراك. راجع قيود جدول الاشتراكات."
+    );
+
+  }
+
+
+  if (rawMessage) {
+
+    return rawMessage;
+
+  }
+
+
+  return (
+    "حدث خطأ غير متوقع. حاول مرة أخرى."
+  );
+
+}
+
+
+// =====================================================
+// حماية النصوص HTML
+// =====================================================
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
     .replace(
       /&/g,
       "&amp;"
@@ -2273,149 +2437,23 @@ function escapeHtml(
       /'/g,
       "&#039;"
     );
+
 }
 
 
 // =====================================================
-// حماية Attribute
+// حماية خصائص HTML
 // =====================================================
 
-function escapeAttribute(
-  value
-) {
+function escapeAttribute(value) {
 
-  return escapeHtml(
-    value
-  );
+  return escapeHtml(value);
+
 }
 
 
 // =====================================================
-// CSS.escape بديل آمن
-// =====================================================
-
-function cssEscape(
-  value
-) {
-
-  const stringValue =
-    String(
-      value ?? ""
-    );
-
-
-  if (
-    window.CSS &&
-    typeof window.CSS.escape ===
-      "function"
-  ) {
-
-    return window.CSS.escape(
-      stringValue
-    );
-  }
-
-
-  return stringValue.replace(
-    /[^a-zA-Z0-9_-]/g,
-    "\\$&"
-  );
-}
-
-
-// =====================================================
-// الأخطاء المفهومة للمستخدم
-// =====================================================
-
-function getFriendlyError(
-  error
-) {
-
-  if (!error) {
-
-    return "حدث خطأ غير متوقع.";
-  }
-
-
-  const rawMessage =
-    String(
-      error.message ||
-      error.details ||
-      error.hint ||
-      error
-    );
-
-
-  const message =
-    rawMessage.toLowerCase();
-
-
-  if (
-    message.includes(
-      "not authorized"
-    ) ||
-    message.includes(
-      "unauthorized"
-    ) ||
-    message.includes(
-      "permission denied"
-    )
-  ) {
-
-    return "ليس لديك صلاحية لتنفيذ هذا الإجراء.";
-  }
-
-
-  if (
-    message.includes(
-      "is_admin"
-    )
-  ) {
-
-    return "تعذر التحقق من صلاحيات الأدمن.";
-  }
-
-
-  if (
-    message.includes(
-      "approve_subscription_request"
-    )
-  ) {
-
-    return "تعذر تنفيذ الموافقة. تأكد من وجود دالة الموافقة في قاعدة البيانات.";
-  }
-
-
-  if (
-    message.includes(
-      "reject_subscription_request"
-    )
-  ) {
-
-    return "تعذر تنفيذ الرفض. تأكد من وجود دالة الرفض في قاعدة البيانات.";
-  }
-
-
-  if (
-    message.includes(
-      "network"
-    ) ||
-    message.includes(
-      "fetch"
-    )
-  ) {
-
-    return "تعذر الاتصال بالخادم. تحقق من اتصال الإنترنت.";
-  }
-
-
-  return rawMessage ||
-    "حدث خطأ غير متوقع.";
-}
-
-
-// =====================================================
-// حماية إضافية عند إخفاء الصفحة
+// تنظيف عند إغلاق الصفحة
 // =====================================================
 
 document.addEventListener(
@@ -2423,15 +2461,20 @@ document.addEventListener(
   () => {
 
     if (
-      !document.hidden &&
+      document.visibilityState ===
+      "hidden"
+    ) {
+      return;
+    }
+
+
+    if (
       currentUser &&
-      !isProcessing &&
-      !isLoading
+      !isProcessingRequest
     ) {
 
-      loadRequests({
-        silent: true
-      });
+      loadRequests(true);
+
     }
 
   }

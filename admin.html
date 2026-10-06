@@ -12,168 +12,119 @@
 
   <title>لوحة الإدارة | Zain Sales</title>
 
-  <meta
-    name="theme-color"
-    content="#7139b7"
-  >
+  <meta name="theme-color" content="#6c2bd9">
 
   <meta
-    name="apple-mobile-web-app-capable"
-    content="yes"
+    name="description"
+    content="لوحة إدارة الاشتراكات في Zain Sales"
   >
 
-  <meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="default"
-  >
+  <link rel="manifest" href="manifest.webmanifest">
 
-  <meta
-    name="apple-mobile-web-app-title"
-    content="Zain Sales"
+  <link
+    rel="apple-touch-icon"
+    href="assets/icons/apple-touch-icon.png"
   >
 
   <link
-    rel="stylesheet"
-    href="css/style.css"
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
   >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
 
   <style>
 
     /* =====================================================
-       Zain Sales
-       Admin Dashboard
-       Final UI
-       ===================================================== */
+       RESET
+    ===================================================== */
 
-    :root {
-      --admin-primary: #7139b7;
-      --admin-primary-dark: #5b21b6;
-      --admin-primary-soft: #f3ebff;
-
-      --admin-bg: #f6f4fa;
-      --admin-card: #ffffff;
-
-      --admin-text: #292433;
-      --admin-text-soft: #746d7e;
-      --admin-text-muted: #9b94a4;
-
-      --admin-border: #ebe6f2;
-
-      --admin-success: #16a34a;
-      --admin-success-bg: #effbf3;
-      --admin-success-border: #ccefd7;
-
-      --admin-danger: #dc2626;
-      --admin-danger-bg: #fff1f1;
-      --admin-danger-border: #ffd3d3;
-
-      --admin-warning: #a16207;
-      --admin-warning-bg: #fff9e8;
-      --admin-warning-border: #f2dfa4;
-
-      --admin-shadow:
-        0 10px 35px rgba(80, 50, 120, 0.055);
-
-      --admin-shadow-hover:
-        0 15px 38px rgba(80, 50, 120, 0.095);
-
-      --admin-radius-xl: 26px;
-      --admin-radius-lg: 21px;
-      --admin-radius-md: 15px;
-      --admin-radius-sm: 12px;
-    }
-
-
-    /* =====================================================
-       Reset
-       ===================================================== */
-
-    *,
-    *::before,
-    *::after {
+    * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
     }
 
 
     html {
-      min-height: 100%;
-      background: var(--admin-bg);
       scroll-behavior: smooth;
     }
 
 
     body {
       margin: 0;
+      padding: 0;
+
       min-height: 100vh;
+
+      font-family: "Cairo", sans-serif;
 
       background:
         radial-gradient(
-          circle at 100% 0%,
-          #eee3ff 0,
-          rgba(238, 227, 255, 0.42) 17%,
-          rgba(246, 244, 250, 0) 39%
+          circle at top right,
+          rgba(108, 43, 217, 0.07),
+          transparent 32%
         ),
-        radial-gradient(
-          circle at 0% 100%,
-          #f2ebff 0,
-          rgba(242, 235, 255, 0.22) 18%,
-          rgba(246, 244, 250, 0) 38%
-        ),
-        var(--admin-bg);
+        #f6f4fa;
 
-      color: var(--admin-text);
+      color: #201b2b;
 
-      font-family:
-        "Cairo",
-        "Tajawal",
-        Arial,
-        sans-serif;
-
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
+      direction: rtl;
     }
 
 
     button,
     input {
-      font: inherit;
+      font-family: inherit;
     }
 
 
     button {
-      -webkit-appearance: none;
-      appearance: none;
+      border: 0;
+      cursor: pointer;
+    }
+
+
+    button:disabled {
+      cursor: not-allowed;
     }
 
 
     /* =====================================================
-       الصفحة
-       ===================================================== */
+       PAGE
+    ===================================================== */
 
     .admin-page {
       width: 100%;
       min-height: 100vh;
+
+      padding:
+        max(22px, env(safe-area-inset-top))
+        18px
+        calc(30px + env(safe-area-inset-bottom));
     }
 
 
     .admin-container {
       width: 100%;
-      max-width: 1180px;
+      max-width: 1280px;
 
       margin: 0 auto;
-
-      padding:
-        max(18px, env(safe-area-inset-top))
-        18px
-        max(42px, env(safe-area-inset-bottom))
-        18px;
     }
 
 
     /* =====================================================
-       Header
-       ===================================================== */
+       TOP HEADER
+    ===================================================== */
 
     .admin-header {
       position: relative;
@@ -182,28 +133,28 @@
       align-items: center;
       justify-content: space-between;
 
-      gap: 20px;
-
-      min-height: 118px;
+      gap: 18px;
 
       padding: 24px 26px;
 
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+
+      border-radius: 24px;
 
       overflow: hidden;
 
       background:
         linear-gradient(
           135deg,
-          rgba(255, 255, 255, 0.98),
-          rgba(250, 247, 255, 0.98)
+          #6c2bd9 0%,
+          #7b3fe4 55%,
+          #8c52ed 100%
         );
 
-      border: 1px solid var(--admin-border);
+      color: #ffffff;
 
-      border-radius: var(--admin-radius-xl);
-
-      box-shadow: var(--admin-shadow);
+      box-shadow:
+        0 14px 35px rgba(108, 43, 217, 0.20);
     }
 
 
@@ -215,19 +166,12 @@
       width: 190px;
       height: 190px;
 
-      left: -80px;
-      top: -105px;
-
       border-radius: 50%;
 
-      background:
-        radial-gradient(
-          circle,
-          rgba(113, 57, 183, 0.13),
-          rgba(113, 57, 183, 0)
-        );
+      left: -70px;
+      top: -90px;
 
-      pointer-events: none;
+      background: rgba(255,255,255,0.08);
     }
 
 
@@ -236,19 +180,16 @@
 
       position: absolute;
 
-      width: 110px;
-      height: 110px;
-
-      right: 42%;
-
-      bottom: -80px;
+      width: 120px;
+      height: 120px;
 
       border-radius: 50%;
 
-      background:
-        rgba(113, 57, 183, 0.035);
+      right: 32%;
 
-      pointer-events: none;
+      bottom: -90px;
+
+      background: rgba(255,255,255,0.06);
     }
 
 
@@ -256,218 +197,165 @@
       position: relative;
       z-index: 2;
 
+      display: flex;
+      align-items: center;
+
+      gap: 15px;
+
       min-width: 0;
     }
 
 
-    .admin-title-row {
-      display: flex;
-      align-items: center;
+    .admin-header-icon {
+      width: 58px;
+      height: 58px;
 
-      gap: 11px;
-
-      margin-bottom: 7px;
-    }
-
-
-    .admin-title-icon {
-      width: 42px;
-      height: 42px;
-
-      flex: 0 0 42px;
+      flex: 0 0 58px;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      border-radius: 13px;
+      border-radius: 18px;
 
-      background:
-        linear-gradient(
-          135deg,
-          #7139b7,
-          #8b5bd1
-        );
+      background: rgba(255,255,255,0.15);
+
+      border: 1px solid rgba(255,255,255,0.18);
+
+      backdrop-filter: blur(8px);
+    }
+
+
+    .admin-header-icon svg {
+      width: 29px;
+      height: 29px;
+    }
+
+
+    .admin-header-text {
+      min-width: 0;
+    }
+
+
+    .admin-header-text h1 {
+      margin: 0 0 3px;
+
+      font-size: 22px;
+      font-weight: 800;
 
       color: #ffffff;
-
-      font-size: 19px;
-
-      box-shadow:
-        0 8px 20px rgba(113, 57, 183, 0.22);
     }
 
 
-    .admin-header h1 {
+    .admin-header-text p {
       margin: 0;
 
-      color: var(--admin-primary-dark);
-
-      font-size: 25px;
-
-      font-weight: 900;
-
-      line-height: 1.35;
-
-      letter-spacing: -0.3px;
-    }
-
-
-    .admin-header p {
-      margin: 0;
-
-      color: var(--admin-text-soft);
+      color: rgba(255,255,255,0.78);
 
       font-size: 13px;
-
-      line-height: 1.7;
+      font-weight: 500;
     }
 
 
-    .admin-header-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      margin-top: 11px;
-
-      min-height: 30px;
-
-      padding: 5px 11px;
-
-      border-radius: 30px;
-
-      background: var(--admin-primary-soft);
-
-      border: 1px solid #e5d7fa;
-
-      color: var(--admin-primary-dark);
-
-      font-size: 11px;
-
-      font-weight: 800;
-    }
-
-
-    /* =====================================================
-       Logout
-       ===================================================== */
-
-    .logout-btn {
+    .admin-status {
       position: relative;
-      z-index: 3;
+      z-index: 2;
 
       display: inline-flex;
       align-items: center;
-      justify-content: center;
 
       gap: 8px;
 
-      min-width: 125px;
-      min-height: 45px;
+      flex-shrink: 0;
 
-      padding: 0 17px;
+      padding: 8px 12px;
 
-      border: 1px solid #e5d8f5;
+      border-radius: 999px;
 
-      border-radius: 13px;
+      background: rgba(255,255,255,0.12);
 
-      background: #faf7ff;
+      border: 1px solid rgba(255,255,255,0.16);
 
-      color: #6d28d9;
+      color: #ffffff;
 
-      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
 
-      font-size: 13px;
-      font-weight: 800;
-
-      transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.15s ease,
-        box-shadow 0.2s ease;
+      backdrop-filter: blur(8px);
     }
 
 
-    .logout-btn:hover {
-      background: #f2eaff;
+    .admin-status-dot {
+      width: 7px;
+      height: 7px;
 
-      border-color: #d8c4ef;
+      border-radius: 50%;
 
-      box-shadow:
-        0 7px 18px rgba(109, 40, 217, 0.08);
-    }
+      background: #8df0bd;
 
-
-    .logout-btn:active {
-      transform: scale(0.97);
-    }
-
-
-    .logout-icon {
-      font-size: 16px;
-      line-height: 1;
+      box-shadow: 0 0 0 4px rgba(141,240,189,0.13);
     }
 
 
     /* =====================================================
-       الرسائل
-       ===================================================== */
+       MESSAGE
+    ===================================================== */
 
-    .message {
+    #adminMessage {
       display: none;
 
       width: 100%;
 
-      padding: 13px 15px;
+      padding: 13px 16px;
 
       margin-bottom: 18px;
 
       border-radius: 14px;
 
       font-size: 13px;
+      font-weight: 700;
 
       line-height: 1.8;
     }
 
 
-    .message.show {
+    #adminMessage.show {
       display: block;
     }
 
 
-    .message.error {
-      background: var(--admin-danger-bg);
+    #adminMessage.success {
+      color: #176c46;
 
-      border: 1px solid var(--admin-danger-border);
+      background: #eaf9f1;
 
-      color: #b42318;
+      border: 1px solid #c7eed9;
     }
 
 
-    .message.success {
-      background: var(--admin-success-bg);
+    #adminMessage.error {
+      color: #a52c3d;
 
-      border: 1px solid var(--admin-success-border);
+      background: #fff0f2;
 
-      color: #187a3d;
+      border: 1px solid #f3ccd3;
     }
 
 
-    .message.warning {
-      background: var(--admin-warning-bg);
+    #adminMessage.warning {
+      color: #8a5a10;
 
-      border: 1px solid var(--admin-warning-border);
+      background: #fff8e7;
 
-      color: #8a6500;
+      border: 1px solid #f1dfae;
     }
 
 
     /* =====================================================
-       الإحصائيات
-       ===================================================== */
+       STATISTICS
+    ===================================================== */
 
-    .stats-grid {
+    .admin-stats {
       display: grid;
 
       grid-template-columns:
@@ -475,26 +363,348 @@
 
       gap: 14px;
 
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
 
     .stat-card {
       position: relative;
 
-      min-height: 126px;
+      display: flex;
+      align-items: center;
+
+      gap: 14px;
+
+      min-width: 0;
+
+      padding: 18px;
+
+      background: #ffffff;
+
+      border: 1px solid #ebe7f1;
+
+      border-radius: 20px;
+
+      box-shadow:
+        0 7px 22px rgba(42, 25, 67, 0.05);
+
+      overflow: hidden;
+    }
+
+
+    .stat-card::after {
+      content: "";
+
+      position: absolute;
+
+      width: 75px;
+      height: 75px;
+
+      left: -30px;
+      bottom: -38px;
+
+      border-radius: 50%;
+
+      background: rgba(108,43,217,0.04);
+    }
+
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+
+      flex: 0 0 48px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 15px;
+
+      background: #f1ebff;
+
+      color: #6c2bd9;
+    }
+
+
+    .stat-icon svg {
+      width: 23px;
+      height: 23px;
+    }
+
+
+    .stat-content {
+      min-width: 0;
+    }
+
+
+    .stat-label {
+      margin: 0 0 2px;
+
+      color: #81798e;
+
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+
+    .stat-value {
+      margin: 0;
+
+      color: #241d30;
+
+      font-size: 23px;
+      font-weight: 800;
+
+      line-height: 1.25;
+    }
+
+
+    /* =====================================================
+       REQUEST SECTION
+    ===================================================== */
+
+    .requests-panel {
+      background: #ffffff;
+
+      border: 1px solid #ebe7f1;
+
+      border-radius: 24px;
+
+      box-shadow:
+        0 8px 30px rgba(42, 25, 67, 0.055);
+
+      overflow: hidden;
+    }
+
+
+    .requests-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 18px;
+
+      padding: 22px 24px;
+
+      border-bottom: 1px solid #eeeaf3;
+
+      background: #ffffff;
+    }
+
+
+    .requests-heading {
+      min-width: 0;
+    }
+
+
+    .requests-heading h2 {
+      margin: 0 0 4px;
+
+      color: #211a2c;
+
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+
+    .requests-heading p {
+      margin: 0;
+
+      color: #8b8394;
+
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+
+    /* =====================================================
+       SEARCH
+    ===================================================== */
+
+    .search-box {
+      position: relative;
+
+      width: 360px;
+
+      flex-shrink: 0;
+    }
+
+
+    .search-box-icon {
+      position: absolute;
+
+      top: 50%;
+      right: 15px;
+
+      width: 19px;
+      height: 19px;
+
+      transform: translateY(-50%);
+
+      color: #91889b;
+
+      pointer-events: none;
+    }
+
+
+    .search-box input {
+      width: 100%;
+      height: 48px;
+
+      padding:
+        0
+        46px
+        0
+        16px;
+
+      border-radius: 14px;
+
+      border: 1px solid #e5e0eb;
+
+      outline: none;
+
+      background: #faf9fc;
+
+      color: #27202f;
+
+      font-size: 13px;
+      font-weight: 600;
+
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+    }
+
+
+    .search-box input::placeholder {
+      color: #aaa2b1;
+    }
+
+
+    .search-box input:focus {
+      background: #ffffff;
+
+      border-color: #9d7adf;
+
+      box-shadow:
+        0 0 0 4px rgba(108,43,217,0.08);
+    }
+
+
+    /* =====================================================
+       FILTERS
+    ===================================================== */
+
+    .requests-filters {
+      display: flex;
+      align-items: center;
+
+      gap: 8px;
+
+      padding: 14px 24px;
+
+      border-bottom: 1px solid #eeeaf3;
+
+      overflow-x: auto;
+
+      scrollbar-width: none;
+    }
+
+
+    .requests-filters::-webkit-scrollbar {
+      display: none;
+    }
+
+
+    .filter-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      flex: 0 0 auto;
+
+      height: 36px;
+
+      padding: 0 14px;
+
+      border-radius: 10px;
+
+      border: 1px solid #e5e0eb;
+
+      background: #ffffff;
+
+      color: #756d80;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      transition:
+        0.2s ease;
+    }
+
+
+    .filter-btn:hover {
+      border-color: #cbb7ed;
+
+      color: #6c2bd9;
+    }
+
+
+    .filter-btn.active {
+      color: #ffffff;
+
+      background: #6c2bd9;
+
+      border-color: #6c2bd9;
+
+      box-shadow:
+        0 5px 14px rgba(108,43,217,0.18);
+    }
+
+
+    /* =====================================================
+       REQUESTS LIST
+    ===================================================== */
+
+    #requestsContainer {
+      padding: 20px;
+    }
+
+
+    .requests-list {
+      display: flex;
+      flex-direction: column;
+
+      gap: 14px;
+    }
+
+
+    /* =====================================================
+       REQUEST CARD
+    ===================================================== */
+
+    .request-card {
+      position: relative;
+
+      width: 100%;
 
       padding: 20px;
 
-      overflow: hidden;
+      border-radius: 20px;
 
-      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid #e8e3ee;
 
-      border: 1px solid var(--admin-border);
+      background:
+        linear-gradient(
+          180deg,
+          #ffffff 0%,
+          #fcfbfd 100%
+        );
 
-      border-radius: var(--admin-radius-lg);
-
-      box-shadow: var(--admin-shadow);
+      box-shadow:
+        0 5px 18px rgba(39, 25, 55, 0.045);
 
       transition:
         transform 0.2s ease,
@@ -503,1129 +713,882 @@
     }
 
 
-    .stat-card:hover {
-      transform: translateY(-2px);
-
-      border-color: #e0d5ed;
-
-      box-shadow: var(--admin-shadow-hover);
-    }
-
-
-    .stat-card::before {
-      content: "";
-
-      position: absolute;
-
-      width: 95px;
-      height: 95px;
-
-      left: -40px;
-      bottom: -48px;
-
-      border-radius: 50%;
-
-      background:
-        rgba(113, 57, 183, 0.055);
-    }
-
-
-    .stat-card-top {
-      position: relative;
-      z-index: 1;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 10px;
-
-      margin-bottom: 12px;
-    }
-
-
-    .stat-card-label {
-      color: var(--admin-text-soft);
-
-      font-size: 12px;
-
-      font-weight: 700;
-
-      line-height: 1.6;
-    }
-
-
-    .stat-card-icon {
-      width: 34px;
-      height: 34px;
-
-      flex: 0 0 34px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 11px;
-
-      background: var(--admin-primary-soft);
-
-      color: var(--admin-primary);
-
-      font-size: 16px;
-    }
-
-
-    .stat-card strong {
-      position: relative;
-      z-index: 1;
-
-      display: block;
-
-      color: var(--admin-primary-dark);
-
-      font-size: 29px;
-
-      font-weight: 900;
-
-      line-height: 1.2;
-
-      direction: rtl;
-    }
-
-
-    #pendingAmount {
-      font-size: 22px;
-    }
-
-
-    /* =====================================================
-       قسم الطلبات
-       ===================================================== */
-
-    .requests-section {
-      background:
-        rgba(255, 255, 255, 0.91);
-
-      border: 1px solid var(--admin-border);
-
-      border-radius: var(--admin-radius-xl);
-
-      padding: 22px;
-
-      box-shadow: var(--admin-shadow);
-    }
-
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 15px;
-
-      margin-bottom: 20px;
-    }
-
-
-    .section-title-wrap {
-      min-width: 0;
-    }
-
-
-    .section-title {
-      margin: 0;
-
-      color: #302b38;
-
-      font-size: 20px;
-
-      font-weight: 900;
-
-      line-height: 1.5;
-    }
-
-
-    .section-subtitle {
-      margin: 5px 0 0;
-
-      color: var(--admin-text-muted);
-
-      font-size: 12px;
-
-      line-height: 1.7;
-    }
-
-
-    /* =====================================================
-       أدوات البحث والفلترة
-       ===================================================== */
-
-    .requests-tools {
-      margin-bottom: 18px;
-    }
-
-
-    .search-box {
-      position: relative;
-
-      width: 100%;
-
-      margin-bottom: 11px;
-    }
-
-
-    .search-box input {
-      width: 100%;
-
-      min-height: 49px;
-
-      padding:
-        0
-        45px
-        0
-        16px;
-
-      outline: none;
-
-      background: #faf9fc;
-
-      border: 1px solid #e8e3ef;
-
-      border-radius: 14px;
-
-      color: #302b38;
-
-      font-family: inherit;
-
-      font-size: 13px;
-
-      direction: rtl;
-
-      transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-    }
-
-
-    .search-box input::placeholder {
-      color: #a09aa7;
-    }
-
-
-    .search-box input:focus {
-      background: #ffffff;
-
-      border-color: #b994e8;
-
-      box-shadow:
-        0 0 0 4px rgba(109, 40, 217, 0.065);
-    }
-
-
-    .search-icon {
-      position: absolute;
-
-      right: 15px;
-      top: 50%;
-
-      transform: translateY(-50%);
-
-      width: 21px;
-      height: 21px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      color: #817a8b;
-
-      font-size: 16px;
-
-      pointer-events: none;
-    }
-
-
-    .filter-tabs {
-      display: flex;
-      align-items: center;
-
-      gap: 7px;
-
-      overflow-x: auto;
-
-      padding:
-        1px
-        1px
-        3px;
-
-      scrollbar-width: none;
-    }
-
-
-    .filter-tabs::-webkit-scrollbar {
-      display: none;
-    }
-
-
-    .filter-btn {
-      flex: 0 0 auto;
-
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      gap: 7px;
-
-      min-height: 40px;
-
-      padding: 0 13px;
-
-      border-radius: 12px;
-
-      border: 1px solid #e7e1ef;
-
-      background: #ffffff;
-
-      color: #696270;
-
-      font-family: inherit;
-
-      font-size: 12px;
-
-      font-weight: 800;
-
-      cursor: pointer;
-
-      transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.15s ease;
-    }
-
-
-    .filter-btn:hover {
-      background: #f8f3ff;
-
-      border-color: #d8c8ed;
-
-      color: #6d28d9;
-    }
-
-
-    .filter-btn:active {
-      transform: scale(0.97);
-    }
-
-
-    .filter-btn.active {
-      background: var(--admin-primary);
-
-      border-color: var(--admin-primary);
-
-      color: #ffffff;
-
-      box-shadow:
-        0 5px 14px rgba(113, 57, 183, 0.16);
-    }
-
-
-    .filter-btn span {
-      min-width: 22px;
-      height: 22px;
-
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      padding: 0 6px;
-
-      border-radius: 20px;
-
-      background: #f2edf8;
-
-      color: var(--admin-primary);
-
-      font-size: 10px;
-
-      font-weight: 900;
-    }
-
-
-    .filter-btn.active span {
-      background: rgba(255, 255, 255, 0.18);
-
-      color: #ffffff;
-    }
-
-
-    /* =====================================================
-       حاوية الطلبات
-       ===================================================== */
-
-    #requestsContainer {
-      display: flex;
-
-      flex-direction: column;
-
-      gap: 13px;
-
-      min-height: 120px;
-    }
-
-
-    .loading {
-      min-height: 180px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      color: #88818f;
-
-      font-size: 13px;
-
-      background: #faf9fc;
-
-      border: 1px dashed #ded6e8;
-
-      border-radius: 18px;
-    }
-
-
-    .empty-state {
-      min-height: 200px;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      text-align: center;
-
-      color: #918b98;
-
-      font-size: 13px;
-
-      line-height: 1.8;
-
-      background: #faf9fc;
-
-      border: 1px dashed #ddd4e8;
-
-      border-radius: 18px;
-
-      padding: 25px;
-    }
-
-
-    .empty-state-icon {
-      width: 56px;
-      height: 56px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      margin-bottom: 11px;
-
-      border-radius: 18px;
-
-      background: #f2edf8;
-
-      color: #8b5cc6;
-
-      font-size: 25px;
-    }
-
-
-    /* =====================================================
-       كرت الطلب
-       ===================================================== */
-
-    .request-card {
-      position: relative;
-
-      padding: 19px;
-
-      overflow: hidden;
-
-      background: #ffffff;
-
-      border: 1px solid #ebe7f1;
-
-      border-radius: var(--admin-radius-lg);
-
-      box-shadow:
-        0 5px 20px rgba(80, 50, 120, 0.035);
-
-      transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-    }
-
-
     .request-card:hover {
       transform: translateY(-2px);
 
-      border-color: #dacbed;
+      border-color: #d8c9ec;
 
       box-shadow:
-        0 12px 30px rgba(80, 50, 120, 0.075);
+        0 10px 26px rgba(39, 25, 55, 0.075);
     }
 
 
     .request-card.pending {
-      border-right:
-        4px solid #7c3aed;
+      border-right: 3px solid #6c2bd9;
     }
 
 
     .request-card.approved {
-      border-right:
-        4px solid var(--admin-success);
+      border-right: 3px solid #27a96d;
     }
 
 
     .request-card.rejected {
-      border-right:
-        4px solid var(--admin-danger);
+      border-right: 3px solid #d85468;
     }
 
 
     /* =====================================================
-       أعلى الطلب
-       ===================================================== */
+       CARD TOP
+    ===================================================== */
 
-    .request-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
+    .request-card-top {
+      display: grid;
 
-      gap: 18px;
+      grid-template-columns:
+        minmax(240px, 1.2fr)
+        minmax(160px, 0.7fr);
 
-      padding-bottom: 16px;
+      align-items: center;
 
-      margin-bottom: 16px;
+      gap: 20px;
 
-      border-bottom:
-        1px solid #f0edf4;
+      padding-bottom: 18px;
+
+      border-bottom: 1px solid #eeeaf3;
     }
 
 
-    .request-user-area {
-      min-width: 0;
-
+    .request-representative {
       display: flex;
       align-items: center;
 
-      gap: 12px;
+      gap: 13px;
+
+      min-width: 0;
     }
 
 
     .request-avatar {
-      width: 49px;
-      height: 49px;
+      width: 58px;
+      height: 58px;
 
-      flex: 0 0 49px;
+      flex: 0 0 58px;
 
+      border-radius: 17px;
+
+      object-fit: cover;
+
+      background: #f0eafb;
+
+      border: 2px solid #ffffff;
+
+      box-shadow:
+        0 0 0 1px #e1d9eb,
+        0 5px 14px rgba(45, 27, 67, 0.08);
+    }
+
+
+    .request-avatar-fallback {
       display: flex;
       align-items: center;
       justify-content: center;
 
+      color: #6c2bd9;
+
       background:
         linear-gradient(
           135deg,
-          #ede1ff,
-          #f7f2ff
+          #f0e8ff,
+          #e8ddfa
         );
 
-      border: 1px solid #e5d7fa;
-
-      border-radius: 15px;
-
-      color: #6d28d9;
-
-      font-size: 20px;
-
-      font-weight: 900;
+      font-size: 18px;
+      font-weight: 800;
     }
 
 
-    .request-user-info {
+    .request-representative-info {
       min-width: 0;
     }
 
 
-    .request-user {
-      color: #292532;
+    .request-representative-name {
+      margin: 0 0 2px;
+
+      color: #241d2e;
 
       font-size: 15px;
+      font-weight: 800;
 
-      font-weight: 900;
+      white-space: nowrap;
 
-      line-height: 1.5;
-
-      word-break: break-word;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
 
-    .request-email {
-      margin-top: 4px;
+    .request-representative-email {
+      margin: 0;
 
-      color: #918b98;
+      color: #898090;
+
+      font-size: 12px;
+      font-weight: 500;
+
+      direction: ltr;
+      text-align: right;
+
+      white-space: nowrap;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+
+    .request-number-area {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      gap: 10px;
+
+      min-width: 0;
+    }
+
+
+    .request-number-label {
+      color: #948b9d;
+
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+
+    .request-number-value {
+      display: inline-flex;
+      align-items: center;
+
+      min-width: 0;
+
+      padding: 7px 10px;
+
+      border-radius: 9px;
+
+      background: #f7f4fb;
+
+      border: 1px solid #ebe5f2;
+
+      color: #5f5469;
+
+      font-family: Arial, sans-serif;
 
       font-size: 11px;
 
       direction: ltr;
 
-      text-align: right;
-
-      word-break: break-all;
-    }
-
-
-    /* =====================================================
-       Badge
-       ===================================================== */
-
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      min-height: 31px;
-
-      padding: 5px 11px;
-
-      border-radius: 30px;
-
-      font-size: 11px;
-
-      font-weight: 800;
-
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
 
-    .status-pending {
-      background: var(--admin-warning-bg);
-
-      border:
-        1px solid var(--admin-warning-border);
-
-      color: #876400;
+    .request-status-area {
+      display: flex;
+      justify-content: flex-start;
     }
 
 
-    .status-approved {
-      background: var(--admin-success-bg);
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
 
-      border:
-        1px solid var(--admin-success-border);
+      gap: 7px;
 
-      color: #187a3d;
+      padding: 7px 12px;
+
+      border-radius: 999px;
+
+      font-size: 11px;
+      font-weight: 800;
     }
 
 
-    .status-rejected {
-      background: var(--admin-danger-bg);
+    .status-badge::before {
+      content: "";
 
-      border:
-        1px solid var(--admin-danger-border);
+      width: 6px;
+      height: 6px;
 
-      color: #b42318;
+      border-radius: 50%;
+    }
+
+
+    .status-badge.pending {
+      color: #7a5310;
+
+      background: #fff6df;
+
+      border: 1px solid #f1dfae;
+    }
+
+
+    .status-badge.pending::before {
+      background: #d79b27;
+    }
+
+
+    .status-badge.approved {
+      color: #176a47;
+
+      background: #eaf9f1;
+
+      border: 1px solid #c9edd9;
+    }
+
+
+    .status-badge.approved::before {
+      background: #2bad70;
+    }
+
+
+    .status-badge.rejected {
+      color: #a32e40;
+
+      background: #fff0f2;
+
+      border: 1px solid #f1ccd3;
+    }
+
+
+    .status-badge.rejected::before {
+      background: #d95368;
     }
 
 
     /* =====================================================
-       معلومات الطلب
-       ===================================================== */
+       INFORMATION GRID
+    ===================================================== */
 
-    .request-info {
+    .request-info-grid {
       display: grid;
 
       grid-template-columns:
         repeat(4, minmax(0, 1fr));
 
-      gap: 9px;
+      gap: 10px;
 
-      margin-bottom: 12px;
+      padding: 18px 0;
     }
 
 
-    .info-box {
+    .request-info-item {
       min-width: 0;
 
       padding: 12px 13px;
 
+      border-radius: 13px;
+
       background: #faf9fc;
 
-      border:
-        1px solid #f0edf4;
-
-      border-radius: 13px;
+      border: 1px solid #eeeaf3;
     }
 
 
-    .info-box span {
-      display: block;
+    .request-info-label {
+      display: flex;
+      align-items: center;
 
-      margin-bottom: 6px;
+      gap: 6px;
 
-      color: #938d9b;
+      margin-bottom: 5px;
+
+      color: #958c9e;
 
       font-size: 10px;
-
-      font-weight: 700;
-
-      line-height: 1.5;
+      font-weight: 600;
     }
 
 
-    .info-box strong {
-      display: block;
+    .request-info-label svg {
+      width: 14px;
+      height: 14px;
 
-      color: #393341;
+      flex: 0 0 14px;
+
+      color: #8661b9;
+    }
+
+
+    .request-info-value {
+      min-width: 0;
+
+      color: #322a3c;
 
       font-size: 12px;
-
       font-weight: 800;
 
-      line-height: 1.6;
+      white-space: nowrap;
 
-      word-break: break-word;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
 
-    .info-box.price-box {
-      background: #f8f2ff;
-
-      border-color: #e8daf8;
-    }
-
-
-    .info-box.price-box strong {
-      color: #6d28d9;
+    .request-info-value.amount {
+      color: #6c2bd9;
 
       font-size: 14px;
     }
 
 
     /* =====================================================
-       التفاصيل الإضافية
-       ===================================================== */
+       REFERENCE / NOTES
+    ===================================================== */
 
-    .request-extra {
+    .request-extra-grid {
       display: grid;
 
       grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+        minmax(0, 1fr)
+        minmax(0, 1.5fr);
 
-      gap: 9px;
+      gap: 10px;
 
-      margin-bottom: 13px;
+      margin-bottom: 16px;
     }
 
 
-    .extra-box {
+    .request-extra {
       min-width: 0;
 
-      padding: 11px 13px;
-
-      background: #fcfbfd;
-
-      border:
-        1px solid #f0edf4;
+      padding: 13px 14px;
 
       border-radius: 13px;
+
+      background: #ffffff;
+
+      border: 1px solid #ebe6f0;
     }
 
 
-    .extra-box span {
-      display: block;
+    .request-extra-label {
+      display: flex;
+      align-items: center;
+
+      gap: 6px;
 
       margin-bottom: 5px;
 
-      color: #938d9b;
+      color: #958c9e;
 
       font-size: 10px;
-
       font-weight: 700;
     }
 
 
-    .extra-box strong {
-      display: block;
+    .request-extra-label svg {
+      width: 14px;
+      height: 14px;
 
-      color: #4a4551;
-
-      font-size: 12px;
-
-      line-height: 1.65;
-
-      word-break: break-word;
+      color: #8661b9;
     }
 
 
-    .payment-reference {
+    .request-extra-value {
+      color: #42394c;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      overflow-wrap: anywhere;
+    }
+
+
+    .request-extra-value.reference {
+      font-family: Arial, sans-serif;
+
       direction: ltr;
-
       text-align: right;
-
-      font-family:
-        monospace,
-        Arial,
-        sans-serif;
-
-      color: #5b21b6 !important;
     }
 
 
     /* =====================================================
-       الملاحظات
-       ===================================================== */
-
-    .request-notes {
-      padding: 12px 13px;
-
-      margin-bottom: 14px;
-
-      background: #f8f6fc;
-
-      border:
-        1px solid #ece6f7;
-
-      border-radius: 13px;
-
-      color: #625c69;
-
-      font-size: 12px;
-
-      line-height: 1.75;
-
-      word-break: break-word;
-    }
-
-
-    .request-notes-title {
-      display: block;
-
-      margin-bottom: 4px;
-
-      color: #5b21b6;
-
-      font-size: 11px;
-
-      font-weight: 900;
-    }
-
-
-    /* =====================================================
-       أزرار الطلب
-       ===================================================== */
+       ACTIONS
+    ===================================================== */
 
     .request-actions {
-      display: grid;
+      display: flex;
+      align-items: center;
 
-      grid-template-columns:
-        1fr 1fr;
+      gap: 10px;
 
-      gap: 9px;
+      padding-top: 16px;
 
-      padding-top: 2px;
+      border-top: 1px solid #eeeaf3;
     }
 
 
-    .action-btn {
-      min-height: 46px;
+    .request-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
 
-      padding: 0 17px;
+      gap: 8px;
 
-      border-radius: 13px;
+      min-height: 43px;
 
-      cursor: pointer;
+      padding: 0 18px;
 
-      font-family: inherit;
+      border-radius: 12px;
 
-      font-size: 13px;
-
-      font-weight: 900;
+      font-size: 12px;
+      font-weight: 800;
 
       transition:
         transform 0.15s ease,
-        opacity 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
+        box-shadow 0.15s ease,
+        opacity 0.15s ease;
     }
 
 
-    .action-btn:hover {
-      box-shadow:
-        0 6px 16px rgba(0, 0, 0, 0.08);
+    .request-action-btn svg {
+      width: 17px;
+      height: 17px;
     }
 
 
-    .action-btn:active {
-      transform: scale(0.98);
-    }
-
-
-    .action-btn:disabled {
-      opacity: 0.55;
-
-      cursor: not-allowed;
-
-      box-shadow: none;
+    .request-action-btn:active {
+      transform: scale(0.97);
     }
 
 
     .approve-btn {
-      border: 1px solid #16a34a;
-
-      background: #16a34a;
-
       color: #ffffff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #25a66b,
+          #2db978
+        );
+
+      box-shadow:
+        0 5px 13px rgba(38,169,108,0.17);
     }
 
 
     .approve-btn:hover {
-      background: #15803d;
+      box-shadow:
+        0 7px 17px rgba(38,169,108,0.25);
     }
 
 
     .reject-btn {
-      border:
-        1px solid var(--admin-danger-border);
+      color: #c43e52;
 
-      background: var(--admin-danger-bg);
+      background: #fff3f5;
 
-      color: #c62828;
+      border: 1px solid #f1d2d8;
     }
 
 
     .reject-btn:hover {
-      background: #ffe3e3;
+      background: #ffe9ed;
+    }
+
+
+    .request-reviewed {
+      display: flex;
+      align-items: center;
+
+      gap: 7px;
+
+      color: #8b8292;
+
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+
+    .request-reviewed svg {
+      width: 15px;
+      height: 15px;
     }
 
 
     /* =====================================================
-       لا توجد نتائج للبحث / الفلتر
-       ===================================================== */
+       EMPTY STATE
+    ===================================================== */
 
-    .filter-empty {
-      min-height: 165px;
-
+    .empty-state {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
 
-      padding: 25px;
+      min-height: 260px;
+
+      padding: 30px;
 
       text-align: center;
-
-      background: #faf9fc;
-
-      border:
-        1px dashed #ddd4e8;
-
-      border-radius: 17px;
-
-      color: #918b98;
-
-      font-size: 13px;
-
-      line-height: 1.8;
     }
 
 
-    .filter-empty-icon {
-      width: 48px;
-      height: 48px;
+    .empty-state-icon {
+      width: 62px;
+      height: 62px;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      margin-bottom: 8px;
+      margin-bottom: 14px;
 
-      border-radius: 15px;
+      border-radius: 19px;
 
-      background: #f2edf8;
+      background: #f2edfa;
 
-      color: #8b5cc6;
+      color: #8060ad;
+    }
 
-      font-size: 22px;
+
+    .empty-state-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+
+    .empty-state h3 {
+      margin: 0 0 5px;
+
+      color: #342b3d;
+
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+
+    .empty-state p {
+      max-width: 400px;
+
+      margin: 0;
+
+      color: #918898;
+
+      font-size: 12px;
+      font-weight: 500;
+
+      line-height: 1.8;
     }
 
 
     /* =====================================================
-       Focus
-       ===================================================== */
+       LOADING
+    ===================================================== */
 
-    button:focus-visible,
-    input:focus-visible {
-      outline:
-        3px solid rgba(113, 57, 183, 0.18);
+    .loading-state {
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-      outline-offset: 2px;
+      min-height: 220px;
+
+      color: #857b91;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+
+    .loading-spinner {
+      width: 22px;
+      height: 22px;
+
+      margin-left: 10px;
+
+      border-radius: 50%;
+
+      border: 3px solid #e8def6;
+
+      border-top-color: #6c2bd9;
+
+      animation:
+        adminSpin 0.8s linear infinite;
+    }
+
+
+    @keyframes adminSpin {
+      to {
+        transform: rotate(360deg);
+      }
     }
 
 
     /* =====================================================
-       Tablet
-       ===================================================== */
+       ADMIN ACCOUNT / LOGOUT
+    ===================================================== */
 
-    @media (max-width: 900px) {
+    .admin-account-panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-      .request-info {
+      gap: 18px;
+
+      margin-top: 18px;
+
+      padding: 17px 20px;
+
+      border-radius: 20px;
+
+      background: #ffffff;
+
+      border: 1px solid #ebe7f1;
+
+      box-shadow:
+        0 7px 22px rgba(42,25,67,0.045);
+    }
+
+
+    .admin-account-info {
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      min-width: 0;
+    }
+
+
+    .admin-account-icon {
+      width: 45px;
+      height: 45px;
+
+      flex: 0 0 45px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 14px;
+
+      color: #6c2bd9;
+
+      background: #f1ebff;
+    }
+
+
+    .admin-account-icon svg {
+      width: 21px;
+      height: 21px;
+    }
+
+
+    .admin-account-text {
+      min-width: 0;
+    }
+
+
+    .admin-account-text strong {
+      display: block;
+
+      margin-bottom: 2px;
+
+      color: #312839;
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+
+    .admin-account-text span {
+      display: block;
+
+      color: #928999;
+
+      font-size: 11px;
+      font-weight: 500;
+
+      direction: ltr;
+      text-align: right;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+
+    .logout-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 8px;
+
+      min-height: 42px;
+
+      padding: 0 16px;
+
+      border-radius: 11px;
+
+      color: #a7364a;
+
+      background: #fff1f4;
+
+      border: 1px solid #f1d3da;
+
+      font-size: 12px;
+      font-weight: 800;
+
+      flex-shrink: 0;
+
+      transition: 0.2s ease;
+    }
+
+
+    .logout-btn:hover {
+      background: #ffe7ec;
+
+      border-color: #e9bdc7;
+    }
+
+
+    .logout-btn svg {
+      width: 17px;
+      height: 17px;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 1000px) {
+
+      .request-info-grid {
         grid-template-columns:
           repeat(2, minmax(0, 1fr));
       }
 
+
+      .request-card-top {
+        grid-template-columns:
+          minmax(0, 1fr)
+          auto;
+      }
+
     }
 
 
-    /* =====================================================
-       Mobile
-       ===================================================== */
+    @media (max-width: 780px) {
 
-    @media (max-width: 700px) {
-
-      .admin-container {
+      .admin-page {
         padding:
-          max(11px, env(safe-area-inset-top))
-          10px
-          max(30px, env(safe-area-inset-bottom))
-          10px;
+          14px
+          12px
+          calc(22px + env(safe-area-inset-bottom));
       }
 
 
       .admin-header {
-        align-items: stretch;
-
-        flex-direction: column;
-
-        min-height: auto;
-
-        padding: 18px;
-
-        margin-bottom: 12px;
+        padding: 19px;
 
         border-radius: 20px;
       }
 
 
-      .admin-title-row {
-        gap: 9px;
+      .admin-header-icon {
+        width: 48px;
+        height: 48px;
+
+        flex-basis: 48px;
+
+        border-radius: 15px;
       }
 
 
-      .admin-title-icon {
-        width: 39px;
-        height: 39px;
-
-        flex-basis: 39px;
-
-        border-radius: 12px;
-
-        font-size: 17px;
-      }
-
-
-      .admin-header h1 {
-        font-size: 21px;
-      }
-
-
-      .admin-header p {
-        font-size: 12px;
-      }
-
-
-      .admin-header-badge {
-        margin-top: 9px;
-      }
-
-
-      .logout-btn {
-        width: 100%;
-
-        min-height: 45px;
-      }
-
-
-      .stats-grid {
-        grid-template-columns: 1fr;
-
-        gap: 9px;
-
-        margin-bottom: 12px;
-      }
-
-
-      .stat-card {
-        min-height: 93px;
-
-        padding: 15px;
-
-        border-radius: 17px;
-      }
-
-
-      .stat-card strong {
-        font-size: 25px;
-      }
-
-
-      #pendingAmount {
-        font-size: 20px;
-      }
-
-
-      .requests-section {
-        padding: 14px;
-
-        border-radius: 20px;
-      }
-
-
-      .section-header {
-        margin-bottom: 16px;
-      }
-
-
-      .section-title {
+      .admin-header-text h1 {
         font-size: 18px;
       }
 
 
-      .section-subtitle {
+      .admin-header-text p {
         font-size: 11px;
       }
 
 
-      .search-box input {
-        min-height: 47px;
-
-        font-size: 12px;
+      .admin-status {
+        display: none;
       }
 
 
-      .filter-tabs {
-        gap: 6px;
+      .admin-stats {
+        gap: 9px;
       }
 
 
-      .filter-btn {
-        min-height: 38px;
+      .stat-card {
+        padding: 13px;
 
-        padding: 0 11px;
+        gap: 9px;
 
-        font-size: 11px;
+        border-radius: 16px;
+      }
+
+
+      .stat-icon {
+        width: 40px;
+        height: 40px;
+
+        flex-basis: 40px;
+
+        border-radius: 12px;
+      }
+
+
+      .stat-icon svg {
+        width: 19px;
+        height: 19px;
+      }
+
+
+      .stat-label {
+        font-size: 10px;
+      }
+
+
+      .stat-value {
+        font-size: 18px;
+      }
+
+
+      .requests-panel {
+        border-radius: 19px;
+      }
+
+
+      .requests-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+
+        padding: 18px;
+      }
+
+
+      .search-box {
+        width: 100%;
+      }
+
+
+      .requests-filters {
+        padding:
+          12px 18px;
+      }
+
+
+      #requestsContainer {
+        padding: 14px;
       }
 
 
@@ -1636,137 +1599,130 @@
       }
 
 
-      .request-top {
-        align-items: flex-start;
+      .request-card-top {
+        grid-template-columns: 1fr;
 
-        flex-direction: column;
+        gap: 12px;
 
-        gap: 11px;
+        padding-bottom: 14px;
       }
 
 
-      .request-user-area {
-        width: 100%;
+      .request-number-area,
+      .request-status-area {
+        justify-content: flex-start;
       }
 
 
-      .request-avatar {
-        width: 44px;
-        height: 44px;
-
-        flex-basis: 44px;
-
-        border-radius: 13px;
-      }
-
-
-      .status-badge {
-        font-size: 10px;
-      }
-
-
-      .request-info {
+      .request-info-grid {
         grid-template-columns:
           repeat(2, minmax(0, 1fr));
 
-        gap: 7px;
+        gap: 8px;
+
+        padding: 14px 0;
       }
 
 
-      .request-extra {
+      .request-extra-grid {
         grid-template-columns: 1fr;
-      }
-
-
-      .info-box {
-        padding: 10px;
-      }
-
-
-      .info-box span,
-      .extra-box span {
-        font-size: 9px;
-      }
-
-
-      .info-box strong,
-      .extra-box strong {
-        font-size: 11px;
       }
 
 
       .request-actions {
-        grid-template-columns: 1fr;
+        flex-wrap: wrap;
       }
 
 
-      .action-btn {
+      .request-action-btn {
+        flex: 1 1 140px;
+      }
+
+
+      .admin-account-panel {
+        align-items: stretch;
+
+        flex-direction: column;
+
+        padding: 15px;
+      }
+
+
+      .logout-btn {
         width: 100%;
       }
 
     }
 
 
-    /* =====================================================
-       Small Mobile
-       ===================================================== */
+    @media (max-width: 430px) {
 
-    @media (max-width: 380px) {
-
-      .admin-container {
-        padding-left: 8px;
-        padding-right: 8px;
+      .admin-stats {
+        grid-template-columns:
+          1fr;
       }
 
 
-      .requests-section {
-        padding: 12px;
+      .stat-card {
+        min-height: 67px;
       }
 
 
-      .request-info {
-        grid-template-columns: 1fr;
+      .request-info-grid {
+        grid-template-columns:
+          1fr 1fr;
       }
 
 
-      .request-user {
-        font-size: 14px;
+      .request-info-item {
+        padding: 10px;
       }
 
 
-      .request-email {
-        font-size: 10px;
+      .request-info-label {
+        font-size: 9px;
       }
 
 
-      .filter-btn {
-        padding: 0 10px;
-      }
-
-    }
-
-
-    /* =====================================================
-       Reduced Motion
-       ===================================================== */
-
-    @media (prefers-reduced-motion: reduce) {
-
-      html {
-        scroll-behavior: auto;
+      .request-info-value {
+        font-size: 11px;
       }
 
 
-      *,
-      *::before,
-      *::after {
-        transition-duration: 0.01ms !important;
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
+      .request-info-value.amount {
+        font-size: 13px;
+      }
+
+
+      .request-representative-email {
+        max-width: 210px;
       }
 
     }
+.request-extra-grid {
+  display: flex;
+  align-items: center;
+  justify-content:space-around;
+  gap: 12px;
+  width: 100%;
+}
 
+.request-extra {
+  flex: 1;
+  min-width: 0;
+}
+
+.request-extra-value.reference {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.request-status-area {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
   </style>
 
 </head>
@@ -1774,184 +1730,46 @@
 
 <body>
 
-  <div class="admin-page">
 
-    <main class="admin-container">
+  <main class="admin-page">
+
+    <div class="admin-container">
 
 
       <!-- =================================================
-           Header
-           ================================================= -->
+           HEADER
+      ================================================== -->
 
       <header class="admin-header">
 
         <div class="admin-header-content">
 
-          <div class="admin-title-row">
+          <div class="admin-header-icon">
 
-            <div
-              class="admin-title-icon"
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
               aria-hidden="true"
             >
-              ⚙️
-            </div>
-
-            <div>
-
-              <h1>
-                لوحة الإدارة
-              </h1>
-
-              <p>
-                إدارة اشتراكات Zain Sales
-              </p>
-
-            </div>
+              <path d="M12 3l8 4v5c0 4.7-3.4 8.2-8 9-4.6-.8-8-4.3-8-9V7l8-4z"/>
+              <path d="M9.5 12l1.7 1.7 3.6-3.6"/>
+            </svg>
 
           </div>
 
 
-          <div class="admin-header-badge">
-            منطقة الإدارة
-          </div>
+          <div class="admin-header-text">
 
-        </div>
+            <h1>
+              لوحة الإدارة
+            </h1>
 
-
-        <button
-          id="logoutBtn"
-          class="logout-btn"
-          type="button"
-        >
-
-          <span
-            class="logout-icon"
-            aria-hidden="true"
-          >
-            ↪
-          </span>
-
-          <span>
-            تسجيل الخروج
-          </span>
-
-        </button>
-
-      </header>
-
-
-      <!-- =================================================
-           Admin Message
-           ================================================= -->
-
-      <div
-        id="adminMessage"
-        class="message"
-        role="alert"
-        aria-live="polite"
-      ></div>
-
-
-      <!-- =================================================
-           Statistics
-           ================================================= -->
-
-      <section
-        class="stats-grid"
-        aria-label="إحصائيات الإدارة"
-      >
-
-        <article class="stat-card">
-
-          <div class="stat-card-top">
-
-            <span class="stat-card-label">
-              طلبات قيد المراجعة
-            </span>
-
-            <div
-              class="stat-card-icon"
-              aria-hidden="true"
-            >
-              ⏳
-            </div>
-
-          </div>
-
-          <strong id="pendingCount">
-            0
-          </strong>
-
-        </article>
-
-
-        <article class="stat-card">
-
-          <div class="stat-card-top">
-
-            <span class="stat-card-label">
-              إجمالي الطلبات
-            </span>
-
-            <div
-              class="stat-card-icon"
-              aria-hidden="true"
-            >
-              📋
-            </div>
-
-          </div>
-
-          <strong id="totalCount">
-            0
-          </strong>
-
-        </article>
-
-
-        <article class="stat-card">
-
-          <div class="stat-card-top">
-
-            <span class="stat-card-label">
-              المبلغ قيد المراجعة
-            </span>
-
-            <div
-              class="stat-card-icon"
-              aria-hidden="true"
-            >
-              💰
-            </div>
-
-          </div>
-
-          <strong id="pendingAmount">
-            0 د.ع
-          </strong>
-
-        </article>
-
-      </section>
-
-
-      <!-- =================================================
-           Requests
-           ================================================= -->
-
-      <section class="requests-section">
-
-
-        <div class="section-header">
-
-          <div class="section-title-wrap">
-
-            <h2 class="section-title">
-              طلبات الاشتراك
-            </h2>
-
-            <p class="section-subtitle">
-              راجع بيانات الدفع ثم وافق أو ارفض الطلب
+            <p>
+              إدارة طلبات الاشتراك ومتابعة المندوبين
             </p>
 
           </div>
@@ -1959,145 +1777,351 @@
         </div>
 
 
-        <!-- =================================================
-             Search & Filters
-             ================================================= -->
+        <div class="admin-status">
 
-        <div class="requests-tools">
+          <span class="admin-status-dot"></span>
 
+          النظام يعمل
+
+        </div>
+
+      </header>
+
+
+      <!-- =================================================
+           MESSAGE
+      ================================================== -->
+
+      <div
+        id="adminMessage"
+        role="alert"
+        aria-live="polite"
+      ></div>
+
+
+      <!-- =================================================
+           STATISTICS
+      ================================================== -->
+
+      <section
+        class="admin-stats"
+        aria-label="إحصائيات الاشتراكات"
+      >
+
+
+        <article class="stat-card">
+
+          <div class="stat-icon">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v13a2.5 2.5 0 0 1-2.5 2h-11A2.5 2.5 0 0 1 4 18.5v-13z"/>
+              <path d="M8 7h8"/>
+              <path d="M8 11h8"/>
+              <path d="M8 15h5"/>
+            </svg>
+
+          </div>
+
+
+          <div class="stat-content">
+
+            <p class="stat-label">
+              إجمالي الطلبات
+            </p>
+
+            <p
+              class="stat-value"
+              id="totalRequests"
+            >
+              0
+            </p>
+
+          </div>
+
+        </article>
+
+
+        <article class="stat-card">
+
+          <div class="stat-icon">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="8.5"/>
+              <path d="M12 7.5v9"/>
+              <path d="M15 9.5c-.5-1-1.4-1.5-2.8-1.5-1.5 0-2.5.8-2.5 1.8 0 1.2 1.2 1.6 2.6 1.9 1.5.3 2.7.7 2.7 2 0 1.1-1 2-2.7 2-1.4 0-2.4-.5-3-1.5"/>
+            </svg>
+
+          </div>
+
+
+          <div class="stat-content">
+
+            <p class="stat-label">
+              قيد المراجعة
+            </p>
+
+            <p
+              class="stat-value"
+              id="pendingRequests"
+            >
+              0
+            </p>
+
+          </div>
+
+        </article>
+
+
+        <article class="stat-card">
+
+          <div class="stat-icon">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M4 12.5l4.2 4.2L20 5"/>
+              <path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6"/>
+            </svg>
+
+          </div>
+
+
+          <div class="stat-content">
+
+            <p class="stat-label">
+              تمت الموافقة
+            </p>
+
+            <p
+              class="stat-value"
+              id="approvedRequests"
+            >
+              0
+            </p>
+
+          </div>
+
+        </article>
+
+
+      </section>
+
+
+      <!-- =================================================
+           REQUESTS
+      ================================================== -->
+
+      <section class="requests-panel">
+
+
+        <div class="requests-toolbar">
+
+
+          <div class="requests-heading">
+
+            <h2>
+              طلبات الاشتراك
+            </h2>
+
+            <p>
+              مراجعة طلبات المندوبين واتخاذ الإجراء المناسب
+            </p>
+
+          </div>
+
+
+          <!-- البحث مباشر أثناء الكتابة -->
 
           <div class="search-box">
 
-            <span
-              class="search-icon"
+            <svg
+              class="search-box-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.9"
+              stroke-linecap="round"
+              stroke-linejoin="round"
               aria-hidden="true"
             >
-              🔎
-            </span>
+              <circle cx="11" cy="11" r="6.5"/>
+              <path d="M16 16l5 5"/>
+            </svg>
+
 
             <input
-              id="requestSearch"
               type="search"
-              placeholder="ابحث باسم المندوب أو الإيميل أو رقم العملية..."
+              id="requestSearch"
+              placeholder="ابحث باسم المندوب أو البريد أو رقم العملية"
               autocomplete="off"
-              enterkeyhint="search"
               aria-label="البحث في طلبات الاشتراك"
             >
 
           </div>
 
 
-          <div
-            class="filter-tabs"
-            role="tablist"
-            aria-label="فلترة طلبات الاشتراك"
+        </div>
+
+
+        <!--
+          لا يوجد زر "الكل"
+          البحث أعلاه مباشر أثناء الكتابة
+        -->
+
+        <div
+          class="requests-filters"
+          id="requestFilters"
+          aria-label="تصفية الطلبات"
+        >
+
+          <button
+            type="button"
+            class="filter-btn active"
+            data-filter="pending"
+            aria-selected="true"
           >
-
-            <button
-              type="button"
-              class="filter-btn active"
-              data-filter="all"
-              role="tab"
-              aria-selected="true"
-            >
-
-              <span>
-                الكل
-              </span>
-
-              <span id="filterAllCount">
-                0
-              </span>
-
-            </button>
+            قيد المراجعة
+          </button>
 
 
-            <button
-              type="button"
-              class="filter-btn"
-              data-filter="pending"
-              role="tab"
-              aria-selected="false"
-            >
-
-              <span>
-                قيد المراجعة
-              </span>
-
-              <span id="filterPendingCount">
-                0
-              </span>
-
-            </button>
+          <button
+            type="button"
+            class="filter-btn"
+            data-filter="approved"
+            aria-selected="false"
+          >
+            تمت الموافقة
+          </button>
 
 
-            <button
-              type="button"
-              class="filter-btn"
-              data-filter="approved"
-              role="tab"
-              aria-selected="false"
-            >
+          <button
+            type="button"
+            class="filter-btn"
+            data-filter="rejected"
+            aria-selected="false"
+          >
+            مرفوضة
+          </button>
 
-              <span>
-                تمت الموافقة
-              </span>
-
-              <span id="filterApprovedCount">
-                0
-              </span>
-
-            </button>
+        </div>
 
 
-            <button
-              type="button"
-              class="filter-btn"
-              data-filter="rejected"
-              role="tab"
-              aria-selected="false"
-            >
+        <div id="requestsContainer">
 
-              <span>
-                مرفوض
-              </span>
+          <div class="loading-state">
 
-              <span id="filterRejectedCount">
-                0
-              </span>
+            <span class="loading-spinner"></span>
 
-            </button>
+            جاري تحميل الطلبات...
 
           </div>
 
         </div>
 
 
-        <!-- =================================================
-             Requests Container
-             ================================================= -->
+      </section>
 
-        <div
-          id="requestsContainer"
-          class="loading"
-          aria-live="polite"
-          aria-busy="true"
-        >
-          جاري تحميل الطلبات...
+
+      <!-- =================================================
+           ADMIN ACCOUNT / LOGOUT
+      ================================================== -->
+
+      <section class="admin-account-panel">
+
+
+        <div class="admin-account-info">
+
+          <div class="admin-account-icon">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 3l7 3.5v5.2c0 4.1-2.8 7.4-7 8.3-4.2-.9-7-4.2-7-8.3V6.5L12 3z"/>
+              <path d="M9.5 11.8l1.7 1.7 3.5-3.5"/>
+            </svg>
+
+          </div>
+
+
+          <div class="admin-account-text">
+
+            <strong>
+              حساب المسؤول
+            </strong>
+
+            <span id="adminAccountEmail">
+              جاري التحقق...
+            </span>
+
+          </div>
+
         </div>
+
+
+        <button
+          type="button"
+          id="logoutBtn"
+          class="logout-btn"
+        >
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M10 5H6.5A2.5 2.5 0 0 0 4 7.5v9A2.5 2.5 0 0 0 6.5 19H10"/>
+            <path d="M14 8l4 4-4 4"/>
+            <path d="M18 12H9"/>
+          </svg>
+
+          تسجيل الخروج
+
+        </button>
 
 
       </section>
 
 
-    </main>
+    </div>
 
-  </div>
+  </main>
 
 
   <!-- =====================================================
-       Supabase
-       ===================================================== -->
+       SUPABASE
+  ====================================================== -->
 
   <script
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
@@ -2105,22 +2129,22 @@
 
 
   <!-- =====================================================
-       Configuration
-       ===================================================== -->
+       CONFIG
+  ====================================================== -->
 
   <script src="js/config.js"></script>
 
 
   <!-- =====================================================
-       Authentication
-       ===================================================== -->
+       AUTH
+  ====================================================== -->
 
   <script src="js/auth.js"></script>
 
 
   <!-- =====================================================
-       Admin Logic
-       ===================================================== -->
+       ADMIN JS
+  ====================================================== -->
 
   <script src="js/admin.js"></script>
 

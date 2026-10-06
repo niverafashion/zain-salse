@@ -2599,6 +2599,175 @@
       }
 
     }
+/* ==================================================
+   Free Trial Card
+   كارت التجربة المجانية
+================================================== */
+
+.free-trial-card {
+  position: relative;
+  overflow: hidden;
+
+  /* نفس حجم الكروت الأصلية */
+  border: 1px solid #63cfa0;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #f6fffa 100%
+    );
+
+  box-shadow:
+    0 6px 18px rgba(45, 170, 115, 0.10);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+/* شريط علوي راقي */
+
+.free-trial-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #3bbf82,
+      #72d8aa,
+      #3bbf82
+    );
+}
+
+
+/* ==================================================
+   Hover
+================================================== */
+
+.free-trial-card:hover {
+  transform: translateY(-2px);
+
+  border-color: #45b982;
+
+  box-shadow:
+    0 10px 24px rgba(45, 170, 115, 0.14);
+}
+
+
+/* ==================================================
+   Badge
+================================================== */
+
+.free-trial-card .free-trial-badge {
+  background: #e3f8ed;
+  color: #218357;
+
+  border: 1px solid #b9ead1;
+
+  box-shadow: none;
+}
+
+
+/* ==================================================
+   العنوان
+================================================== */
+
+.free-trial-card h3 {
+  color: #23694c;
+}
+
+
+/* ==================================================
+   السعر
+================================================== */
+
+.free-trial-card .free-trial-price {
+  color: #269766;
+
+  font-size: inherit;
+  font-weight: 800;
+}
+
+
+/* ==================================================
+   المدة
+================================================== */
+
+.free-trial-card .plan-duration {
+  color: #71877c;
+}
+
+
+/* ==================================================
+   النص السفلي
+================================================== */
+
+.free-trial-card .free-trial-saving {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 10px;
+  padding: 5px 10px;
+
+  border-radius: 999px;
+
+  background: #effbf5;
+  color: #287956;
+
+  border: 1px solid #d5f1e1;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+/* ==================================================
+   علامة الاختيار
+   نخليها غير محددة مثل باقي الكروت
+================================================== */
+
+.free-trial-card .plan-check {
+  background: #edf9f3;
+  color: #45ad7b;
+
+  border: 1px solid #cceedd;
+
+  box-shadow: none;
+}
+
+
+/* ==================================================
+   عند اختيار الكارت
+================================================== */
+
+.free-trial-card.selected {
+  border-color: #45b982;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #f1fcf6 100%
+    );
+
+  box-shadow:
+    0 0 0 2px rgba(69, 185, 130, 0.10),
+    0 10px 24px rgba(45, 170, 115, 0.14);
+}
+
+
 
   </style>
 
@@ -2923,7 +3092,41 @@
 
           <section class="plans">
 
+<!-- ==================================================
+     التجربة المجانية
+================================================== -->
 
+<div
+  class="plan-card free-trial-card"
+  data-plan="free_trial"
+  data-price="0"
+>
+
+  <div class="plan-check">
+    ✓
+  </div>
+
+  <span class="plan-badge free-trial-badge">
+    تجربة مجانية
+  </span>
+
+  <h3>
+    جرّب Zain Sales مجاناً
+  </h3>
+
+  <div class="plan-price free-trial-price">
+    مجاناً
+  </div>
+
+  <div class="plan-duration">
+    لمدة 30 يوم
+  </div>
+
+  <div class="plan-saving free-trial-saving">
+    🎁 بدون دفع أو بطاقة
+  </div>
+
+</div>
             <!-- الشهري -->
 
             <div
