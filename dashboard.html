@@ -1,39 +1,53 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-    <link rel="manifest" href="./manifest.webmanifest">
 
-<meta name="theme-color" content="#7139b7">
+  <link rel="manifest" href="./manifest.webmanifest">
 
-<meta name="apple-mobile-web-app-capable"
-      content="yes">
+  <meta name="theme-color" content="#7139b7">
 
-<meta name="apple-mobile-web-app-status-bar-style"
-      content="default">
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes">
 
-<meta name="apple-mobile-web-app-title"
-      content="Zain Sales">
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default">
 
-<link rel="apple-touch-icon"
-      href="./assets/icons/apple-touch-icon.png">
+  <meta
+    name="apple-mobile-web-app-title"
+    content="Zain Sales">
+
+  <link
+    rel="apple-touch-icon"
+    href="./assets/icons/apple-touch-icon.png">
 
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
   <title>الداش بورد | Zain Sales</title>
 
-  <link rel="preconnect"
-        href="https://fonts.googleapis.com">
-  <link rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
 
   <link
     href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css">
+  <link
+    rel="stylesheet"
+    href="css/style.css">
+
 </head>
 
 <body class="dashboard-page">
@@ -41,177 +55,416 @@
   <main id="content" hidden>
 
     <!-- Mobile overlay -->
-    <div id="sidebarOverlay"
-         class="sidebar-overlay"></div>
+    <div
+      id="sidebarOverlay"
+      class="sidebar-overlay">
+    </div>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
+
+    <!-- ==========================================
+         SIDEBAR
+    =========================================== -->
+
+    <aside
+      class="sidebar"
+      id="sidebar">
 
       <div class="sidebar-brand">
-        <div class="brand-icon">Z</div>
+
+        <div class="brand-icon">
+          Z
+        </div>
 
         <div>
-          <h2>Zain Sales</h2>
-          <span>إدارة مبيعات الخطوط</span>
+
+          <h2>
+            Zain Sales
+          </h2>
+
+          <span>
+            إدارة مبيعات الخطوط
+          </span>
+
         </div>
+
       </div>
+
 
       <div class="sidebar-section-title">
         القائمة الرئيسية
       </div>
 
-      <nav class="sidebar-nav"
-           aria-label="القائمة الرئيسية">
 
-        <a href="dashboard.html"
-           class="nav-link active"
-           aria-current="page">
-          <span class="nav-icon">▦</span>
-          <span>لوحة التحكم</span>
+      <nav
+        class="sidebar-nav"
+        aria-label="القائمة الرئيسية">
+
+        <a
+          href="dashboard.html"
+          class="nav-link active"
+          aria-current="page">
+
+          <span class="nav-icon">
+            ▦
+          </span>
+
+          <span>
+            لوحة التحكم
+          </span>
+
         </a>
 
-        <a href="add-sale.html"
-           class="nav-link">
-          <span class="nav-icon">＋</span>
-          <span>إضافة عملية بيع</span>
+
+        <a
+          href="add-sale.html"
+          class="nav-link">
+
+          <span class="nav-icon">
+            ＋
+          </span>
+
+          <span>
+            إضافة عملية بيع
+          </span>
+
         </a>
 
-        <a href="sales.html"
-           class="nav-link">
-          <span class="nav-icon">▤</span>
-          <span>سجل المبيعات</span>
+
+        <a
+          href="sales.html"
+          class="nav-link">
+
+          <span class="nav-icon">
+            ▤
+          </span>
+
+          <span>
+            سجل المبيعات
+          </span>
+
         </a>
 
-        <a href="statistics.html"
-           class="nav-link">
-          <span class="nav-icon">▥</span>
-          <span>الإحصائيات</span>
+
+        <a
+          href="statistics.html"
+          class="nav-link">
+
+          <span class="nav-icon">
+            ▥
+          </span>
+
+          <span>
+            الإحصائيات
+          </span>
+
         </a>
 
-        <a href="sales.html?filter=debts"
-           class="nav-link">
-          <span class="nav-icon">◷</span>
-          <span>إدارة الديون</span>
+
+        <a
+          href="sales.html?filter=debts"
+          class="nav-link">
+
+          <span class="nav-icon">
+            ◷
+          </span>
+
+          <span>
+            إدارة الديون
+          </span>
+
         </a>
 
       </nav>
 
+
       <div class="sidebar-bottom">
 
-      <div class="sidebar-user">
+        <div class="sidebar-user">
 
-  <div class="user-avatar" id="sidebarUserAvatar">
-    Z
-  </div>
+          <div
+            class="user-avatar"
+            id="sidebarUserAvatar">
 
-  <div class="user-info">
-    <strong id="sidebarUserName">
-      مندوب المبيعات
-    </strong>
+            Z
 
-    <span>حساب المندوب</span>
-  </div>
+          </div>
 
-</div>
 
-        <button id="logoutBtn"
-                class="logout-button"
-                type="button">
-          <span>↪</span>
+          <div class="user-info">
+
+            <strong id="sidebarUserName">
+              مندوب المبيعات
+            </strong>
+
+            <span>
+              حساب المندوب
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <button
+          id="logoutBtn"
+          class="logout-button"
+          type="button">
+
+          <span>
+            ↪
+          </span>
+
           تسجيل الخروج
+
         </button>
 
       </div>
 
     </aside>
 
-    <!-- MAIN AREA -->
+
+    <!-- ==========================================
+         MAIN AREA
+    =========================================== -->
+
     <div class="dashboard-main">
 
-      <!-- TOP HEADER -->
+
+      <!-- ========================================
+           TOP HEADER
+      ========================================= -->
+
       <header class="dashboard-header">
 
         <div class="header-right">
 
-          <button id="menuBtn"
-                  class="menu-button"
-                  type="button"
-                  aria-label="فتح القائمة"
-                  aria-expanded="false">
+          <button
+            id="menuBtn"
+            class="menu-button"
+            type="button"
+            aria-label="فتح القائمة"
+            aria-expanded="false">
+
             ☰
+
           </button>
 
+
           <div class="header-title">
-            <h1>لوحة التحكم</h1>
-            <p>نظرة شاملة على نشاط المبيعات</p>
+
+            <h1>
+              لوحة التحكم
+            </h1>
+
+            <p>
+              نظرة شاملة على نشاط المبيعات
+            </p>
+
           </div>
 
         </div>
 
+
         <div class="header-left">
-          <div class="header-date"
-               id="currentDate">
+
+          <div
+            class="header-date"
+            id="currentDate">
+
             جاري تحميل التاريخ...
+
           </div>
 
-<div class="header-avatar" id="headerUserAvatar">
-  Z
-</div>
+
+          <div
+            class="header-avatar"
+            id="headerUserAvatar">
+
+            Z
+
+          </div>
+
+        </div>
+
       </header>
 
-      <!-- DASHBOARD CONTENT -->
+
+      <!-- ========================================
+           DASHBOARD CONTENT
+      ========================================= -->
+
       <div class="dashboard-container">
+
+
+        <!-- ======================================
+             WELCOME
+        ======================================= -->
 
         <div class="welcome-section">
 
           <div>
+
             <div class="welcome-badge">
               ● لوحة المبيعات
             </div>
 
+
             <h2>
+
               أهلاً بيك،
-              <span id="welcomeName">مندوبنا</span>
+
+              <span id="welcomeName">
+                مندوبنا
+              </span>
+
             </h2>
+
 
             <p>
               تابع مبيعاتك وأرباحك وديون الزبائن
               من مكان واحد.
             </p>
+
           </div>
 
-          <a href="add-sale.html"
-             class="primary-action">
-            <span>＋</span>
+
+          <a
+            href="add-sale.html"
+            class="primary-action">
+
+            <span>
+              ＋
+            </span>
+
             إضافة عملية بيع
+
           </a>
 
         </div>
 
-        <!-- LOADING AND ERROR -->
-        <div id="dashboardMessage"
-             class="dashboard-message"
-             role="status"
-             aria-live="polite">
+
+        <!-- ======================================
+             SALES DESTINATION RECOMMENDATIONS
+             قسم اقتراح الوجهة
+        ======================================= -->
+
+        <section
+          class="dashboard-panel recommendations-panel"
+          id="recommendationsPanel">
+
+          <div class="recommendations-header">
+
+            <div class="recommendations-heading">
+
+              <div class="recommendations-title-row">
+
+                <div class="recommendations-target-icon">
+                  ◎
+                </div>
+
+
+                <div>
+
+                  <h3>
+                    اقتراح وجهتك الآن
+                  </h3>
+
+                  <p>
+                    أفضل المناطق حسب بيانات مبيعاتك
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="recommendations-header-actions">
+
+              <span class="recommendation-live-badge">
+                تحليل مباشر
+              </span>
+
+
+              <a
+                href="statistics.html"
+                class="panel-link">
+
+                التفاصيل ←
+
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="recommendationsContainer"
+            class="recommendations-container">
+
+            <div class="recommendation-loading">
+
+              جاري تحليل أفضل فرص البيع...
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ======================================
+             LOADING AND ERROR
+        ======================================= -->
+
+        <div
+          id="dashboardMessage"
+          class="dashboard-message"
+          role="status"
+          aria-live="polite">
+
           جاري تحميل الإحصائيات...
+
         </div>
 
-        <!-- STATISTICS CARDS -->
-        <section class="stats-grid"
-                 aria-label="ملخص المبيعات">
+
+        <!-- ======================================
+             STATISTICS CARDS
+        ======================================= -->
+
+        <section
+          class="stats-grid"
+          aria-label="ملخص المبيعات">
+
+
+          <!-- TODAY SALES -->
 
           <article class="stat-card">
 
             <div class="stat-top">
-              <span class="stat-icon purple">▣</span>
-              <span class="stat-period">اليوم</span>
+
+              <span class="stat-icon purple">
+                ▣
+              </span>
+
+              <span class="stat-period">
+                اليوم
+              </span>
+
             </div>
+
 
             <p class="stat-label">
               الخطوط المباعة اليوم
             </p>
 
-            <h3 id="todaySales">0</h3>
+
+            <h3 id="todaySales">
+              0
+            </h3>
+
 
             <div class="stat-footer">
               إجمالي عمليات البيع اليوم
@@ -219,18 +472,33 @@
 
           </article>
 
+
+          <!-- TODAY REVENUE -->
+
           <article class="stat-card">
 
             <div class="stat-top">
-              <span class="stat-icon green">↗</span>
-              <span class="stat-period">اليوم</span>
+
+              <span class="stat-icon green">
+                ↗️
+              </span>
+
+              <span class="stat-period">
+                اليوم
+              </span>
+
             </div>
+
 
             <p class="stat-label">
               قيمة مبيعات اليوم
             </p>
 
-            <h3 id="todayRevenue">0</h3>
+
+            <h3 id="todayRevenue">
+              0
+            </h3>
+
 
             <div class="stat-footer">
               دينار عراقي
@@ -238,18 +506,33 @@
 
           </article>
 
+
+          <!-- MONTHLY SALES -->
+
           <article class="stat-card">
 
             <div class="stat-top">
-              <span class="stat-icon blue">▥</span>
-              <span class="stat-period">الشهر</span>
+
+              <span class="stat-icon blue">
+                ▥
+              </span>
+
+              <span class="stat-period">
+                الشهر
+              </span>
+
             </div>
+
 
             <p class="stat-label">
               الخطوط المباعة هذا الشهر
             </p>
 
-            <h3 id="monthlySales">0</h3>
+
+            <h3 id="monthlySales">
+              0
+            </h3>
+
 
             <div class="stat-footer">
               إجمالي الخطوط خلال الشهر
@@ -257,18 +540,33 @@
 
           </article>
 
+
+          <!-- DEBTS -->
+
           <article class="stat-card">
 
             <div class="stat-top">
-              <span class="stat-icon orange">◷</span>
-              <span class="stat-period">الإجمالي</span>
+
+              <span class="stat-icon orange">
+                ◷
+              </span>
+
+              <span class="stat-period">
+                الإجمالي
+              </span>
+
             </div>
+
 
             <p class="stat-label">
               الديون المتبقية
             </p>
 
-            <h3 id="totalDebts">0</h3>
+
+            <h3 id="totalDebts">
+              0
+            </h3>
+
 
             <div class="stat-footer">
               دينار عراقي غير مستلم
@@ -278,89 +576,193 @@
 
         </section>
 
-        <!-- CHART AND QUICK ACTIONS -->
+
+        <!-- ======================================
+             CHART AND QUICK ACTIONS
+        ======================================= -->
+
         <div class="dashboard-middle">
 
-          <section class="dashboard-panel chart-panel">
+
+          <!-- SALES CHART -->
+
+          <section
+            class="dashboard-panel chart-panel">
 
             <div class="panel-header">
 
               <div>
-                <h3>حركة المبيعات</h3>
-                <p>عدد الخطوط خلال آخر 7 أيام</p>
+
+                <h3>
+                  حركة المبيعات
+                </h3>
+
+                <p>
+                  عدد الخطوط خلال آخر 7 أيام
+                </p>
+
               </div>
 
-              <a href="statistics.html"
-                 class="panel-link">
+
+              <a
+                href="statistics.html"
+                class="panel-link">
+
                 عرض التفاصيل ←
+
               </a>
 
             </div>
 
-            <div class="chart-container"
-                 id="salesChart"
-                 aria-label="مخطط المبيعات الأسبوعية">
+
+            <div
+              class="chart-container"
+              id="salesChart"
+              aria-label="مخطط المبيعات الأسبوعية">
+
             </div>
 
           </section>
 
-          <section class="dashboard-panel quick-panel">
+
+          <!-- QUICK ACTIONS -->
+
+          <section
+            class="dashboard-panel quick-panel">
 
             <div class="panel-header">
+
               <div>
-                <h3>إجراءات سريعة</h3>
-                <p>اختصارات إدارة المبيعات</p>
+
+                <h3>
+                  إجراءات سريعة
+                </h3>
+
+                <p>
+                  اختصارات إدارة المبيعات
+                </p>
+
               </div>
+
             </div>
+
 
             <div class="quick-actions">
 
-              <a href="add-sale.html"
-                 class="quick-action">
+
+              <!-- ADD SALE -->
+
+              <a
+                href="add-sale.html"
+                class="quick-action">
+
                 <span class="quick-icon purple">
                   ＋
                 </span>
+
                 <div>
-                  <strong>عملية بيع جديدة</strong>
-                  <small>تسجيل بيع خط جديد</small>
+
+                  <strong>
+                    عملية بيع جديدة
+                  </strong>
+
+                  <small>
+                    تسجيل بيع خط جديد
+                  </small>
+
                 </div>
-                <span class="quick-arrow">←</span>
+
+                <span class="quick-arrow">
+                  ←
+                </span>
+
               </a>
 
-              <a href="sales.html"
-                 class="quick-action">
+
+              <!-- SALES -->
+
+              <a
+                href="sales.html"
+                class="quick-action">
+
                 <span class="quick-icon blue">
                   ▤
                 </span>
+
                 <div>
-                  <strong>سجل المبيعات</strong>
-                  <small>البحث عن عمليات البيع</small>
+
+                  <strong>
+                    سجل المبيعات
+                  </strong>
+
+                  <small>
+                    البحث عن عمليات البيع
+                  </small>
+
                 </div>
-                <span class="quick-arrow">←</span>
+
+                <span class="quick-arrow">
+                  ←
+                </span>
+
               </a>
 
-              <a href="sales.html?filter=debts"
-                 class="quick-action">
+
+              <!-- DEBTS -->
+
+              <a
+                href="sales.html?filter=debts"
+                class="quick-action">
+
                 <span class="quick-icon orange">
                   ◷
                 </span>
+
                 <div>
-                  <strong>متابعة الديون</strong>
-                  <small>عرض المبالغ غير المستلمة</small>
+
+                  <strong>
+                    متابعة الديون
+                  </strong>
+
+                  <small>
+                    عرض المبالغ غير المستلمة
+                  </small>
+
                 </div>
-                <span class="quick-arrow">←</span>
+
+                <span class="quick-arrow">
+                  ←
+                </span>
+
               </a>
 
-              <a href="statistics.html"
-                 class="quick-action">
+
+              <!-- STATISTICS -->
+
+              <a
+                href="statistics.html"
+                class="quick-action">
+
                 <span class="quick-icon green">
                   ▥
                 </span>
+
                 <div>
-                  <strong>الإحصائيات</strong>
-                  <small>التقارير اليومية والشهرية</small>
+
+                  <strong>
+                    الإحصائيات
+                  </strong>
+
+                  <small>
+                    التقارير اليومية والشهرية
+                  </small>
+
                 </div>
-                <span class="quick-arrow">←</span>
+
+                <span class="quick-arrow">
+                  ←
+                </span>
+
               </a>
 
             </div>
@@ -369,45 +771,90 @@
 
         </div>
 
-        <!-- RECENT SALES -->
-        <section class="dashboard-panel recent-panel">
+
+        <!-- ======================================
+             RECENT SALES
+        ======================================= -->
+
+        <section
+          class="dashboard-panel recent-panel">
+
 
           <div class="panel-header">
 
             <div>
-              <h3>آخر عمليات البيع</h3>
-              <p>أحدث العمليات المسجلة</p>
+
+              <h3>
+                آخر عمليات البيع
+              </h3>
+
+              <p>
+                أحدث العمليات المسجلة
+              </p>
+
             </div>
 
-            <a href="sales.html"
-               class="panel-link">
+
+            <a
+              href="sales.html"
+              class="panel-link">
+
               جميع المبيعات ←
+
             </a>
 
           </div>
+
 
           <div class="table-wrapper">
 
             <table class="sales-table">
 
               <thead>
+
                 <tr>
-                  <th>اسم الزبون</th>
-                  <th>رقم الخط</th>
-                  <th>الباقة</th>
-                  <th>المبلغ</th>
-                  <th>حالة الدفع</th>
-                  <th>التاريخ</th>
+
+                  <th>
+                    اسم الزبون
+                  </th>
+
+                  <th>
+                    رقم الخط
+                  </th>
+
+                  <th>
+                    الباقة
+                  </th>
+
+                  <th>
+                    المبلغ
+                  </th>
+
+                  <th>
+                    حالة الدفع
+                  </th>
+
+                  <th>
+                    التاريخ
+                  </th>
+
                 </tr>
+
               </thead>
+
 
               <tbody id="recentSalesBody">
 
                 <tr>
-                  <td colspan="6"
-                      class="empty-table">
+
+                  <td
+                    colspan="6"
+                    class="empty-table">
+
                     جاري تحميل المبيعات...
+
                   </td>
+
                 </tr>
 
               </tbody>
@@ -418,14 +865,23 @@
 
         </section>
 
+
+        <!-- ======================================
+             FOOTER
+        ======================================= -->
+
         <footer class="dashboard-footer">
+
           <span>
             Zain Sales — نظام إدارة المبيعات
           </span>
+
           <span>
             جميع المبالغ بالدينار العراقي
           </span>
+
         </footer>
+
 
       </div>
 
@@ -433,11 +889,23 @@
 
   </main>
 
-  <!-- SUPABASE -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+  <!-- ==========================================
+       SUPABASE
+  =========================================== -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js">
+  </script>
+
+
   <script src="js/config.js"></script>
+
   <script src="js/auth.js"></script>
+
   <script src="js/dashboard.js"></script>
-<script src="js/pwa.js"></script>
+
+  <script src="js/pwa.js"></script>
+
 </body>
 </html>
