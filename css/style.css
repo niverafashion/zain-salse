@@ -1010,7 +1010,6 @@ button:disabled {
   border: 0 !important;
   border-radius: 50% !important;
 }
-
 /* ======================================
    ZAIN SALES - ADD SALE PAGE
 ====================================== */
@@ -1053,7 +1052,6 @@ button:disabled {
   margin: 0;
 }
 
-
 .add-sale-page .sale-field {
   display: flex;
   flex-direction: column;
@@ -1066,7 +1064,6 @@ button:disabled {
 .add-sale-page [hidden] {
   display: none !important;
 }
-
 
 .add-sale-page .sale-field label {
   margin: 0;
@@ -1094,6 +1091,7 @@ button:disabled {
   font-size: 13px;
   outline: none;
   transition: 0.2s;
+  box-sizing: border-box;
 }
 
 .add-sale-page .sale-field textarea {
@@ -1124,7 +1122,246 @@ button:disabled {
   line-height: 1.8;
 }
 
-/* PACKAGE PRICE */
+
+/* ======================================
+   DATE + TIME
+====================================== */
+
+.add-sale-page .sale-date-time-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.add-sale-page .sale-date-time-row .sale-field {
+  min-width: 0;
+}
+
+
+/*
+   مهم:
+   لا نستخدم appearance:none هنا.
+   نخلي Safari يحتفظ بالشكل الأصلي
+   وأيقونات التاريخ والوقت.
+*/
+
+.add-sale-page input[type="date"],
+.add-sale-page input[type="time"] {
+  width: 100%;
+  min-width: 0;
+  min-height: 51px;
+  height: 51px;
+
+  box-sizing: border-box;
+
+  padding: 10px 12px;
+
+  border: 1px solid #e8e5ef;
+  border-radius: 11px;
+
+  background-color: #faf9fc;
+  color: #292436;
+
+  font-family: "Cairo", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+
+  outline: none;
+
+  -webkit-text-size-adjust: 100%;
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* ======================================
+   DATE/TIME - CHROME / ANDROID / SAFARI
+====================================== */
+
+.add-sale-page input[type="date"]::-webkit-datetime-edit,
+.add-sale-page input[type="time"]::-webkit-datetime-edit {
+  font-family: "Cairo", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #292436;
+}
+
+.add-sale-page input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+.add-sale-page input[type="time"]::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+
+/*
+   نخلي أيقونة Safari الأصلية ظاهرة
+*/
+
+.add-sale-page input[type="date"]::-webkit-calendar-picker-indicator,
+.add-sale-page input[type="time"]::-webkit-calendar-picker-indicator {
+  display: block;
+  opacity: 0.65;
+  cursor: pointer;
+  margin: 0;
+}
+
+
+/* ======================================
+   DATE/TIME FOCUS
+====================================== */
+
+.add-sale-page input[type="date"]:focus,
+.add-sale-page input[type="time"]:focus {
+  border-color: #7139b7;
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 3px #7139b715;
+}
+
+
+/* ======================================
+   IOS / IPHONE
+====================================== */
+
+@supports (-webkit-touch-callout: none) {
+
+  .add-sale-page .sale-date-time-row {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+
+    gap: 12px;
+  }
+
+  .add-sale-page .sale-date-time-row .sale-field {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .add-sale-page input[type="date"],
+  .add-sale-page input[type="time"] {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    height: 51px;
+    min-height: 51px;
+
+    box-sizing: border-box;
+
+    padding: 10px 10px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    /*
+      نترك appearance الأصلي للـiOS
+      حتى تبقى الأيقونات والـpicker
+    */
+    -webkit-appearance: auto;
+    appearance: auto;
+  }
+
+  .add-sale-page input[type="date"]::-webkit-datetime-edit,
+  .add-sale-page input[type="time"]::-webkit-datetime-edit {
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .add-sale-page input[type="date"]::-webkit-calendar-picker-indicator,
+  .add-sale-page input[type="time"]::-webkit-calendar-picker-indicator {
+    display: block;
+    opacity: 0.7;
+    margin: 0;
+  }
+}
+
+
+/* ======================================
+   MOBILE
+====================================== */
+
+@media (max-width: 768px) {
+
+  .add-sale-page .sale-section {
+    padding: 19px 16px;
+  }
+
+  .add-sale-page .sale-date-time-row {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+
+    gap: 12px;
+  }
+
+  .add-sale-page .package-price-box {
+    padding: 17px;
+  }
+
+  .add-sale-page .package-price strong {
+    font-size: 23px;
+  }
+
+  .add-sale-page .sale-submit-panel {
+    padding: 16px;
+  }
+
+  .add-sale-page .sale-submit-actions {
+    flex-direction: column-reverse;
+  }
+
+  .add-sale-page .sale-save,
+  .add-sale-page .sale-cancel {
+    width: 100%;
+  }
+
+  .add-sale-page .back-link {
+    display: none;
+  }
+}
+
+
+/* ======================================
+   VERY SMALL IPHONES
+====================================== */
+
+@media (max-width: 390px) {
+
+  .add-sale-page .sale-date-time-row {
+    gap: 9px;
+  }
+
+  .add-sale-page input[type="date"],
+  .add-sale-page input[type="time"] {
+    padding-left: 8px;
+    padding-right: 8px;
+
+    font-size: 12px;
+  }
+
+  .add-sale-page input[type="date"]::-webkit-datetime-edit,
+  .add-sale-page input[type="time"]::-webkit-datetime-edit {
+    font-size: 12px;
+  }
+
+  .add-sale-page .sale-date-time-row .sale-field {
+    gap: 7px;
+  }
+
+  .add-sale-page .sale-date-time-row .sale-field label {
+    font-size: 11px;
+  }
+}
+
+
+/* ======================================
+   PACKAGE PRICE
+====================================== */
 
 .add-sale-page .package-price-box {
   display: flex;
@@ -1177,7 +1414,10 @@ button:disabled {
   color: #7139b7;
 }
 
-/* PAYMENT SUMMARY */
+
+/* ======================================
+   PAYMENT SUMMARY
+====================================== */
 
 .add-sale-page .payment-summary {
   margin-top: 23px;
@@ -1214,7 +1454,10 @@ button:disabled {
   color: #d97706;
 }
 
-/* SUBMIT */
+
+/* ======================================
+   SUBMIT
+====================================== */
 
 .add-sale-page .sale-submit-panel {
   padding: 24px;
@@ -1302,38 +1545,7 @@ button:disabled {
   font-weight: 700;
 }
 
-/* RESPONSIVE */
 
-@media (max-width: 768px) {
-  .add-sale-page .sale-section {
-    padding: 19px 16px;
-  }
-
-  .add-sale-page .package-price-box {
-    padding: 17px;
-  }
-
-  .add-sale-page .package-price strong {
-    font-size: 23px;
-  }
-
-  .add-sale-page .sale-submit-panel {
-    padding: 16px;
-  }
-
-  .add-sale-page .sale-submit-actions {
-    flex-direction: column-reverse;
-  }
-
-  .add-sale-page .sale-save,
-  .add-sale-page .sale-cancel {
-    width: 100%;
-  }
-
-  .add-sale-page .back-link {
-    display: none;
-  }
-}
 /* =========================================
    SAVE SALE MODAL
 ========================================= */
@@ -1367,7 +1579,6 @@ button:disabled {
   visibility: visible;
 }
 
-
 .sale-save-modal-card {
   width: min(360px, 100%);
 
@@ -1393,7 +1604,6 @@ button:disabled {
   transform: translateY(0) scale(1);
 }
 
-
 .sale-save-modal-icon {
   width: 76px;
   height: 76px;
@@ -1414,24 +1624,20 @@ button:disabled {
   color: #7139b7;
 }
 
-
 .sale-save-modal-icon.loading {
   background: #f3eef9;
   color: #7139b7;
 }
-
 
 .sale-save-modal-icon.success {
   background: #eaf8f0;
   color: #159447;
 }
 
-
 .sale-save-modal-icon.error {
   background: #fff0f0;
   color: #d93636;
 }
-
 
 .sale-save-spinner {
   width: 34px;
@@ -1446,13 +1652,11 @@ button:disabled {
     saleModalSpin 0.8s linear infinite;
 }
 
-
 @keyframes saleModalSpin {
   to {
     transform: rotate(360deg);
   }
 }
-
 
 .sale-save-modal-title {
   margin: 0 0 8px;
@@ -1463,7 +1667,6 @@ button:disabled {
   color: #262032;
 }
 
-
 .sale-save-modal-text {
   margin: 0;
 
@@ -1473,194 +1676,14 @@ button:disabled {
   color: #827b8c;
 }
 
-
 .sale-save-modal.success
 .sale-save-modal-card {
   border-bottom: 4px solid #159447;
 }
 
-
 .sale-save-modal.error
 .sale-save-modal-card {
   border-bottom: 4px solid #d93636;
-}
-/* =========================================
-   iOS / SAFARI FORM FIX
-   ADD SALE - DATE & TIME
-========================================= */
-
-.add-sale-page .sale-date-time-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  width: 100%;
-}
-
-.add-sale-page .sale-date-time-row .sale-field {
-  min-width: 0;
-}
-
-
-/* -----------------------------------------
-   تحسين حقول التاريخ والوقت
------------------------------------------ */
-
-.add-sale-page input[type="date"],
-.add-sale-page input[type="time"] {
-  -webkit-appearance: none;
-  appearance: none;
-
-  width: 100%;
-  min-width: 0;
-  min-height: 51px;
-
-  box-sizing: border-box;
-
-  padding: 12px 15px;
-
-  border: 1px solid #e8e5ef;
-  border-radius: 11px;
-
-  background-color: #faf9fc;
-
-  color: #292436;
-
-  font-family: "Cairo", sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-
-  line-height: 1.4;
-
-  outline: none;
-
-  -webkit-text-size-adjust: 100%;
-
-  transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-
-/* -----------------------------------------
-   منع Safari من تغيير حجم النص
------------------------------------------ */
-
-.add-sale-page input[type="date"]::-webkit-datetime-edit,
-.add-sale-page input[type="time"]::-webkit-datetime-edit {
-  font-family: "Cairo", sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  color: #292436;
-}
-
-.add-sale-page input[type="date"]::-webkit-datetime-edit-fields-wrapper,
-.add-sale-page input[type="time"]::-webkit-datetime-edit-fields-wrapper {
-  padding: 0;
-}
-
-
-/* -----------------------------------------
-   أيقونة التاريخ والوقت
------------------------------------------ */
-
-.add-sale-page input[type="date"]::-webkit-calendar-picker-indicator,
-.add-sale-page input[type="time"]::-webkit-calendar-picker-indicator {
-  opacity: 0.65;
-  cursor: pointer;
-  margin: 0;
-}
-
-
-/* -----------------------------------------
-   Focus
------------------------------------------ */
-
-.add-sale-page input[type="date"]:focus,
-.add-sale-page input[type="time"]:focus {
-  border-color: #7139b7;
-  background: #ffffff;
-
-  box-shadow:
-    0 0 0 3px #7139b715;
-}
-
-
-/* =========================================
-   iPHONE / iOS ONLY
-========================================= */
-
-@supports (-webkit-touch-callout: none) {
-
-  .add-sale-page .sale-date-time-row {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 12px;
-  }
-
-  .add-sale-page .sale-date-time-row .sale-field {
-    width: 100%;
-    min-width: 0;
-  }
-
-  .add-sale-page input[type="date"],
-  .add-sale-page input[type="time"] {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-
-    height: 51px;
-    min-height: 51px;
-
-    box-sizing: border-box;
-
-    padding-top: 12px;
-    padding-bottom: 12px;
-
-    font-size: 13px;
-  }
-
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 768px) {
-
-  .add-sale-page .sale-date-time-row {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 12px;
-  }
-
-}
-
-
-/* =========================================
-   VERY SMALL iPHONES
-========================================= */
-
-@media (max-width: 390px) {
-
-  .add-sale-page .sale-date-time-row {
-    gap: 9px;
-  }
-
-  .add-sale-page input[type="date"],
-  .add-sale-page input[type="time"] {
-    padding-left: 9px;
-    padding-right: 9px;
-    font-size: 12px;
-  }
-
-  .add-sale-page .sale-date-time-row .sale-field {
-    gap: 7px;
-  }
-
-  .add-sale-page .sale-date-time-row .sale-field label {
-    font-size: 11px;
-  }
-
 }
 /* ======================================
    ZAIN SALES - SALES RECORD
